@@ -1,8 +1,8 @@
 # SafeOCR Architecture Plan Review
 
-Date: 2026-10-06  
-Review target: v0.1 planning artifacts  
-Jev CLI: 2026.919.0  
+Date: 2026-10-06
+Review target: v0.1 planning artifacts
+Jev CLI: 2026.919.0
 Jev model reported by CLI: jev-1.13.0
 
 ## Review method

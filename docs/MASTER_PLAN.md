@@ -1,8 +1,8 @@
 # SafeOCR Master Plan
 
-Status: architecture freeze candidate  
-Target: SafeOCR v0.1 research-grade public release  
-Domain: healthcare only  
+Status: architecture freeze candidate
+Target: SafeOCR v0.1 research-grade public release
+Domain: healthcare only
 Primary objective: minimize incorrectly accepted safety-critical clinical fields while preserving useful automated coverage.
 
 ## 1. Product thesis
