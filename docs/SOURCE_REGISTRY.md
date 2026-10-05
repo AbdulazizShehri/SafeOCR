@@ -19,6 +19,7 @@ Status values:
 | ClinOCR-Bench | External clinical OCR benchmark | MIT | APPROVED benchmark |
 | Synthea | Potential future richer synthetic patient context | open-source synthetic patient generator | DEFERRED; not required for v0.1 |
 | pypdfium2 / PDFium | PDF rendering | pypdfium2 Apache-2.0 OR BSD-3-Clause; PDFium BSD-style; dependency notices required | APPROVED renderer with notices |
+| Pillow 12.3.0 | v0.1 LabGold rendering and geometry-preserving image degradation | MIT-CMU | APPROVED and pinned |
 | OpenCV | Deterministic image perturbation | Apache-2.0 | APPROVED |
 | HL7 FHIR R4 | Interoperability specification | HL7 specification terms | REFERENCE/target standard |
 | HAPI FHIR | R4 validation tooling | Apache-2.0 | APPROVED validation tool |

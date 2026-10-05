@@ -1,0 +1,27 @@
+{
+  "corrupted_grid_sha256": "0db71a8f61b9eb46259a32bbcdc53ad3391bad62d0325b84454467a2c48decfb",
+  "corruption_profile": {
+    "blur_radius": 1.2,
+    "contrast_factor": 0.72,
+    "jpeg_quality": 42,
+    "seed": 3003
+  },
+  "corruption_seed": 3003,
+  "golden_schema_version": "labgold-golden-v1",
+  "labgold_schema_version": "labgold-v1",
+  "record_seed": 61,
+  "renderer": {
+    "freetype2_version": "2.14.3",
+    "jpeg_version": "8.0",
+    "pillow_version": "12.3.0",
+    "platform": "win32:AMD64",
+    "python_version": "3.12.13",
+    "zlib_version": "1.3.1.zlib-ng"
+  },
+  "template_hashes": {
+    "classic": "ff87071381f27d22c31233af8ab979a3797efbed4791b549d527f2ad65232600",
+    "compact": "83681ab08bdd5152971d2e665d982eb3a5910995050269ba0fdfcbe4ffcf75aa",
+    "grid": "0d6aa0f6aba3ae6ccbd8ffe173fd5b33f0476a1c4c8d4ba8d3994f39d2011fe3"
+  },
+  "template_version": "1"
+}

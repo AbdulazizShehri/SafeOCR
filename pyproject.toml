@@ -8,7 +8,7 @@ version = "0.0.1"
 description = "Evidence-grounded verification infrastructure for clinical OCR."
 readme = "README.md"
 requires-python = ">=3.11,<3.13"
-dependencies = []
+dependencies = ["Pillow==12.3.0"]
 
 [project.optional-dependencies]
 dev = [
@@ -33,7 +33,9 @@ line-length = 100
 select = ["E", "F", "I", "UP", "B", "SIM", "RUF"]
 
 [tool.pyright]
-include = ["src", "tests"]
+include = ["src", "tests", "scripts"]
 pythonVersion = "3.12"
 typeCheckingMode = "strict"
+venvPath = "."
+venv = ".venv"
 reportMissingTypeStubs = "error"

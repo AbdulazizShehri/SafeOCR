@@ -4,6 +4,8 @@ Verified during architecture planning on 2026-10-06.
 
 ## Core implementations
 
+- Pillow: https://pypi.org/project/pillow/12.3.0/
+
 - PaddleOCR: https://github.com/PaddlePaddle/PaddleOCR
 - docTR: https://github.com/mindee/doctr
 - Tesseract: https://github.com/tesseract-ocr/tesseract
