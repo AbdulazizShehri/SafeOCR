@@ -12,9 +12,12 @@ Status values:
 
 | Source | Role | Current license/use status | v0.1 decision |
 |---|---|---|---|
-| PaddleOCR | Primary v0.1 OCR/layout adapter | Apache-2.0 code path | APPROVED adapter; pin exact version |
+| PaddleOCR 3.7.0 | Primary v0.1 OCR/layout adapter | Apache-2.0 | APPROVED and pinned |
+| ONNX Runtime 1.23.2 | CPU inference backend for PaddleOCR | MIT | APPROVED and pinned |
+| PaddleX 3.7.2 | PaddleOCR runtime dependency | Apache-2.0 | APPROVED transitive runtime |
+| PP-OCRv6 small ONNX models | v0.1 detector/recognizer weights | Apache-2.0 model cards | APPROVED reference models; hashes pinned in F3 evidence |
 | docTR | Future independent OCR/layout adapter | Apache-2.0 | DEFERRED to v0.2 |
-| Tesseract OCR | Classical independent baseline | Apache-2.0 | APPROVED baseline |
+| Tesseract OCR 5.4.0.20240606 | Independent critical-crop reader | Apache-2.0 | APPROVED reference binary |
 | TeleOCR | Future strong VLM reader | Hugging Face model card currently declares Apache-2.0; source-repository terms must be checked per exact revision | DEFERRED to v0.2; no copied source until rechecked |
 | ClinOCR-Bench | External clinical OCR benchmark | MIT | APPROVED benchmark |
 | Synthea | Potential future richer synthetic patient context | open-source synthetic patient generator | DEFERRED; not required for v0.1 |
@@ -89,3 +92,14 @@ This prevents SafeOCR's legal or technical identity from depending on a rapidly 
 ## Naming risk
 
 A separate general-purpose browser OCR product currently uses the SafeOCR name. The repository may keep the SafeOCR project identity, but package/web publication requires a collision/trademark review. A package namespace such as `safeocr-health` may be used if required.
+
+## F3 pinned runtime evidence
+
+The reference F3 smoke manifest is `docs/evidence/F3_RUNTIME_SMOKE.json`.
+
+Pinned model hashes:
+- PP-OCRv6_small_det_onnx `inference.onnx`: `d73e0058b7a8086bbd57f3d10b8bcd4ff95363f67e06e2762b5e814fe9c9410e`
+- PP-OCRv6_small_rec_onnx `inference.onnx`: `5435fd747c9e0efe15a96d0b378d5bd157e9492ed8fd80edf08f30d02fa24634`
+- Tesseract `eng.traineddata`: `7d4322bd2a7749724879683fc3912cb542f19906c83bcc1a52132556427170b2`
+
+SafeOCR does not vendor these binaries or model weights in v0.1.

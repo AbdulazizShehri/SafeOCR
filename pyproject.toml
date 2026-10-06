@@ -11,6 +11,10 @@ requires-python = ">=3.11,<3.13"
 dependencies = ["Pillow==12.3.0"]
 
 [project.optional-dependencies]
+ocr = [
+  "paddleocr==3.7.0",
+  "onnxruntime==1.23.2",
+]
 dev = [
   "pytest>=8.4,<9",
   "pytest-cov>=6,<8",
@@ -24,6 +28,9 @@ packages = ["src/safeocr"]
 [tool.pytest.ini_options]
 testpaths = ["tests"]
 addopts = "-ra"
+markers = [
+  "runtime: requires installed OCR engines/models and Tesseract",
+]
 
 [tool.ruff]
 target-version = "py311"

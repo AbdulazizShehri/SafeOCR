@@ -1,0 +1,40 @@
+{
+  "labgold": {
+    "page_sha256": "f6acec4c54e4fb4ce6bcd4a0c7ee76b9fa748015bd7c21621d13684b54110d16",
+    "seed": 53,
+    "template": "classic",
+    "truth_field": "Potassium",
+    "truth_value": "3.4"
+  },
+  "models": {
+    "PP-OCRv6_small_det_onnx": {
+      "bytes": 9880512,
+      "sha256": "d73e0058b7a8086bbd57f3d10b8bcd4ff95363f67e06e2762b5e814fe9c9410e"
+    },
+    "PP-OCRv6_small_rec_onnx": {
+      "bytes": 21159378,
+      "sha256": "5435fd747c9e0efe15a96d0b378d5bd157e9492ed8fd80edf08f30d02fa24634"
+    }
+  },
+  "packages": {
+    "onnxruntime": "1.23.2",
+    "paddleocr": "3.7.0",
+    "paddlex": "3.7.2"
+  },
+  "platform": "Windows-11-10.0.26300-SP0",
+  "python_version": "3.12.13",
+  "results": {
+    "all_paddle_spans_in_page": true,
+    "critical_crop_sha256": "ae5c6babcc5c16a112095fdcd34e30987d475a94e34059af44ff447cd52ceb5c",
+    "paddle_normalized_span_count": 37,
+    "paddle_truth_value_detected": true,
+    "tesseract_truth_value": "3.4",
+    "tesseract_truth_value_match": true
+  },
+  "schema_version": 1,
+  "tesseract": {
+    "eng_traineddata_bytes": 4113088,
+    "eng_traineddata_sha256": "7d4322bd2a7749724879683fc3912cb542f19906c83bcc1a52132556427170b2",
+    "version": "tesseract v5.4.0.20240606"
+  }
+}

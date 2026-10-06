@@ -5,7 +5,7 @@
 | F0 Architecture freeze | done | yes | docs/MASTER_PLAN.md |
 | F1 Foundation contracts | done | yes | specs/01-foundation-contracts.md |
 | F2 SafeOCR-LabGold harness | done | yes | specs/02-labgold-harness.md |
-| F3 OCR + critical-crop verifier | planned | yes | pending |
+| F3 OCR + critical-crop verifier | done | yes | specs/03-ocr-adapters.md |
 | F4 Evidence verification | planned | yes | pending |
 | F5 FHIR R4 export gate | planned | yes | pending |
 | F6 Evaluation | planned | yes | pending |
