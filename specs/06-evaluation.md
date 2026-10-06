@@ -69,7 +69,7 @@ F6.2c — CLOSED:
 - [x] design and qualify an OCR-only end-to-end association scorer before any headline table-association claim;
 - [x] exact-head qualify commit `c6abed545b531834a46784f06997ac7fcbb8291b` before unlocking final LabGold execution.
 
-F6.2d — INFRASTRUCTURE RECOVERY:
+F6.2d — CLOSED:
 - [x] implement a final-evaluation-only runner over the frozen split;
 - [x] expose no partial-case, threshold-tuning, or calibration path;
 - [x] record the exact split SHA-256 and clean git head at run start;
@@ -77,8 +77,14 @@ F6.2d — INFRASTRUCTURE RECOVERY:
 - [x] exact-head qualify runner commit `162a9c03536a82e1e1b346ecfdaeb56124de7940`;
 - [x] preserve failed attempt 1 as infrastructure-only evidence with no final metrics emitted;
 - [x] constrain PaddleOCR text-recognition batch size without changing model/policy/split;
-- [ ] requalify the recovery runner on calibration data and exact head;
-- [ ] execute the recovery final run and report it explicitly as attempt 2.
+- [x] requalify recovery commit `e755e36d0379e11b768b573af0c04bb9559be408` on calibration data and exact head;
+- [x] execute governed attempt 2 across all 48 frozen final documents / 288 fields;
+- [x] freeze `docs/evidence/F6_FINAL_EVALUATION.json` as the primary v0.1 LabGold result.
+
+Interpretation:
+- SafeOCR observed 0 unsafe accepts among 209 accepted fields at 72.57% coverage;
+- primary OCR also observed 0 unsafe accepts at 100% coverage on this synthetic final set;
+- therefore LabGold alone does not support a SafeOCR-superiority claim versus primary OCR.
 
 F6.3:
 - ClinOCR-Bench adapter + Safety Track manifest without test-set tuning.
