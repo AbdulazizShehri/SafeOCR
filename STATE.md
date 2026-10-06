@@ -2,7 +2,7 @@
 
 ## In flight
 
-F8 v0.1 release candidate is exact-head qualified locally. The deterministic release manifest is generated from qualified source head `76139294d1b5a9277d1fd51e7e1445b33e888f68`. Normal merge into `main`, merged-head requalification, tag readiness, and remote publication remain.
+F8 v0.1 is locally merged and requalified. Release branch merge commit `0ec635856ebf62e3b16c3a066f23123b0b4cd399` passed the full local gate. Only signed-tag creation and GitHub publication remain blocked on local owner-account authentication/signing setup.
 
 ## Canonical local foundation
 
@@ -19,7 +19,8 @@ F8 v0.1 release candidate is exact-head qualified locally. The deterministic rel
 - F6.2c association scorer implementation: `c6abed545b531834a46784f06997ac7fcbb8291b`
 - F6.2d final-runner commit: `162a9c03536a82e1e1b346ecfdaeb56124de7940`
 - F6.2d memory-recovery commit: `e755e36d0379e11b768b573af0c04bb9559be408`
-- active branch: `release/v0.1.0`
+- active branch: `release/v0.1.0-closeout`
+- F8 release merge commit on `main`: `0ec635856ebf62e3b16c3a066f23123b0b4cd399`
 - F6 closeout commit: `be9b772`
 - F7 static evidence report commit: `f39540e1401d4347dd08bea77c35077933cbd484`
 - F8 release-candidate implementation commit: `76139294d1b5a9277d1fd51e7e1445b33e888f68`
@@ -69,8 +70,8 @@ Because raw primary OCR observed zero accepted errors at full coverage on the fr
 
 ## Publication state
 
-Local history is canonical. Remote publication is still blocked by local Git credentials authenticating as `TheHalfMoon`, which has read-only permission on `AbdulazizShehri/SafeOCR`. Do not rewrite local history to work around authentication.
+Local history is canonical. Remote publication is blocked because the local GitHub CLI currently authenticates as `IamShehri`, which is not a collaborator on `AbdulazizShehri/SafeOCR`; the owner account is connected inside ChatGPT but not available to local Git credential helpers. Signed release-tag creation is also blocked because no SafeOCR signing key is configured locally. Do not rewrite local history or create an unsigned release tag to work around either blocker.
 
 ## Current objective
 
-Commit F8 closeout evidence, normal-merge `release/v0.1.0` into `main`, requalify the exact merged head, then create the local signed-tag-ready `v0.1.0` release point and publish canonical history when Git credentials permit.
+Commit this closeout, merge it normally into `main`, requalify the final exact head, then authenticate the local Git client as `AbdulazizShehri` and configure an approved signing key before creating/pushing `v0.1.0`.

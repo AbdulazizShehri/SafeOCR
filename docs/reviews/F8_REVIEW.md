@@ -76,3 +76,28 @@ The deterministic release manifest was then generated from that clean exact head
 - the research-only safety boundary and declared limitations.
 
 This manifest intentionally identifies the qualified source commit rather than attempting an impossible self-hash of the commit that later adds the manifest itself.
+
+
+## Merged-main qualification and publication blockers
+
+The qualified release branch was integrated into `main` with a normal merge commit:
+
+- merged main head: `0ec635856ebf62e3b16c3a066f23123b0b4cd399`;
+- no squash, rebase, force-push, or history rewrite.
+
+That exact merged head was requalified:
+- full default pytest: 194 passed / 4 skipped;
+- Ruff: PASS;
+- Pyright strict: 0 errors / 0 warnings / 0 informations;
+- pip check: PASS;
+- Graft: 525 nodes / 1656 edges; graph check OK;
+- wheel and sdist build: PASS;
+- isolated wheel installation: PASS;
+- isolated import version: `0.1.0`.
+
+Two external release actions remain intentionally blocked rather than weakened:
+
+1. Local GitHub CLI authentication is currently active as `IamShehri`, which has no collaborator permission on `AbdulazizShehri/SafeOCR`. The owner account is connected to ChatGPT, but that connector credential is not exposed to the local Git credential helper. Canonical local history therefore has not been replaced by connector-generated synthetic commits.
+2. No SafeOCR-approved Git signing key is configured locally. The project will not create an unsigned `v0.1.0` tag merely to bypass the signed-tag requirement.
+
+These are credential/signing blockers only. The local release code and package have completed their exact-head mechanical qualification.
