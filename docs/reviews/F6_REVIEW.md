@@ -53,3 +53,20 @@ Implementation commit: `c6abed545b531834a46784f06997ac7fcbb8291b`
 Clean-head calibration evidence reports `working_tree_dirty=false` at the exact implementation head. The rerun covered 2 calibration documents / 12 field cases. OCR-only association parsing used no truth geometry and produced 12/12 association-evaluable rows with 0 observed association errors on this bounded smoke.
 
 Mechanical rerun: 162 passed / 4 skipped; Ruff PASS; Pyright strict 0 errors / 0 warnings / 0 informations; Graft 420 nodes / 1342 edges with graph check OK. This closes F6.2c and permits a separate final-role-only runner grain. No final-evaluation case was executed during this closeout.
+
+
+## F6.2d final-only runner pre-execution review
+
+The final LabGold runner is intentionally separate from the calibration runner. Its CLI exposes only runtime path/output controls: there is no partial-case selector, calibration role, threshold parameter, policy mutation, or tuning input.
+
+Execution guards:
+- selects all 48 frozen `EvaluationRole.EVALUATION` document cases;
+- verifies the final split cardinality before loading OCR models;
+- refuses to overwrite an existing primary final evidence artifact;
+- requires a clean working tree at run start;
+- records the clean exact git head and preregistered split SHA-256;
+- preserves the OCR-only association scorer and separately labels legacy truth-geometry-aligned per-field metrics.
+
+Mechanical pre-commit tests cover the CLI surface and rerun refusal without executing final-role data. Final-role execution remains prohibited until the runner commit receives exact-head qualification.
+
+Pre-execution review evidence: Jev final-runner governance score 3.31/4 (57% strong, 39% excellent). Alibaba Open Code Review delegated Python/default rules were applied to the final runner, tests, and spec; host-agent review found no blocking correctness or security issue. Full pre-commit gates: 165 passed / 4 skipped, Ruff PASS, Pyright strict 0 errors / 0 warnings, pip check PASS, Graft 440 nodes / 1424 edges with graph check OK.

@@ -2,7 +2,7 @@
 
 ## In flight
 
-F6 Evaluation is active. F6.2c OCR-only association scoring is exact-head qualified. Final LabGold execution is now unlocked for the next governed grain, but no final-evaluation case has been executed yet.
+F6 Evaluation is active. F6.2c OCR-only association scoring is exact-head qualified. The F6.2d final-only runner is implemented, but final LabGold execution is locked until that runner is committed and exact-head qualified. No final-evaluation case has been executed yet.
 
 ## Canonical local foundation
 
@@ -48,4 +48,4 @@ Local history is canonical. Remote publication is still blocked by local Git cre
 
 ## Current objective
 
-Implement F6.2d as a final-evaluation-only runner over the already frozen split. It may measure the locked final role exactly once for the primary v0.1 claim, but it must expose no tuning path and must preserve the preregistered split SHA-256.
+Commit and exact-head qualify the F6.2d final-only runner. Only after that gate passes may it execute all 48 frozen final-role document cases once and write `docs/evidence/F6_FINAL_EVALUATION.json`.

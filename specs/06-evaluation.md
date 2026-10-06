@@ -69,11 +69,13 @@ F6.2c — CLOSED:
 - [x] design and qualify an OCR-only end-to-end association scorer before any headline table-association claim;
 - [x] exact-head qualify commit `c6abed545b531834a46784f06997ac7fcbb8291b` before unlocking final LabGold execution.
 
-F6.2d — NEXT:
-- implement a final-evaluation-only runner over the frozen split;
-- expose no threshold tuning or calibration path;
-- record the exact split SHA-256 and git head;
-- run the final role once for the primary v0.1 claim after runner qualification.
+F6.2d — IMPLEMENTED / EXECUTION LOCKED:
+- [x] implement a final-evaluation-only runner over the frozen split;
+- [x] expose no partial-case, threshold-tuning, or calibration path;
+- [x] record the exact split SHA-256 and clean git head at run start;
+- [x] refuse overwrite/rerun when primary evidence already exists;
+- [ ] exact-head qualify the committed runner;
+- [ ] run all 48 frozen final-role document cases exactly once for the primary v0.1 claim.
 
 F6.3:
 - ClinOCR-Bench adapter + Safety Track manifest without test-set tuning.
