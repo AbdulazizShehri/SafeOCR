@@ -116,6 +116,29 @@ def _write_text(output_dir: Path, doc_id: str, text: str) -> None:
     (output_dir / f"{doc_id}.txt").write_text(text, encoding="utf-8", newline="\n")
 
 
+def _git_state() -> tuple[str, bool]:
+    root = Path(__file__).resolve().parents[1]
+    head = subprocess.run(
+        ["git", "rev-parse", "HEAD"],
+        cwd=root,
+        check=True,
+        capture_output=True,
+        text=True,
+        shell=False,
+        timeout=10,
+    ).stdout.strip()
+    status = subprocess.run(
+        ["git", "status", "--porcelain"],
+        cwd=root,
+        check=True,
+        capture_output=True,
+        text=True,
+        shell=False,
+        timeout=10,
+    ).stdout.strip()
+    return head, bool(status)
+
+
 def main() -> None:
     parser = argparse.ArgumentParser(
         description="Run frozen SafeOCR OCR engines on ClinOCR-Bench test images"
@@ -132,6 +155,10 @@ def main() -> None:
     evaluation = tuple(item for item in records if item.role is ClinOcrRole.EVALUATION)
     if len(evaluation) != 328:
         raise RuntimeError("expected exactly 328 external evaluation documents")
+
+    git_head, working_tree_dirty = _git_state()
+    if working_tree_dirty:
+        raise RuntimeError("external OCR requires a clean exact-head working tree")
 
     output_dir = args.output_root / args.engine
     existing: set[str] = (
@@ -168,6 +195,8 @@ def main() -> None:
         "schema_version": 1,
         "dataset": "ClinOCR-Bench-v1.0",
         "evaluation_documents": len(evaluation),
+        "git_head": git_head,
+        "working_tree_dirty": working_tree_dirty,
         "engine": args.engine,
         "paddleocr_version": (
             importlib.metadata.version("paddleocr") if args.engine == "paddleocr" else None

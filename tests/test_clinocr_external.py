@@ -46,6 +46,8 @@ def test_ocr_runner_cannot_open_ground_truth() -> None:
     assert "ground_truth/" not in source
     assert '"ground_truth_opened": False' in source
     assert '"tuning_performed": False' in source
+    assert '"working_tree_dirty": working_tree_dirty' in source
+    assert "external OCR requires a clean exact-head working tree" in source
     assert "328" in source
 
 
