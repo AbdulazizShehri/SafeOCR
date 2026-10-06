@@ -31,6 +31,13 @@ def test_scorer_requires_clean_ocr_attestation_before_labels() -> None:
     assert attestation < source.rindex("load_ma2023_annotations")
     assert 'metadata.get("working_tree_dirty")' in source
     assert 'metadata.get("tuning_performed")' in source
+    assert "Ma2023 scoring requires a clean exact-head working tree" in source
+
+
+def test_scorer_normalizes_jpeg_source_to_png_before_crop() -> None:
+    source = _SCORER.read_text(encoding="utf-8")
+    assert 'opened.convert("RGB").save(buffer, format="PNG")' in source
+    assert "image_bytes = _source_png_bytes(image_path)" in source
 
 
 def test_protocol_preserves_component_only_claim_boundary() -> None:

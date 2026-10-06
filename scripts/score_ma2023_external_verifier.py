@@ -1,12 +1,15 @@
 from __future__ import annotations
 
 import argparse
+import io
 import json
 import subprocess
 from collections import Counter
 from dataclasses import asdict, dataclass
 from pathlib import Path
 from typing import cast
+
+from PIL import Image
 
 from safeocr.contracts import (
     BoundingBox,
@@ -75,6 +78,34 @@ def _tesseract_version(executable: Path) -> str:
         timeout=10,
     )
     return completed.stdout.splitlines()[0].strip()
+
+
+def _git_state() -> tuple[str, bool]:
+    root = Path(__file__).resolve().parents[1]
+    head = subprocess.run(
+        ["git", "rev-parse", "HEAD"],
+        cwd=root,
+        check=True,
+        capture_output=True,
+        text=True,
+        timeout=10,
+    ).stdout.strip()
+    status = subprocess.run(
+        ["git", "status", "--porcelain"],
+        cwd=root,
+        check=True,
+        capture_output=True,
+        text=True,
+        timeout=10,
+    ).stdout.strip()
+    return head, bool(status)
+
+
+def _source_png_bytes(path: Path) -> bytes:
+    buffer = io.BytesIO()
+    with Image.open(path) as opened:
+        opened.convert("RGB").save(buffer, format="PNG")
+    return buffer.getvalue()
 
 
 def _page_result(path: Path) -> PageOcrResult:
@@ -188,6 +219,10 @@ def main() -> None:
     parser.add_argument("--output", type=Path, required=True)
     args = parser.parse_args()
 
+    scorer_git_head, scorer_dirty = _git_state()
+    if scorer_dirty:
+        raise RuntimeError("Ma2023 scoring requires a clean exact-head working tree")
+
     metadata = json.loads((args.ocr / "_run_metadata.json").read_text(encoding="utf-8"))
     if metadata.get("annotation_source_opened") is not False:
         raise RuntimeError("OCR metadata must attest annotation_source_opened=false")
@@ -209,7 +244,7 @@ def main() -> None:
         kind = "scan" if document.filename.startswith("scan_") else "illumination"
         result = _page_result(args.ocr / f"{Path(document.filename).stem}.json")
         image_path = args.images / document.filename
-        image_bytes = image_path.read_bytes()
+        image_bytes = _source_png_bytes(image_path)
 
         for row in laboratory_rows(document):
             analyte_gold = row.get(2)
@@ -387,6 +422,8 @@ def main() -> None:
         "dataset": "Ma2023-public-laboratory-reports",
         "design": "oracle-localised verifier component evaluation",
         "ocr_run_metadata": metadata,
+        "scorer_git_head": scorer_git_head,
+        "scorer_working_tree_dirty": scorer_dirty,
         "tesseract_version": tesseract_version,
         "counts": asdict(totals),
         "strata": {key: asdict(value) for key, value in strata.items()},
