@@ -44,3 +44,12 @@ The second Jev result is treated as uncertainty, not as a pass certificate. The 
 ## Governance
 
 Final LabGold evaluation remains locked. The next gate is an implementation commit followed by a clean exact-head calibration rerun and mechanical requalification. Only then may final-evaluation execution be enabled.
+
+
+## F6.2c exact-head qualification
+
+Implementation commit: `c6abed545b531834a46784f06997ac7fcbb8291b`
+
+Clean-head calibration evidence reports `working_tree_dirty=false` at the exact implementation head. The rerun covered 2 calibration documents / 12 field cases. OCR-only association parsing used no truth geometry and produced 12/12 association-evaluable rows with 0 observed association errors on this bounded smoke.
+
+Mechanical rerun: 162 passed / 4 skipped; Ruff PASS; Pyright strict 0 errors / 0 warnings / 0 informations; Graft 420 nodes / 1342 edges with graph check OK. This closes F6.2c and permits a separate final-role-only runner grain. No final-evaluation case was executed during this closeout.
