@@ -48,6 +48,8 @@ def test_ocr_runner_cannot_open_ground_truth() -> None:
     assert '"tuning_performed": False' in source
     assert '"working_tree_dirty": working_tree_dirty' in source
     assert "external OCR requires a clean exact-head working tree" in source
+    assert 'encoding="utf-8"' in source
+    assert 'errors="replace"' in source
     assert "328" in source
 
 

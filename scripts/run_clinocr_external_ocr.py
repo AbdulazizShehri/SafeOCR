@@ -74,6 +74,8 @@ def _run_tesseract(image_path: Path, executable: Path) -> str:
         check=False,
         capture_output=True,
         text=True,
+        encoding="utf-8",
+        errors="replace",
         shell=False,
         timeout=60,
     )
