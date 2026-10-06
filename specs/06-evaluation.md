@@ -57,10 +57,17 @@ F6.2a — CLOSED:
 - preregistered manifest SHA-256;
 - baseline prediction semantics for primary OCR, Tesseract crop, and naive agreement.
 
-F6.2b — NEXT:
+F6.2b — QUALIFIED CALIBRATION RUNNER:
 - calibration-only LabGold runtime runner;
-- freeze runner before first final-evaluation execution;
-- final LabGold baseline/SafeOCR run after qualification.
+- explicit runtime smoke covering clean + corrupted calibration cases;
+- truth-geometry scoring limitation is machine-readable and documented;
+- final-evaluation execution remains locked until the runner commit is canonical.
+
+F6.2c — NEXT:
+- run the committed calibration runner from a clean tree;
+- capture canonical calibration evidence;
+- design an end-to-end association scorer before any headline table-association claim;
+- unlock final LabGold execution only after exact-head qualification.
 
 F6.3:
 - ClinOCR-Bench adapter + Safety Track manifest without test-set tuning.

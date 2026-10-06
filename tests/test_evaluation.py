@@ -4,7 +4,7 @@ import hashlib
 
 import pytest
 
-from safeocr.contracts import DecisionState
+from safeocr.contracts import BoundingBox, CandidateSpan, DecisionState, PageAsset
 from safeocr.evaluation import (
     EvaluationMethod,
     EvaluationRole,
@@ -15,6 +15,7 @@ from safeocr.evaluation import (
     evaluate_field,
     frozen_labgold_split,
     labgold_split_manifest_json,
+    match_span_to_truth_region,
     naive_agreement_prediction,
     primary_ocr_prediction,
     require_calibration_only,
@@ -23,6 +24,8 @@ from safeocr.evaluation import (
     validate_labgold_split,
     wilson_interval,
 )
+from safeocr.labgold import TruthRegion
+from safeocr.ocr import EngineFingerprint, PageOcrResult
 
 
 def _truth(case_id: str = "c1") -> FieldTruth:
@@ -342,3 +345,50 @@ def test_naive_agreement_rejects_non_primary_input() -> None:
     )
     with pytest.raises(ValueError, match="primary OCR"):
         naive_agreement_prediction(tesseract, secondary_value_text="3.4")
+
+
+
+def test_truth_region_matching_uses_geometry_not_truth_text() -> None:
+    page = PageAsset(
+        document_sha256="a" * 64,
+        page_index=0,
+        width_px=100,
+        height_px=100,
+        page_sha256="b" * 64,
+    )
+    fingerprint = EngineFingerprint(
+        engine_name="paddleocr",
+        engine_version="3.7.0",
+        model_name="test",
+        backend="test",
+    )
+    wrong_text_best_geometry = CandidateSpan(
+        page=page,
+        box=BoundingBox(10, 10, 30, 30),
+        text="8.4",
+        engine_name=fingerprint.engine_name,
+        engine_version=fingerprint.engine_version,
+        confidence=0.9,
+    )
+    truth_text_poor_geometry = CandidateSpan(
+        page=page,
+        box=BoundingBox(25, 25, 45, 45),
+        text="3.4",
+        engine_name=fingerprint.engine_name,
+        engine_version=fingerprint.engine_version,
+        confidence=0.99,
+    )
+    result = PageOcrResult(
+        page=page,
+        fingerprint=fingerprint,
+        spans=(wrong_text_best_geometry, truth_text_poor_geometry),
+    )
+    region = TruthRegion(
+        role="value",
+        row_id="row-01",
+        text="3.4",
+        box=BoundingBox(10, 10, 30, 30),
+    )
+
+    matched = match_span_to_truth_region(result, region)
+    assert matched == wrong_text_best_geometry

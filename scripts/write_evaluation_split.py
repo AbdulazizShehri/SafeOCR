@@ -4,9 +4,11 @@ import argparse
 import hashlib
 from pathlib import Path
 
-from safeocr.evaluation import frozen_labgold_split, labgold_split_manifest_json
-
-EXPECTED_SHA256 = "3aa0af90f3d41d5a0b636ded5d784119da81a193b81a907b7bb69a789cc816a5"
+from safeocr.evaluation import (
+    LABGOLD_SPLIT_SHA256,
+    frozen_labgold_split,
+    labgold_split_manifest_json,
+)
 
 
 def main() -> None:
@@ -20,7 +22,7 @@ def main() -> None:
 
     payload = labgold_split_manifest_json(frozen_labgold_split())
     digest = hashlib.sha256(payload.encode("utf-8")).hexdigest()
-    if digest != EXPECTED_SHA256:
+    if digest != LABGOLD_SPLIT_SHA256:
         raise RuntimeError(
             "frozen LabGold split hash changed; explicit preregistration update required"
         )

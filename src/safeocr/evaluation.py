@@ -5,9 +5,12 @@ import math
 from dataclasses import dataclass
 from enum import StrEnum
 
-from safeocr.contracts import DecisionState
-from safeocr.labgold import LabTemplate, generate_fake_lab_record
+from safeocr.contracts import BoundingBox, CandidateSpan, DecisionState
+from safeocr.labgold import LabTemplate, TruthRegion, generate_fake_lab_record
+from safeocr.ocr import PageOcrResult
 from safeocr.verification import normalize_evidence_text
+
+LABGOLD_SPLIT_SHA256 = "3aa0af90f3d41d5a0b636ded5d784119da81a193b81a907b7bb69a789cc816a5"
 
 
 class EvaluationMethod(StrEnum):
@@ -499,3 +502,49 @@ def naive_agreement_prediction(
         row_id=primary.row_id,
         fhir_mapping_correct=None,
     )
+
+
+
+def _intersection_area(left: BoundingBox, right: BoundingBox) -> int:
+    width = max(0, min(left.x2, right.x2) - max(left.x1, right.x1))
+    height = max(0, min(left.y2, right.y2) - max(left.y1, right.y1))
+    return width * height
+
+
+def match_span_to_truth_region(
+    result: PageOcrResult,
+    region: TruthRegion,
+    *,
+    minimum_truth_overlap: float = 0.25,
+) -> CandidateSpan | None:
+    """Align OCR output to benchmark truth geometry without using truth text."""
+
+    if not 0.0 < minimum_truth_overlap <= 1.0:
+        raise ValueError("minimum_truth_overlap must be in (0, 1]")
+
+    truth_area = (region.box.x2 - region.box.x1) * (region.box.y2 - region.box.y1)
+    if truth_area <= 0:
+        raise ValueError("truth region must have positive area")
+
+    ranked: list[tuple[float, float, int, int, int, int, str, CandidateSpan]] = []
+    for span in result.spans:
+        overlap = _intersection_area(span.box, region.box) / truth_area
+        if overlap < minimum_truth_overlap:
+            continue
+        ranked.append(
+            (
+                overlap,
+                -1.0 if span.confidence is None else span.confidence,
+                -span.box.x1,
+                -span.box.y1,
+                -span.box.x2,
+                -span.box.y2,
+                span.text,
+                span,
+            )
+        )
+
+    if not ranked:
+        return None
+    ranked.sort(reverse=True, key=lambda item: item[:-1])
+    return ranked[0][-1]
