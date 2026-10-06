@@ -28,3 +28,14 @@
 | SafeOCR invented evidence-gated trust promotion for laboratory extraction | NOT SUPPORTED | Girda & Groza 2026 | Prohibited |
 | SafeOCR invented extraction-to-FHIR | NOT SUPPORTED | SMART Text2FHIR and printed-form-to-FHIR prior art | Prohibited |
 | SafeOCR is the first system with this exact combination | INSUFFICIENT FOR ABSOLUTE FIRST CLAIM | broad multi-tool literature screen found no exact match but cannot prove universal absence | Describe a distinct integration/evaluation design; avoid "first" |
+
+
+| Ma2023 external component evaluated 1,850 eligible analyte-value-unit rows from 238 public de-identified report images | supported | PAPER_MA2023_EXTERNAL_VERIFIER.json; Ma et al. 2023 | Oracle-localised verifier-component claim only |
+| Ma2023 component passed 375/1,850 eligible rows (20.27%) | supported | PAPER_MA2023_EXTERNAL_VERIFIER.json | Exact quantitative component-coverage claim |
+| No Ma2023 component-passed row had an incorrect numeric value (0/375; 95% Wilson upper bound 1.014%) | supported | PAPER_MA2023_EXTERNAL_VERIFIER.json | Must say numeric value / component pass; not full-field safety |
+| Ma2023 primary OCR numeric value was exact in 1,850/1,850 oracle-localised eligible rows | supported | PAPER_MA2023_EXTERNAL_VERIFIER.json | Oracle-localised OCR-value claim only |
+| Ma2023 full analyte-value-unit tuple was exact in 1,461/1,850 primary OCR rows | supported | PAPER_MA2023_EXTERNAL_VERIFIER.json | Full-tuple descriptive result before component acceptance |
+| Among 375 component passes, 337 full tuples were exact; 38 were inexact (36 analyte, 2 unit mismatches) | exploratory supported | PAPER_MA2023_PASS_DIAGNOSTIC.json | Explicitly label post-outcome exploratory diagnostic |
+| Ma2023 proves SafeOCR full-field safety | NOT SUPPORTED | component endpoint checks incorrect numeric values; 38 passed tuples were not exact | Prohibited |
+| Ma2023 is end-to-end extraction validation | NOT SUPPORTED | gold geometry is used after OCR for oracle-localised scoring | Prohibited |
+| Ma2023 validates patient linkage or FHIR mapping | NOT SUPPORTED | excluded from claim boundary | Prohibited |

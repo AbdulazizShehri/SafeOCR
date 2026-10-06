@@ -143,7 +143,7 @@ def _rebind_to_source_png(
     )
 
 
-def _page_result(path: Path) -> PageOcrResult:
+def load_page_result(path: Path) -> PageOcrResult:
     raw = cast(dict[str, object], json.loads(path.read_text(encoding="utf-8")))
     page_raw = cast(dict[str, object], raw["page"])
     fp_raw = cast(dict[str, object], raw["fingerprint"])
@@ -279,7 +279,7 @@ def main() -> None:
         ambiguous_rows = ambiguous_laboratory_rows(document)
         exclusions["ambiguous_annotation_row"] += len(ambiguous_rows)
         kind = "scan" if document.filename.startswith("scan_") else "illumination"
-        result = _page_result(args.ocr / f"{Path(document.filename).stem}.json")
+        result = load_page_result(args.ocr / f"{Path(document.filename).stem}.json")
         image_path = args.images / document.filename
         image_bytes = _source_png_bytes(image_path)
         result = _rebind_to_source_png(result, image_bytes)

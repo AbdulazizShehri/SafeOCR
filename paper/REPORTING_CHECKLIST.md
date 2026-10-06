@@ -102,4 +102,8 @@
 
 SafeOCR v0.1 is not a diagnostic-accuracy study, prediction-model study, randomized trial, or live early-stage clinical workflow evaluation. Therefore STARD-AI, TRIPOD+AI, CONSORT-AI, SPIRIT-AI, and DECIDE-AI should not be claimed as if they directly govern this study.
 
-Use their principles where useful, but label the present work accurately as a preclinical informatics methods/evaluation study with independent benchmark validation.
+DECIDE-AI is explicitly aimed at early-stage live clinical evaluations in which AI-supported decisions affect real patient care. That is not the present study. Its human-factors and implementation principles may inform future prospective work, but the manuscript must not claim DECIDE-AI compliance.
+
+MI-CLAIM is a more appropriate transparency aid for the present preclinical technical evaluation. Use it as a minimum-information cross-check for data provenance, cohort definition, model/engine identity, training/tuning separation, evaluation design, reproducibility, and code availability without implying that the checklist itself establishes methodological quality.
+
+Use all reporting frameworks as reporting aids rather than evidence of validity. Label the present work accurately as a preclinical informatics methods/evaluation study with independent benchmark validation.

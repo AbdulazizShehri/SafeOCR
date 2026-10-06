@@ -4,48 +4,41 @@
 **Study type:** methods and evaluation study
 **Domain:** laboratory-report OCR verification
 **Software version:** SafeOCR v0.1.0
-
 ## Abstract
 
 ### Objective
 
-Optical character recognition can digitize scanned clinical documents, but transcription accuracy alone does not establish whether a safety-critical clinical field is sufficiently supported for automatic downstream use. We developed SafeOCR, a healthcare-specific verification layer that treats OCR output as an untrusted proposal and permits structured export only when a field is bound to source pixels and passes deterministic verification gates.
+To develop and evaluate SafeOCR, a healthcare-specific verification layer that permits structured export only when critical OCR fields satisfy explicit evidence gates.
 
 ### Materials and Methods
 
-SafeOCR v0.1 targets laboratory reports. PaddleOCR provides the primary page read and Tesseract independently re-reads bounded critical-field crops. The verification policy evaluates visual grounding, analyte-value-unit association, independent agreement, perturbation stability, numeric parsing, unit validity, patient/document linkage, and runtime health. Each field terminates as VERIFIED_AUTO, REVIEW_REQUIRED, or ABSTAINED; only VERIFIED_AUTO fields may enter the FHIR R4 export path. We preregistered calibration/evaluation roles and evaluated a fixed v0.1 policy on SafeOCR-LabGold, a PHI-free synthetic benchmark with 48 frozen final documents and 288 critical-field cases. Primary outcomes were unsafe accept rate and verified coverage. We additionally validated FHIR R4 conformance with the official HL7 validator and integrated ClinOCR-Bench metadata under a no-tuning external-evaluation contract.
+SafeOCR v0.1 uses PaddleOCR for primary recognition and Tesseract for independent critical-crop rereading. Mandatory gates assess source grounding, analyte-value-unit association, independent agreement, perturbation stability, numeric parsing, unit validity, patient/document linkage, and runtime health. A frozen policy was evaluated on 288 synthetic critical-field cases. External transcription generalization used all 328 ClinOCR-Bench evaluation documents without tuning. A separate oracle-localised verifier-component study used 238 public de-identified laboratory-report images; annotations were inaccessible during OCR and used only for scoring.
 
 ### Results
 
-SafeOCR accepted 209/288 fields (verified coverage 72.57%) and routed 79/288 (27.43%) to review. No unsafe accepts were observed among accepted SafeOCR fields (observed unsafe accept rate 0%; 95% Wilson interval 0-1.805%). A naive exact-agreement gate accepted 242/288 fields (84.03%) with zero observed unsafe accepts. The raw primary OCR baseline also had zero observed errors at 100% coverage on this synthetic final set, while the Tesseract crop baseline produced 45 unsafe accepts among 287 accepted fields (15.68%). An OCR-geometry-only association scorer observed no row-association errors in 288 evaluable cases. The FHIR R4 smoke artifact passed the official validator with zero errors; a deliberately invalid control was rejected.
+SafeOCR verified 209/288 synthetic fields (72.57%) and routed 79/288 to review, with zero observed unsafe accepts (95% Wilson upper bound 1.805%). Raw primary OCR also had zero errors at full coverage, precluding a superiority claim. On ClinOCR-Bench, PaddleOCR achieved mean WER 0.4769 versus 0.5589 for local Tesseract. In the external verifier-component study, 375/1850 eligible fields passed all component gates (20.27%); no passed field had an incorrect numeric value (95% Wilson upper bound 1.014%). Exploratory analysis found 337/375 passed fields had an exact analyte-value-unit tuple.
 
 ### Discussion
 
-The evaluation demonstrates a reproducible selective-verification workflow, not superiority over the primary OCR baseline. Because the raw primary OCR path was error-free on the frozen synthetic final set, LabGold alone cannot show that SafeOCR reduces errors relative to that baseline. SafeOCR instead contributes an explicit evidence contract linking field acceptance, abstention/review, source-pixel provenance, and gated FHIR export. External validation on real scanned clinical documents with field-level safety annotations remains necessary.
+SafeOCR demonstrates reproducible selective verification, but the external component result also shows that value verification alone does not establish full field correctness.
 
 ### Conclusion
 
-SafeOCR reframes clinical OCR as a selective verification problem: the system must establish sufficient evidence before automated structured export rather than forcing a prediction for every field. The v0.1 results support the feasibility and reproducibility of this design while defining clear limits on current claims.
+Clinical OCR can be framed as evidence-gated selective automation rather than unconditional transcription-to-structure conversion.
 
-## 1. Introduction
+## 1. Background and Significance
 
-Scanned and paper-origin clinical documents remain common in healthcare workflows, including external laboratory reports, pathology records, referral documents, and legacy archives. OCR combined with information extraction can convert these documents into structured data and has shown strong performance in several clinical settings. Ma et al. developed an OCR and information-extraction pipeline for paper laboratory reports, reporting an average OCR accuracy of 0.93 and overall entity-extraction F1 of 0.86 on 153 real laboratory reports [@ma2023labocr]. Laique et al. similarly demonstrated large-scale extraction from scanned colonoscopy and pathology reports with a hybrid OCR/NLP pipeline [@laique2021ocrnlp]. These studies establish the practical value of clinical OCR pipelines, but they primarily evaluate whether values can be extracted correctly. Hsu et al. further showed on 955 scanned sleep-study reports that preprocessing, OCR, document layout, and downstream NLP interact materially in end-to-end performance [@hsu2022scanned].
+Scanned and paper-origin clinical documents remain common in healthcare workflows, including external laboratory reports and legacy records. OCR combined with information extraction can convert such documents into structured data, but published clinical pipelines primarily evaluate transcription or extraction performance. Laboratory-report systems have demonstrated useful OCR and entity-extraction accuracy [@ma2023labocr; @li2024tabular], while scanned-EHR studies show that preprocessing, layout, recognition, and downstream NLP interact materially in end-to-end performance [@hsu2022scanned].
 
-For downstream clinical data use, a second question is equally important: **when should an extracted field be trusted enough for automatic structured export?** A character-level error can have disproportionate clinical meaning when it changes a decimal point, sign, comparator, unit, or row association. A number can be transcribed correctly yet still be unsafe if it is attached to the wrong analyte or patient. Conventional OCR confidence scores do not directly answer this question, and forcing a prediction for every field can convert uncertainty into silent structured-data errors.
+For downstream clinical use, transcription accuracy is necessary but not sufficient. A character-level error can change a decimal point, sign, comparator, or unit; a correctly read value can still be unsafe if linked to the wrong analyte, row, or patient. Conventional OCR confidence does not directly establish whether a field is sufficiently supported for automated structured export.
 
-Selective prediction provides a useful conceptual framework. Instead of requiring a model to predict on every case, a system may abstain when the expected cost of error is high. SelectiveNet formalized risk-coverage optimization with an explicit reject option [@geifman2019selectivenet]. In clinical data abstraction, Swaminathan et al. showed that selective prediction can improve extraction utility when abstention is preferable to an incorrect prediction [@swaminathan2024selective]. More recent work has explored statistical risk control and conformal verification for accepted extractions [@angelopoulos2025learntest; @kim2025conformalEHR]. These approaches motivate treating acceptance itself as a controlled decision rather than a by-product of OCR confidence.
+Selective prediction offers a complementary framing: systems may abstain when the expected cost of error is high rather than force a prediction on every case [@geifman2019selectivenet]. In clinical data abstraction, selective prediction can improve utility when abstention is preferable to an incorrect prediction [@swaminathan2024selective], and recent work has explored statistical risk control and conformal verification for accepted extractions [@angelopoulos2025learntest; @kim2025conformalEHR].
 
-A third requirement is traceability. FHIR provides a standardized interoperability layer for clinical data, and prior work has connected clinical text mining with FHIR and emphasized provenance as part of trustworthy data exchange [@daumke2019fhir; @margheri2020provenance]. However, FHIR conformance and provenance do not by themselves establish whether an OCR-derived field was correctly read from source pixels.
+Traceability is also required for trustworthy downstream reuse. FHIR provides a standardized interoperability layer, while prior work has connected clinical text mining and provenance with FHIR-based exchange [@daumke2019fhir; @margheri2020provenance]. However, conformance and provenance do not themselves prove that an OCR-derived field was correctly read from source pixels.
 
-Recent work also shows that source-grounded integrity gating and visually grounded clinical extraction are emerging as distinct design patterns. Girda and Groza introduced a deterministic trust-promotion monitor for laboratory data that requires unique source support, same-row evidence, preserved provenance, and review retention for refused candidates [@girda2026review]. RAPTOR+ jointly evaluates structured clinical-field extraction and source-image bounding-box localisation on clinically curated referral forms, showing that high reading accuracy can coexist with weak evidence localisation [@abioye2026raptorplus]. Ben Hmida et al. independently combined ontology-constrained OCR with verified abstention [@benhmida2025ontology]. These studies materially narrow the novelty space: SafeOCR does not claim invention of evidence gating, visual grounding, or abstention in isolation. SafeOCR instead combines source-region binding with independent OCR-family rereading, perturbation stability, patient/document linkage, explicit criticality, governed risk/coverage evaluation, and verification-gated FHIR export.
+Recent systems narrow the novelty space further. Girda and Groza introduced deterministic source-grounded trust promotion for laboratory data with same-row evidence, provenance, and review retention [@girda2026review]. RAPTOR+ evaluates clinical field extraction together with source-image bounding-box grounding [@abioye2026raptorplus], and verified-abstention OCR has also been reported [@benhmida2025ontology]. SafeOCR therefore does not claim novelty for OCR, grounding, abstention, provenance, or FHIR individually.
 
-SafeOCR combines these lines of work into a healthcare-specific verification gateway. OCR engines propose readings; SafeOCR decides whether each critical field has sufficient evidence to be automatically exported, must be reviewed, or must be withheld. The v0.1 system targets laboratory reports and uses a fixed, deterministic policy. Its central research question is not "How high is OCR accuracy?" but:
-
-> How low can the accepted error rate for safety-critical clinical fields be driven while retaining useful automated coverage?
-
-The engineering counterpart is:
-
-> Can every automatically exported clinical datum be reproducibly traced to source pixels, independent checks, transformation history, and a versioned decision policy?
+SafeOCR instead asks a narrower question: **how low can accepted error for safety-critical clinical fields be driven while retaining useful automated coverage?** Its engineering counterpart is whether every automatically exported datum can be traced to source pixels, independent checks, transformation history, and a versioned decision policy.
 
 This paper makes four contributions:
 
@@ -56,41 +49,31 @@ This paper makes four contributions:
 
 We frame SafeOCR as a systems-and-evaluation contribution. OCR, evidence gating, abstention, provenance, and FHIR are not individually novel. Closely related 2026 work already demonstrates source-grounded trust promotion for laboratory data [@girda2026review]. The contribution claimed here is therefore narrower: the integration and reproducible evaluation of a field-level healthcare OCR safety contract that couples pixel evidence, independent rereading, perturbation stability, patient linkage, explicit criticality, selective decisions, and gated FHIR export.
 
-## 2. Related Work
+### Related Work
 
 ### 2.1 Clinical OCR and structured extraction
 
-Clinical OCR research has shown that scanned healthcare documents can be converted into structured information with useful accuracy. Ma et al. addressed paper-based laboratory reports containing heterogeneous layouts and mixed text, numeric values, units, and reference ranges [@ma2023labocr]. Their pipeline combined OCR with downstream entity extraction and demonstrated feasibility in a hospital setting. Li et al. directly studied deep-learning table extraction from scanned laboratory reports, reinforcing that table structure itself is a major source of difficulty in clinical OCR [@li2024tabular]. Ren et al. later proposed a serialization pipeline for 330 image-based medical laboratory reports, combining layout analysis, text detection, and recognition for structured digitization [@ren2025serialization]. Laique et al. applied OCR followed by NLP to scanned colonoscopy and pathology reports and reported high variable-level extraction accuracy [@laique2021ocrnlp].
+Clinical OCR and information-extraction systems have demonstrated that scanned healthcare documents, including laboratory reports, can be converted into structured data while remaining sensitive to image quality, layout, and table structure [@ma2023labocr; @li2024tabular; @hsu2022scanned]. Recent resources broaden this setting: ClinOCR-Bench evaluates common scan artifacts [@hsu2026clinocr], MedStruct-S and Wang et al. study semi-structured extraction under OCR noise and open key spaces [@li2026medstructs; @wang2026keycoverage], and MedRepBench evaluates report-grounded structured interpretation [@shang2026medrepbench].
 
-Recent benchmarks and large-scale extraction studies broaden the evaluation landscape. ClinOCR-Bench provides 384 PHI-free scanned clinical documents spanning normal scans, handwriting, poor quality, rotation, tables, and mixed artifacts [@hsu2026clinocr]. MedStruct-S evaluates semi-structured extraction under unknown keys and OCR-induced noise across 3,582 clinical report pages [@li2026medstructs]. Wang et al. report canonical-key-conditioned extraction over a much larger real-world archive collected from more than 20 hospitals, showing that end-to-end performance depends strongly on key coverage and degrades under OCR corruption [@wang2026keycoverage]. MedRepBench extends evaluation toward structured understanding of medical report images [@shang2026medrepbench]. Together, these resources reinforce that clinical document understanding must handle recognition noise, document structure, and open-ended schema variation.
-
-SafeOCR differs in primary objective. It does not propose a new recognizer or maximize end-to-end extraction F1. Instead, it assumes OCR proposals may be wrong and asks whether the evidence supporting each critical field is sufficient for automatic downstream use.
-
-The closest parallel systems identified in our search are Girda and Groza's source-grounded integrity gate for AI-assisted personal health records and RAPTOR+. The former keeps laboratory candidates provisional until a deterministic monitor verifies unique source support, same-row evidence, and provenance, while retaining refused candidates for review [@girda2026review]. RAPTOR+ instead uses end-to-end vision-language models to emit field values together with source-image bounding boxes and evaluates both reading accuracy and evidence localisation [@abioye2026raptorplus]. Ontology-constrained OCR with verified abstention provides an additional adjacent precedent [@benhmida2025ontology]. SafeOCR should therefore be compared against these systems as a distinct integration: visual grounding and evidence gating are prior art, while SafeOCR's evaluated contract adds independent OCR-family rereading, perturbation-stability admission, patient/document linkage, explicit criticality, governed selective states, and verified-only FHIR export.
+The closest safety-oriented precedents substantially narrow SafeOCR's novelty claim. Girda and Groza use deterministic source-grounded trust promotion with same-row evidence, provenance, and review retention for laboratory data [@girda2026review]. RAPTOR+ evaluates clinical field extraction jointly with source-image bounding-box grounding [@abioye2026raptorplus], while ontology-constrained OCR with verified abstention provides an adjacent precedent [@benhmida2025ontology]. SafeOCR therefore does not claim novelty for OCR, visual grounding, evidence gating, or abstention individually; its contribution is the integrated verification and evaluation contract.
 
 ### 2.2 Selective prediction and abstention
 
-Selective prediction allows a system to trade coverage for lower conditional error by declining uncertain cases. SelectiveNet demonstrated learned risk-coverage optimization in general machine-learning tasks [@geifman2019selectivenet]. In clinical information extraction, Swaminathan et al. found that selective classifiers could improve extraction performance and total misclassification cost when abstention was explicitly allowed [@swaminathan2024selective].
-
-Statistical risk-control methods further motivate separating model prediction from acceptance. Learn-then-Test provides finite-sample methods for calibrating predictive algorithms to satisfy explicit risk constraints without model retraining [@angelopoulos2025learntest]. Kim et al. applied conformal verification to large-language-model extraction from unstructured EHR narratives and emphasized controlling the error rate among accepted extractions [@kim2025conformalEHR].
-
-SafeOCR adopts the selective-prediction framing but does not claim a conformal guarantee in v0.1. Its policy is deterministic and its primary statistical reporting uses observed unsafe accepted errors, verified coverage, and Wilson confidence intervals.
+Selective prediction trades automation coverage for lower conditional error [@geifman2019selectivenet] and has shown value in clinical data abstraction when abstention is preferable to a wrong prediction [@swaminathan2024selective]. Learn-then-Test and conformal verification provide stronger accepted-risk control frameworks [@angelopoulos2025learntest; @kim2025conformalEHR]. SafeOCR uses this framing but does not claim a conformal guarantee; v0.1 relies on deterministic gates and descriptive Wilson intervals.
 
 ### 2.3 Provenance and FHIR interoperability
 
-Clinical text mining has been mapped into FHIR resources to support semantic interoperability [@daumke2019fhir]. The SMART Text2FHIR pipeline further demonstrates that clinical concept extraction can be mapped into FHIR resources in an open-source workflow [@miller2023smarttext2fhir], and printed-form-to-FHIR transformation has been explored for care-transition records [@werlitz2025printedfhir]. Provenance systems for healthcare data have likewise emphasized traceability across data exchange and shown how provenance records can be represented through FHIR [@margheri2020provenance]. The HL7 FHIR R4 specification provides resource identity, metadata, source information, and Provenance relationships for data exchange [@hl7fhirr4].
+Clinical text mining, SMART Text2FHIR, printed-form transformation, and healthcare provenance systems establish prior art for mapping extracted clinical information into FHIR and retaining provenance [@daumke2019fhir; @miller2023smarttext2fhir; @werlitz2025printedfhir; @margheri2020provenance]. SafeOCR uses these concepts as an operational verification boundary: accepted fields retain source-region and decision provenance, and non-verified fields are blocked from automated FHIR export.
 
-SafeOCR uses provenance at a finer-grained verification boundary: every accepted clinical field retains the source page, bounding region, engine identity, verification signals, policy version, and decision explanation. FHIR export is downstream of this evidence contract and is blocked for non-verified fields.
+## 2. Materials and Methods
 
-## 3. Materials and Methods
-
-### 3.1 Scope and safety boundary
+### 2.1 Scope and safety boundary
 
 SafeOCR v0.1 is research software for laboratory-report OCR verification. It is not a medical device and does not provide diagnosis, treatment recommendations, or clinical decision support. Medication documents, free-form handwritten physician notes, radiology/pathology image interpretation, and automatic correction of clinically implausible text are outside v0.1 scope.
 
 The reference execution path is local-first and PHI-free for public evaluation.
 
-### 3.2 System architecture
+### 2.2 System architecture
 
 The pipeline is:
 
@@ -105,7 +88,7 @@ The pipeline is:
 
 PaddleOCR 3.7.0 is the primary full-page OCR path. Tesseract 5.4.0.20240606 is used as an independent critical-crop re-reader and classical baseline.
 
-### 3.3 Evidence-bound field representation
+### 2.3 Evidence-bound field representation
 
 An immutable page asset records source-document SHA-256, page index, dimensions, and page-image SHA-256. OCR proposals are represented as candidate spans containing engine identity, source page, bounding box, raw text, and engine-native confidence where available.
 
@@ -113,11 +96,11 @@ A structured laboratory field retains analyte text, value, unit, source spans, s
 
 Correctness includes association. A numerically correct value linked to the wrong analyte, unit, row, date, or patient is considered incorrect.
 
-### 3.4 Criticality
+### 2.4 Criticality
 
 The v0.1 policy treats numeric laboratory values, units, sign/decimal/comparator semantics, patient identity linkage, and meaning-changing row/column associations as critical. Analyte identity, specimen/date/time, reference range, and abnormal flags are treated as high criticality. Criticality controls verification strictness but never rewrites the source reading.
 
-### 3.5 Verification signals
+### 2.5 Verification signals
 
 A critical field may be automatically verified only when all mandatory gates pass.
 
@@ -139,7 +122,7 @@ A critical field may be automatically verified only when all mandatory gates pas
 
 Engine-native confidence is not interpreted as a calibrated probability.
 
-### 3.6 Decision states
+### 2.6 Decision states
 
 Every candidate field reaches exactly one terminal state:
 
@@ -149,13 +132,13 @@ Every candidate field reaches exactly one terminal state:
 
 No fallback converts REVIEW_REQUIRED or ABSTAINED into VERIFIED_AUTO.
 
-### 3.7 FHIR R4 export gate
+### 2.7 FHIR R4 export gate
 
 Only VERIFIED_AUTO fields may enter the FHIR export path. The export artifact includes provenance linking the structured resource back to source-document evidence. v0.1 targets FHIR R4 (4.0.1).
 
 The FHIR runtime gate used HL7 validator CLI 6.10.4. The canonical valid bundle passed with zero validator errors; a deliberately invalid control was rejected with two errors. The validator produced seven warnings and one note on the valid bundle. These results demonstrate structural/conformance validation, not extraction correctness.
 
-### 3.8 Evaluation contract
+### 2.8 Evaluation contract
 
 The evaluation contract separates calibration and final-evaluation roles. Final-evaluation outcomes cannot be routed into a tuning API. Threshold or policy changes after final-set inspection are prohibited.
 
@@ -170,9 +153,9 @@ Primary metrics are:
 - Table Association Error Rate, where estimable;
 - FHIR Mapping Error Rate, where estimable.
 
-Binomial 95% Wilson intervals are reported for unsafe accepted error proportions. Zero observed errors is never interpreted as zero underlying risk.
+Binomial 95% Wilson intervals are reported descriptively for field-level unsafe accepted error proportions. They do not account for within-report clustering or paired acquisition variants and are not presented as population-level or distribution-free guarantees. Zero observed errors is never interpreted as zero underlying risk.
 
-### 3.9 SafeOCR-LabGold
+### 2.9 SafeOCR-LabGold
 
 The frozen final SafeOCR-LabGold split contains 48 documents and 288 critical-field cases. The final split hash was frozen before execution. The primary final run was executed from a clean exact source head after calibration and qualification.
 
@@ -185,15 +168,23 @@ The compared operating points were:
 
 The primary v0.1 SafeOCR policy has one frozen operating point. We do not retrospectively sweep thresholds on the final set.
 
-### 3.10 External OCR generalization
+### 2.10 External OCR generalization
 
 ClinOCR-Bench was pinned as an external realism benchmark. Its published metadata contains 384 documents, including 56 exemplars and 328 evaluation documents spanning normal, handwriting, poor-quality, rotated, table, and mixed-artifact subsets [@hsu2026clinocr]. Before outcome inspection, we froze a no-tuning protocol for the two OCR engines already used by SafeOCR. Ground-truth transcripts were inaccessible to the OCR runner and were opened only by a separate scorer after all predictions had been written. Word error rate (WER), substitution, deletion, and insertion components were calculated using whitespace tokenization compatible with the official ClinOCR-Bench baseline implementation.
 
 The external experiment evaluates transcription generalization only. ClinOCR-Bench v1.0 provides full-document transcript ground truth rather than the field, patient-linkage, association, and FHIR annotations required for SafeOCR safety endpoints; therefore document-level WER is not converted into unsafe-accept or verified-coverage claims.
 
-## 4. Results
+### 2.11 External laboratory-report verifier-component evaluation
 
-### 4.1 Primary final evaluation
+We used the public dataset associated with Ma et al., comprising 238 de-identified Chinese laboratory-report images derived from 119 paper reports captured by scanners and smartphones under varied illumination [@ma2023labocr]. The source study reports dual human annotation with Cohen's kappa of 0.89. Before scoring, frozen PaddleOCR inference was executed on all 238 images with the annotation source inaccessible to the OCR runner; no OCR runtime failures occurred.
+
+Gold annotations were opened only after OCR to identify analyte, numeric-value, and unit regions for an **oracle-localised verifier-component evaluation**. They were not used to generate OCR predictions, choose preprocessing, tune thresholds, or locate regions during OCR inference. Eligible rows required non-empty analyte, value, and unit annotations plus a parseable numeric value. Duplicate annotations in the estimand-relevant analyte/value/unit cells were excluded fail-closed rather than arbitrarily adjudicated.
+
+A component pass required visual grounding, independent Tesseract agreement on the numeric-value crop, stability across the four frozen perturbations, structural association, successful numeric parsing, and valid unit syntax. The primary external component safety endpoint was an incorrect numeric value among component-passed fields. This estimand does not test end-to-end field discovery, patient linkage, the complete VERIFIED_AUTO policy, or FHIR mapping.
+
+## 3. Results
+
+### 3.1 Primary final evaluation
 
 The frozen final set contained 288 evaluable critical-field cases.
 
@@ -210,21 +201,21 @@ The raw primary OCR baseline also observed zero accepted errors at full coverage
 
 The Tesseract crop baseline produced 45 unsafe accepts among 287 accepted fields, corresponding to an unsafe accept rate of 0.1568 (95% Wilson interval approximately 0.1193-0.2034).
 
-### 4.2 Table association
+### 3.2 Table association
 
 A separate OCR-geometry-only association scorer evaluated 288/288 cases and observed zero table-association errors. The scorer did not use truth geometry to parse rows. This result is limited to the synthetic LabGold structure and should not be generalized to arbitrary real-world report layouts.
 
-### 4.3 FHIR validator evidence
+### 3.3 FHIR validator evidence
 
 The canonical FHIR R4 bundle passed HL7 validator CLI 6.10.4 with zero errors. Seven warnings and one note were recorded. A deliberately invalid control was rejected with two errors.
 
 This establishes that the tested export artifact conformed sufficiently to the validator gate. It does not provide a benchmark estimate of clinical FHIR mapping correctness because per-field FHIR mapping error was not included in the preregistered F6 final run.
 
-### 4.4 Evidence traceability
+### 3.4 Evidence traceability
 
 The static evidence artifact demonstrates field-level traceability for a verified laboratory value. The example includes source-page SHA-256, bounding boxes for analyte/value/unit spans, OCR engine/version, policy version, verification signals, decision state, failed gates, and a deterministic explanation. The corresponding source crop is hash-bound.
 
-### 4.5 External OCR generalization on ClinOCR-Bench
+### 3.5 External OCR generalization on ClinOCR-Bench
 
 Both frozen OCR engines were evaluated on all 328 ClinOCR-Bench evaluation documents. Local Tesseract produced a mean WER of 0.5589 (95% CI 0.5209-0.5968) and median WER of 0.5647. Frozen PaddleOCR produced a lower overall mean WER of 0.4769 (95% CI 0.4372-0.5165) and median WER of 0.3659.
 
@@ -232,15 +223,25 @@ Performance varied substantially by artifact type. PaddleOCR mean WER was 0.1149
 
 These results are reported as transcription-generalization evidence only. They do not establish field-level clinical safety, and the local Tesseract run is not described as an exact reproduction of the benchmark authors' software environment.
 
-## 5. Discussion
+### 3.6 External verifier-component evaluation on public laboratory reports
 
-### 5.1 Principal findings
+The Ma et al. dataset yielded 1,850 eligible analyte-value-unit rows after frozen eligibility rules and annotation-integrity exclusions. The primary value span was localised in 1,850/1,850 cases and the complete analyte/value/unit context in 1,849/1,850. Primary OCR reproduced the annotated numeric value in all 1,850 eligible cases, while the complete analyte-value-unit tuple was exact in 1,461/1,850 (78.97%).
+
+The component gates passed 375/1,850 fields (20.27%). Independent numeric-value agreement passed in 654/1,850 (35.35%), perturbation stability in 449/1,850 (24.27%), structural association in 1,837/1,850 (99.30%), and unit validation in 1,347/1,850 (72.81%). No runtime failures occurred. No component-passed field contained an incorrect numeric value (0/375; observed rate 0%, 95% Wilson interval 0-1.014%).
+
+Component-pass coverage was similar for scanner images (192/926; 20.73%) and illumination/smartphone variants (183/924; 19.81%). In contrast, complete primary field exactness fell from 814/926 (87.90%) on scans to 647/924 (70.02%) under illumination variants.
+
+A prespecified primary claim is not made for full field-tuple correctness among component passes because the component safety endpoint concerns the numeric value. A separately labelled post-outcome diagnostic found that 337/375 passed fields (89.87%) had an exact analyte-value-unit tuple; the 38 inexact tuples comprised 36 analyte mismatches and 2 unit mismatches, with no numeric-value mismatches. This diagnostic is exploratory and does not alter the frozen primary component endpoint.
+
+## 4. Discussion
+
+### 4.1 Principal findings
 
 SafeOCR demonstrates that a clinical OCR pipeline can make **acceptance** an explicit, auditable decision rather than treating every OCR output as equally eligible for structured export. The system binds fields to source pixels, applies independent and structural checks, exposes review/abstention as first-class outcomes, and gates FHIR export on verification.
 
 The primary SafeOCR operating point traded automation coverage for a conservative acceptance policy: 72.57% of critical fields were automatically verified, while 27.43% were routed to review. No unsafe accepts were observed among the 209 automatically verified fields, but the confidence interval remains non-zero and the result cannot be interpreted as proof of zero risk.
 
-### 5.2 Why the primary OCR result matters
+### 4.2 Why the primary OCR result matters
 
 The most important negative result is that raw primary OCR also observed zero accepted errors at 100% coverage on LabGold. This prevents a stronger claim that the SafeOCR gate reduced unsafe accepted error relative to the primary OCR baseline.
 
@@ -248,31 +249,39 @@ This is not a result to hide. It identifies a limitation of the synthetic benchm
 
 Future evaluation should deliberately increase realism without tuning to the final set: more heterogeneous scanners, compression artifacts, handwritten overlays, multi-page reports, unusual units, ambiguous identities, multi-column layouts, and real-world field-level annotations.
 
-### 5.3 Relation to selective prediction
+### 4.3 Relation to selective prediction
 
 The SafeOCR policy is consistent with the clinical selective-prediction principle that abstention can be preferable to forced prediction [@swaminathan2024selective]. However, SafeOCR's mechanism differs from learned reject-option models such as SelectiveNet [@geifman2019selectivenet]. It uses deterministic evidence gates rather than a single learned confidence function.
 
 This design favors inspectability: a blocked field can state whether the cause was failed independent agreement, instability, unit invalidity, association ambiguity, identity ambiguity, or runtime failure. The trade-off is that the v0.1 policy is likely conservative and may sacrifice coverage.
 
-### 5.4 Relation to conformal verification and risk control
+### 4.4 Relation to conformal verification and risk control
 
 Recent clinical extraction work uses conformal methods to control accepted extraction risk [@kim2025conformalEHR]. Learn-then-Test provides a more general framework for finite-sample risk control [@angelopoulos2025learntest]. SafeOCR v0.1 does not yet offer such a guarantee. The Wilson interval is descriptive and should not be confused with a distribution-free acceptance-risk guarantee.
 
 A strong next research direction is to retain SafeOCR's evidence gates while calibrating a higher-level acceptance policy with a formal risk-control procedure on an independent calibration set.
 
-### 5.5 Provenance as a clinical OCR property
+### 4.5 Provenance as a clinical OCR property
 
 Provenance in SafeOCR is not a retrospective log added after extraction. It is part of the field contract. A critical field that cannot be tied back to source pixels cannot reach VERIFIED_AUTO. This makes provenance operational: it constrains automation rather than merely documenting it.
 
 This aligns with prior work emphasizing provenance and semantic interoperability in healthcare [@daumke2019fhir; @margheri2020provenance], while moving the provenance boundary down to OCR evidence regions.
 
-### 5.6 External validity
+### 4.6 External validity
 
 ClinOCR-Bench improves the availability of public, PHI-free clinical OCR evaluation and includes realistic scan artifacts [@hsu2026clinocr]. SafeOCR's v0.1 integration uses the benchmark under a no-tuning contract, but we deliberately do not report critical-field safety metrics from transcript-only ground truth.
 
 To evaluate SafeOCR properly on external documents, a future study should add a governed annotation layer containing field identity, exact value, unit, patient/document linkage, structural association, and source-region evidence. Those annotations must be created without using SafeOCR outputs to define the gold standard.
 
-## 6. Limitations
+### 4.7 What the real-report component evaluation establishes
+
+The Ma et al. evaluation strengthens the evidence package by moving numeric-value verification from synthetic documents to a public de-identified laboratory-report dataset with scanner and smartphone/illumination variants. Under the frozen component gate, no accepted numeric value was incorrect among 375 passes, although the 95% interval remains non-zero and the modest 20.27% component coverage shows that the policy is conservative.
+
+The same experiment also exposes an important boundary. Thirty-eight component-passed rows were not exact across the entire analyte-value-unit tuple even though every accepted numeric value was correct. Most diagnostic mismatches involved the analyte text and two involved the unit. Some observed differences appear to be OCR/format variants, whereas others can change field identity; without independent clinical adjudication they should not be collapsed into a single semantic-error category. The result therefore supports independent verification of the numeric value, not complete semantic correctness of the field tuple.
+
+A direct design implication is that future SafeOCR versions should extend independent verification beyond the numeric crop to analyte identity and unit semantics, with explicit adjudication of clinically equivalent formatting variants. This finding also reinforces the decision to keep patient linkage and FHIR correctness as separate, unclaimed endpoints in the present external component study.
+
+### Limitations
 
 First, SafeOCR-LabGold is synthetic. It is useful for deterministic corruption and preregistered evaluation, but it does not represent the full distribution of real clinical scanning failures.
 
@@ -286,33 +295,33 @@ Fifth, FHIR validator conformance is not equivalent to clinical mapping correctn
 
 Sixth, the static evidence report demonstrates traceability mechanics but is not a validated clinical human-factors interface.
 
-Seventh, the study does not evaluate diagnosis, treatment, or clinical decision-making and must not be interpreted as a medical-device validation.
+Seventh, the Ma et al. experiment is oracle-localised after OCR: gold geometry identifies which OCR spans are evaluated, so it is a verifier-component study rather than end-to-end extraction validation. It does not evaluate patient linkage, full VERIFIED_AUTO behavior, or FHIR mapping, and 13 estimand-relevant rows with duplicate public annotations were excluded fail-closed. The full-tuple mismatch analysis is explicitly post-outcome and exploratory.
 
-## 7. Future Work
+Eighth, field-level Wilson intervals do not model within-report dependence or the paired scan/illumination structure in the external dataset; they are descriptive bounds rather than cluster-robust population inference.
 
-The next study should focus on **external field-level validation** rather than additional synthetic optimization. Priority work includes:
+Ninth, the study does not evaluate diagnosis, treatment, or clinical decision-making and must not be interpreted as a medical-device validation.
 
-1. a field-level ClinOCR-Bench annotation extension with independent adjudication;
-2. real-world de-identified laboratory reports from multiple institutions and scanner sources;
-3. explicit stress sets for decimal/sign/comparator corruption, ambiguous units, wrong-row association, and patient identity conflict;
-4. formal risk control or conformal calibration layered over the evidence gates;
-5. prospective human-review studies measuring review time, correction rate, and reviewer agreement;
-6. FHIR mapping correctness measured separately from structural validator conformance;
-7. cross-engine evaluation to determine whether the verification contract generalizes beyond the PaddleOCR/Tesseract reference pair.
+### Future Work
 
-## 8. Conclusion
+Priority next steps are independently adjudicated multi-institution field-level validation; independent verification of analyte identity, unit semantics, and patient linkage in addition to numeric values; formal risk-control calibration on a held-out set; and prospective human-review studies measuring correction burden, agreement, and FHIR mapping correctness separately from structural conformance.
+
+## 5. Conclusion
 
 Clinical OCR should not be evaluated only as a transcription problem when its output is intended for structured healthcare data. SafeOCR introduces a field-level verification contract in which evidence binding, independent checks, explicit review/abstention, and provenance-preserving FHIR export are connected in one fail-closed pipeline.
 
-On the frozen v0.1 synthetic evaluation, SafeOCR automatically verified 72.57% of critical fields with zero observed unsafe accepts, but the primary OCR baseline also produced zero observed errors at full coverage. The appropriate conclusion is therefore not that SafeOCR is superior, but that selective, evidence-grounded OCR verification is technically feasible, reproducible, and ready for stronger external validation.
+On the frozen v0.1 synthetic evaluation, SafeOCR automatically verified 72.57% of critical fields with zero observed unsafe accepts, but the primary OCR baseline also produced zero observed errors at full coverage. In a separate oracle-localised evaluation on public de-identified laboratory reports, 375/1,850 fields passed the verifier component with no incorrect numeric values, while exploratory analysis showed that full analyte-value-unit correctness remained imperfect. The appropriate conclusion is therefore not that SafeOCR is superior or clinically validated, but that selective, evidence-grounded verification is technically feasible and that independent verification must extend beyond numeric values before full-field trust can be claimed.
 
 ## Data and Code Availability
 
-SafeOCR is intended for public research release under Apache-2.0. The v0.1 release contains the source code, frozen evaluation artifacts, risk/coverage output, FHIR validation evidence, and static evidence-report artifacts. The public benchmark path uses synthetic and public PHI-free data.
+SafeOCR is intended for public research release under Apache-2.0 with source code, frozen protocols, scoring code, and derived evidence artifacts. SafeOCR-LabGold is synthetic and ClinOCR-Bench is public and PHI-free. The public de-identified Ma et al. source images are not redistributed by SafeOCR; they should be obtained from the original source subject to upstream terms.
 
 ## Ethics and Safety Statement
 
-No real protected health information is required for the public v0.1 evaluation. SafeOCR is research software and is not intended for diagnosis, treatment decisions, or unsupervised clinical use.
+SafeOCR-LabGold is synthetic and ClinOCR-Bench is PHI-free. The external Ma et al. analysis uses the authors' public de-identified research dataset without redistributing source images. SafeOCR is research software and is not intended for diagnosis, treatment decisions, or unsupervised clinical use. No institutional-review determination is inferred here; the final submission will state only a verified determination if the journal requires one.
+
+## AI-use Disclosure
+
+Generative AI tools were used for drafting assistance, code generation and review, literature-discovery support, and language editing. All scientific claims, citations, code changes, analyses, and manuscript text were reviewed and verified by the human author(s). AI tools were not authors and did not determine authorship or final scientific conclusions.
 
 ## References
 
