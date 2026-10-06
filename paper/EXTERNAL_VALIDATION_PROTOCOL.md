@@ -1,115 +1,94 @@
-# External OCR Generalization Protocol
+# SafeOCR External OCR Generalization Protocol — ClinOCR-Bench v1.0
 
-Status: preregistered before opening ClinOCR-Bench evaluation images or ground-truth transcripts.
+Status: FROZEN BEFORE OUTCOME INSPECTION
+Purpose: external OCR generalization evidence for the SafeOCR paper
+Not a SafeOCR field-level safety validation
 
-## Objective
+## Dataset
 
-Measure how the two SafeOCR v0.1 reference OCR engines generalize across realistic clinical scan artifacts without changing the frozen SafeOCR verification policy.
-
-This experiment is **not** a field-level SafeOCR safety evaluation. ClinOCR-Bench supplies human-audited full-document transcripts, not SafeOCR critical-field, patient-linkage, row-association, or FHIR-mapping annotations.
-
-## Frozen external source
-
-- Dataset: ClinOCR-Bench v1.0
-- Release: https://github.com/ClinOCR-Bench/ClinOCR-Bench/releases/tag/v1.0
-- Release asset: `ClinOCR-Bench-v1.0.zip`
-- Release asset bytes: `119227531`
+- ClinOCR-Bench v1.0
 - Release asset SHA-256: `ce1d231138050abf7f458ba5e6bd75c6ee2f3832b72f22296843da4c5ba45457`
-- License: MIT
-- Documents: 384 total
-- Evaluation split: 328 documents
-- Exemplar split: 56 documents
-- Subsets: normal, handwriting, poor, rotated, tables, mixed
+- Dataset repository commit: `3b720a951bb7eec4a4f4fb34a636e7335a19981e`
+- 384 documents total
+- 56 train/exemplar documents
+- 328 test/evaluation documents
+- Six subsets: normal, handwriting, poor, rotated, tables, mixed
 
-## Frozen baseline semantics
+The primary analysis uses only the official test/evaluation role.
 
-The official ClinOCR-Bench baseline repository is pinned for metric semantics only:
+## Research question
 
-- repository: `ClinOCR-Bench/ClinOCR-Bench-Baseline`
-- inspected commit: `306e5502c9d4f5de39bb03689a8d9bc5df101031`
-- primary metric: word error rate (WER)
-- tokenization: Python whitespace split
-- WER: Levenshtein substitutions + deletions + insertions divided by reference word count
+How do the two OCR engines already used by SafeOCR v0.1 generalize, without tuning, to a public external clinical scanned-document benchmark?
 
-SafeOCR reimplements the metric locally rather than importing the benchmark repository at runtime.
+This experiment evaluates transcription generalization only. It does **not** estimate SafeOCR unsafe-accept rate, verified coverage, patient-linkage error, table-association error, or FHIR mapping error because ClinOCR-Bench v1.0 does not provide the field-level annotation contract required for those claims.
 
-## Engines
+## Frozen OCR conditions
 
-No model selection is permitted from ClinOCR-Bench results.
+### Tesseract
 
-1. SafeOCR primary engine:
-   - PaddleOCR 3.7.0
-   - detection: PP-OCRv6_small_det
-   - recognition: PP-OCRv6_small_rec
-   - backend: ONNX Runtime CPU
-   - text recognition batch size: 1
-   - no document-orientation classifier
-   - no document unwarping
-   - no text-line orientation model
+- Use the locally installed Tesseract version already frozen by SafeOCR v0.1.
+- Language: `eng`
+- Page segmentation mode: `3`
+- No image-specific tuning.
+- No one-shot information.
+- No access to ground truth during OCR.
 
-2. Independent reference engine:
-   - Tesseract 5.4.0.20240606
-   - default English OCR path used for whole-page external transcription
+### PaddleOCR
 
-No VLM, cloud OCR, prompt, exemplar, or one-shot data is used.
+- Use the locally installed PaddleOCR version/model configuration already frozen by SafeOCR v0.1.
+- Use the same full-page OCR path as SafeOCR.
+- Recognition batch size may remain at the v0.1 memory-safe setting.
+- No image-specific preprocessing selected after outcome inspection.
+- No one-shot information.
+- No access to ground truth during OCR.
 
-## Evaluation set
+## Frozen scoring
 
-All 328 official `test` documents are evaluated.
+Use the official ClinOCR-Bench baseline implementation of:
 
-No result may be used to:
-- tune SafeOCR thresholds;
-- select another PaddleOCR model;
-- change image preprocessing;
-- change reading order heuristics;
-- alter the SafeOCR acceptance policy;
-- select or remove subsets;
-- select easier cases.
+`WER = (substitutions + deletions + insertions) / reference_word_count`
 
-If an engine fails on a document, the failure is recorded and the prediction is treated as empty for WER unless the failure is a benchmark-infrastructure failure that prevents all scoring.
+Tokenization is whitespace split exactly as implemented by the official baseline.
 
-## Outputs
+For each OCR engine report:
 
-For each engine and document:
-- doc_id;
-- subset;
-- OCR runtime status;
-- full predicted text;
-- WER;
-- substitution rate;
-- deletion rate;
-- insertion rate;
-- runtime seconds.
+- overall N;
+- mean WER with the official normal-approximation 95% CI;
+- median WER with Q1-Q3;
+- min-max;
+- substitution, deletion, insertion components;
+- the same statistics separately for all six artifact subsets.
 
-Aggregate outputs:
-- document count;
-- failure count;
-- median WER by subset;
-- mean WER by subset;
-- interquartile range by subset;
-- overall median and mean WER;
-- bootstrap 95% confidence interval for mean WER using a fixed seed;
-- paired per-document WER delta between PaddleOCR and Tesseract.
+The official baseline post-processing function may be used only to normalize OCR output formatting before scoring; it must be applied identically for the corresponding engine output.
 
-## Interpretation
+## Primary comparison
 
-This experiment may support claims about:
-- external OCR robustness;
-- artifact-specific degradation;
-- relative OCR-engine performance;
-- the motivation for independent rereading and explicit review gates.
+The paper will report:
+1. SafeOCR's local Tesseract reproduction versus the official published Tesseract benchmark values as a reproducibility check.
+2. SafeOCR's frozen PaddleOCR engine as an external transcription-generalization result.
+3. No statistical or qualitative claim that a lower WER proves lower clinical risk.
 
-It may **not** support claims about:
-- SafeOCR unsafe-accept rate on ClinOCR-Bench;
-- SafeOCR field-level verified coverage on ClinOCR-Bench;
-- patient-attribution accuracy;
-- table-association accuracy for specific clinical fields;
-- FHIR mapping accuracy;
-- clinical deployment safety.
+## Prohibited actions
 
-## Leakage controls
+- no model fine-tuning;
+- no threshold tuning;
+- no selection of preprocessing based on test outcomes;
+- no exclusion of hard subsets;
+- no deletion of failed documents from denominators;
+- no manual correction of OCR outputs;
+- no use of one-shot ground truth or test ground truth as OCR input;
+- no conversion of document-level WER into SafeOCR field-level safety metrics;
+- no claim of superiority unless directly supported by the prespecified comparison.
 
-- Evaluation images and ground-truth transcripts must remain unopened until this protocol is committed.
-- The 56 exemplar/train documents are not used for tuning or preprocessing selection.
-- There is one zero-shot run per frozen engine configuration.
-- Post-hoc changes require a new protocol version and cannot replace the original result.
+## Failure handling
+
+Engine/runtime failures remain in the experiment record. If an OCR engine produces no text for a test image, the prediction is the empty string and is scored accordingly. Infrastructure failures that prevent execution are reported separately and do not silently remove cases.
+
+## Outcome-inspection lock
+
+Ground-truth transcript contents and WER outcomes must not be inspected until:
+1. this protocol is committed;
+2. the runner code passes tests and static checks;
+3. the runner is reviewed for dataset-role leakage.
+
+After outcomes are inspected, the frozen OCR conditions and scoring rules above may not be changed for the primary external experiment.
