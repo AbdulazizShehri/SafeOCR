@@ -29,3 +29,9 @@ The UCUM work is provided on an "AS IS" basis without warranties or conditions o
 The v0.1 source registry separately records the pinned PaddleOCR, PaddleX, ONNX Runtime, PP-OCRv6 ONNX models, Tesseract, Pillow, and other dependencies together with their license/use status.
 
 See docs/SOURCE_REGISTRY.md.
+
+## ClinOCR-Bench / ClinOCR-Bench-Baseline
+
+ClinOCR-Bench v1.0 is used as an external PHI-free clinical OCR benchmark under the MIT License. The external-validation protocol pins release asset SHA-256 `ce1d231138050abf7f458ba5e6bd75c6ee2f3832b72f22296843da4c5ba45457` and dataset repository commit `3b720a951bb7eec4a4f4fb34a636e7335a19981e`.
+
+SafeOCR's `safeocr.clinocr_eval.word_error_rate` follows the MIT-licensed `ClinOCR-Bench-Baseline` WER algorithm and summary-statistics convention so the external experiment is directly comparable with the benchmark's official reporting. Upstream repository: `https://github.com/ClinOCR-Bench/ClinOCR-Bench-Baseline`.
