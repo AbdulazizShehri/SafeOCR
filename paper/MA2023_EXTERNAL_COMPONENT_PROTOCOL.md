@@ -41,3 +41,10 @@ The manuscript must describe this as an oracle-localised verifier component eval
 Report total images and rows, eligible numeric fields, OCR-region match coverage, primary OCR exact-value accuracy, independent Tesseract agreement, perturbation stability, structural association, unit-valid rate where evaluable, component-pass coverage, incorrect component passes per component passes with a 95% Wilson interval, and scanner-versus-photo stratification.
 
 The public dataset does not supply the governed patient-linkage truth contract required by the full SafeOCR v0.1 policy. This study therefore does not estimate full VERIFIED_AUTO coverage, patient-attribution error, FHIR mapping error, clinical deployment safety, or prospective clinical utility. No candidate from this study is promoted through the production FHIR export gate.
+
+
+## Pre-outcome annotation-integrity clarification
+
+Before any verifier metric artifact was produced, the scorer encountered duplicate text annotations in the same laboratory table cell and stopped fail-closed. Audit of the public annotations found 20 rows with at least one duplicated table-cell annotation, but only 13 rows contain duplication in a critical field used by this estimand: analyte (column 2), result (column 3), or unit (column 4). Duplicates confined to reference-range/method/other columns do not change eligibility.
+
+The 13 critical-field-ambiguous rows are classified as reference non-evaluable and excluded from the oracle-localised component estimand because selecting one duplicate annotation would require an arbitrary adjudication not present in the public dataset. This is an annotation-integrity exclusion, not an OCR or verifier failure. The exclusion count must be reported explicitly in the result artifact and manuscript. No threshold, model, OCR output, preprocessing rule, or metric was changed after outcome inspection; no verifier outcome existed before this clarification.

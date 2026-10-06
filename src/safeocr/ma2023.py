@@ -87,18 +87,34 @@ def load_ma2023_annotations(path: Path) -> tuple[Ma2023Document, ...]:
     return tuple(documents)
 
 
-def laboratory_rows(
-    document: Ma2023Document,
-) -> tuple[dict[int, Ma2023Region], ...]:
-    rows: dict[int, dict[int, Ma2023Region]] = {}
+def ambiguous_laboratory_rows(document: Ma2023Document) -> frozenset[int]:
+    counts: dict[tuple[int, int], int] = {}
     for region in document.regions:
         if region.table_no != 2 or region.row_no == 1:
             continue
+        if region.column_no not in (2, 3, 4):
+            continue
+        key = (region.row_no, region.column_no)
+        counts[key] = counts.get(key, 0) + 1
+    return frozenset(
+        row_no
+        for (row_no, _column_no), count in counts.items()
+        if count > 1
+    )
+
+
+def laboratory_rows(
+    document: Ma2023Document,
+) -> tuple[dict[int, Ma2023Region], ...]:
+    ambiguous = ambiguous_laboratory_rows(document)
+    rows: dict[int, dict[int, Ma2023Region]] = {}
+    for region in document.regions:
+        if (
+            region.table_no != 2
+            or region.row_no == 1
+            or region.row_no in ambiguous
+        ):
+            continue
         row = rows.setdefault(region.row_no, {})
-        if region.column_no in row:
-            raise ValueError(
-                f"duplicate Ma2023 cell for {document.filename} "
-                f"row={region.row_no} column={region.column_no}"
-            )
         row[region.column_no] = region
     return tuple(rows[index] for index in sorted(rows))

@@ -113,3 +113,59 @@ def test_annotation_loader_and_rows(tmp_path: Path) -> None:
     assert len(rows) == 1
     assert rows[0][2].text == "Glucose"
     assert rows[0][3].text == "90"
+
+
+
+def test_ambiguous_duplicate_cells_are_excluded_fail_closed(tmp_path: Path) -> None:
+    payload: list[dict[str, object]] = []
+    for index in range(238):
+        annotations: list[dict[str, object]] = [
+            {
+                "class": "text",
+                "table_no": "2",
+                "cell_row": "2",
+                "cell_line": "2",
+                "text": "Glucose",
+                "x": 10,
+                "y": 20,
+                "width": 50,
+                "height": 10,
+            },
+            {
+                "class": "text",
+                "table_no": "2",
+                "cell_row": "2",
+                "cell_line": "3",
+                "text": "90",
+                "x": 80,
+                "y": 20,
+                "width": 20,
+                "height": 10,
+            },
+        ]
+        if index == 0:
+            annotations.append(
+                {
+                    "class": "text",
+                    "table_no": "2",
+                    "cell_row": "2",
+                    "cell_line": "3",
+                    "text": "91",
+                    "x": 80,
+                    "y": 20,
+                    "width": 20,
+                    "height": 10,
+                }
+            )
+        payload.append(
+            {
+                "filename": f"scan_{index}.jpg",
+                "annotations": annotations,
+            }
+        )
+    path = tmp_path / "labels-ambiguous.json"
+    path.write_text(json.dumps(payload), encoding="utf-8")
+    documents = load_ma2023_annotations(path)
+
+    assert laboratory_rows(documents[0]) == ()
+    assert len(laboratory_rows(documents[1])) == 1

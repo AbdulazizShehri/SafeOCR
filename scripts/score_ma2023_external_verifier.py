@@ -21,7 +21,12 @@ from safeocr.contracts import (
 )
 from safeocr.evaluation import match_span_to_truth_region, wilson_interval
 from safeocr.labgold import TruthRegion
-from safeocr.ma2023 import Ma2023Region, laboratory_rows, load_ma2023_annotations
+from safeocr.ma2023 import (
+    Ma2023Region,
+    ambiguous_laboratory_rows,
+    laboratory_rows,
+    load_ma2023_annotations,
+)
 from safeocr.ocr import (
     CriticalCrop,
     EngineFingerprint,
@@ -271,6 +276,8 @@ def main() -> None:
     rows_out: list[dict[str, object]] = []
 
     for document in documents:
+        ambiguous_rows = ambiguous_laboratory_rows(document)
+        exclusions["ambiguous_annotation_row"] += len(ambiguous_rows)
         kind = "scan" if document.filename.startswith("scan_") else "illumination"
         result = _page_result(args.ocr / f"{Path(document.filename).stem}.json")
         image_path = args.images / document.filename

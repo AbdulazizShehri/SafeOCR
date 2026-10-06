@@ -99,3 +99,18 @@ Qualification after repair:
 - Delegated Alibaba blocking findings: 0
 
 No Ma2023 verifier metric or outcome had been produced or inspected before this repair.
+
+
+## Pre-outcome duplicate-annotation integrity clarification
+
+Before any Ma2023 verifier metric artifact existed, the scorer encountered duplicate cell annotations and stopped fail-closed. A dataset audit found 20 rows with at least one duplicated table-cell annotation; 13 rows contain duplication in a critical field used by this estimand (analyte, result, or unit). Duplicates confined to non-critical columns do not change eligibility.
+
+The repair classifies only those 13 critical-field-ambiguous rows as reference non-evaluable. It does not select among conflicting annotations, change OCR output, alter thresholds, modify preprocessing, or tune the verifier. The result artifact must report the exclusion count explicitly.
+
+Post-clarification qualification:
+- Pytest: 7/7 PASS
+- Ruff: PASS
+- Pyright: 0 errors, 0 warnings, 0 informations
+- Jev: 3.08 / 4
+- Jev blocker probability: 0.05
+- Remaining delegated Alibaba blocking findings: 0
