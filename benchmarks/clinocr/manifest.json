@@ -1,0 +1,30 @@
+{
+  "evaluation_role": "test",
+  "exclusions": [
+    "no threshold selection from ClinOCR-Bench evaluation outcomes",
+    "no one-shot exemplar prompting in the SafeOCR v0.1 OCR pipeline",
+    "no clinical correctness claim from transcript-only ground truth"
+  ],
+  "expected_documents": 384,
+  "expected_evaluation_documents": 328,
+  "expected_exemplars": 56,
+  "headline_fields": [
+    "critical_numeric_tokens",
+    "patient_identity_tokens",
+    "table_value_associations"
+  ],
+  "name": "SafeOCR ClinOCR-Bench Safety Track",
+  "subsets": [
+    "normal",
+    "handwriting",
+    "poor",
+    "rotated",
+    "tables",
+    "mixed"
+  ],
+  "threshold_tuning_allowed": false,
+  "upstream_commit": "3b720a951bb7eec4a4f4fb34a636e7335a19981e",
+  "upstream_repository": "https://github.com/ClinOCR-Bench/ClinOCR-Bench",
+  "version": "f6-v1",
+  "zero_shot_only": true
+}

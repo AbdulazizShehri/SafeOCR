@@ -86,8 +86,19 @@ Interpretation:
 - primary OCR also observed 0 unsafe accepts at 100% coverage on this synthetic final set;
 - therefore LabGold alone does not support a SafeOCR-superiority claim versus primary OCR.
 
-F6.3:
-- ClinOCR-Bench adapter + Safety Track manifest without test-set tuning.
+F6.3 — CLOSED:
+- [x] pin ClinOCR-Bench upstream commit `3b720a951bb7eec4a4f4fb34a636e7335a19981e`;
+- [x] validate the official v1.0 one-shot metadata: 384 documents, 56 exemplars, 328 evaluation documents;
+- [x] freeze metadata SHA-256 `e0a8988ac5661b147f3712882cc1857b551c3dc02766cbda399352c48d58746b`;
+- [x] implement an adapter that preserves train/test roles and rejects external-evaluation records from tuning paths;
+- [x] freeze a zero-shot Safety Track manifest with `threshold_tuning_allowed=false`;
+- [x] inspect no evaluation image, ground-truth transcript, or external outcome while closing the adapter grain;
+- [x] explicitly withhold unsupported critical-field claims because ClinOCR-Bench v1.0 provides transcript truth rather than SafeOCR field/patient/FHIR annotations.
 
-F6.4:
-- reproducible benchmark run, risk-coverage artifacts, limitations and closeout evidence.
+F6.4 — CLOSED WITH DECLARED LIMITATIONS:
+- [x] freeze `docs/evidence/F6_RISK_COVERAGE.csv` from the primary LabGold artifact;
+- [x] freeze `docs/evidence/F6_CLOSEOUT.json` with all reportable headline metrics and explicit non-estimable fields;
+- [x] report the preregistered SafeOCR operating point rather than performing a prohibited post-hoc threshold sweep;
+- [x] document that LabGold does not establish SafeOCR superiority over raw primary OCR;
+- [x] document that FHIR mapping error rate is not estimable from the frozen F6 final artifact;
+- [x] preserve F5 validator conformance as separate interoperability evidence rather than relabeling it as an F6 mapping-error estimate.

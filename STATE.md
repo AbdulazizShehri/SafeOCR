@@ -2,7 +2,7 @@
 
 ## In flight
 
-F6 Evaluation is active. F6.2d final LabGold evaluation completed successfully on governed attempt 2. The primary final artifact is frozen and must not be rerun or overwritten. F6.3 external ClinOCR-Bench / Safety Track integration is next.
+F6 Evaluation is closed with declared limitations. The primary LabGold artifact is frozen and must not be rerun or overwritten. ClinOCR-Bench external metadata integration and the no-tuning Safety Track manifest are frozen. F7 Evidence Report is next.
 
 ## Canonical local foundation
 
@@ -70,4 +70,4 @@ Local history is canonical. Remote publication is still blocked by local Git cre
 
 ## Current objective
 
-Implement F6.3 as an external-evaluation adapter and Safety Track manifest that cannot tune thresholds from external evaluation data. Then complete F6.4 reproducible risk-coverage artifacts and limitations.
+Implement F7 Evidence Report: deterministic CLI output plus a static HTML evidence report where every critical field resolves to source evidence and every verified/review/abstain state has a machine-readable explanation.

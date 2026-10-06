@@ -90,3 +90,27 @@ Primary result: SafeOCR accepted 209 / 288 fields (72.5694% verified coverage), 
 The OCR-only association scorer evaluated 288 / 288 rows with 0 observed table-association errors and did not use truth geometry for row parsing. Patient-attribution and FHIR-mapping headline rates are not established by this LabGold runner.
 
 Interpretation is deliberately conservative: because raw primary OCR also observed zero accepted errors at full coverage, the frozen LabGold final set does not demonstrate that SafeOCR lowers unsafe accepted error versus the primary OCR baseline. Zero observed SafeOCR errors is reported with its interval and is not interpreted as zero risk or superiority.
+
+## F6.3 external benchmark integration
+
+ClinOCR-Bench is pinned to upstream commit `3b720a951bb7eec4a4f4fb34a636e7335a19981e`. The official `oneshot_lookup.json` was fetched from that exact commit only; no evaluation image or ground-truth transcript was opened. Its SHA-256 is `e0a8988ac5661b147f3712882cc1857b551c3dc02766cbda399352c48d58746b`.
+
+The adapter reconstructs the published 384-document universe from the 328 evaluation records plus their 56 unique exemplar references and validates that every homogeneous/heterogeneous one-shot donor resolves only to the exemplar role. The Safety Track manifest is zero-shot for SafeOCR v0.1 and fixes `threshold_tuning_allowed=false`. Any attempt to route external-evaluation records into a calibration/tuning path raises an error.
+
+The integration deliberately does not fabricate SafeOCR critical-field results from transcript-only truth. ClinOCR-Bench v1.0 provides human-audited full-document transcriptions, not SafeOCR field/patient/FHIR annotations. External critical-field outcome claims therefore remain withheld until a separately governed annotation protocol exists.
+
+Canonical metadata evidence: `docs/evidence/F6_CLINOCR_METADATA.json`. It records 384 total documents, 56 exemplars, 328 evaluation documents, subset evaluation counts, the pinned upstream commit and lookup hash, and explicit `false` flags for opening evaluation images/ground truth or inspecting external outcomes.
+
+## F6.4 deterministic closeout
+
+`docs/evidence/F6_RISK_COVERAGE.csv` freezes the preregistered operating points for raw primary OCR, Tesseract crop, naive agreement, and SafeOCR from the immutable primary LabGold result. No post-hoc threshold sweep is performed after final-set inspection.
+
+`docs/evidence/F6_CLOSEOUT.json` reports the SafeOCR fixed-policy metrics, ClinOCR integration lock, and explicit limitations. FHIR mapping error rate is `null`/not estimable from F6 because the preregistered final runner did not perform per-field FHIR export; F5 validator conformance remains separate interoperability evidence. This avoids relabeling conformance evidence as a benchmark mapping-error estimate.
+
+## F6 closeout qualification
+
+Final closeout gates: 175 tests passed / 4 runtime tests skipped by default; Ruff PASS; Pyright strict 0 errors / 0 warnings / 0 informations; pip check PASS; `git diff --check` PASS; Graft 478 nodes / 1529 edges with graph check OK.
+
+Jev F6 closeout governance score: 3.90 / 4 (91% excellent, 9% strong), specifically evaluating no-test-set-tuning, conservative interpretation, and avoidance of unsupported ClinOCR-Bench safety claims.
+
+Alibaba Open Code Review delegate preview/rules covered the new ClinOCR adapter, metadata validator, F6 closeout builder, tests, and JSON evidence surface. The delegated correctness/security rules produced no blocking host-agent finding. A direct LLM-backed `ocr review` is not claimed because the configured Anthropic OCR provider has no API key; this limitation is explicit rather than fabricated.

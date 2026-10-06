@@ -1,0 +1,21 @@
+{
+  "document_count": 384,
+  "evaluation_count": 328,
+  "evaluation_images_opened": false,
+  "evaluation_outcomes_inspected": false,
+  "evaluation_subset_counts": {
+    "handwriting": 56,
+    "mixed": 48,
+    "normal": 56,
+    "poor": 56,
+    "rotated": 56,
+    "tables": 56
+  },
+  "exemplar_count": 56,
+  "ground_truth_opened": false,
+  "lookup_sha256": "e0a8988ac5661b147f3712882cc1857b551c3dc02766cbda399352c48d58746b",
+  "schema_version": 1,
+  "threshold_tuning_allowed": false,
+  "upstream_commit": "3b720a951bb7eec4a4f4fb34a636e7335a19981e",
+  "zero_shot_only": true
+}
