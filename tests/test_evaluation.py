@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+import hashlib
+
 import pytest
 
 from safeocr.contracts import DecisionState
@@ -8,10 +10,17 @@ from safeocr.evaluation import (
     EvaluationRole,
     FieldPrediction,
     FieldTruth,
+    LabGoldCasePlan,
     aggregate_metrics,
     evaluate_field,
+    frozen_labgold_split,
+    labgold_split_manifest_json,
+    naive_agreement_prediction,
+    primary_ocr_prediction,
     require_calibration_only,
     risk_coverage_point,
+    tesseract_crop_prediction,
+    validate_labgold_split,
     wilson_interval,
 )
 
@@ -199,3 +208,137 @@ def test_prediction_rejects_missing_values_for_verified_auto() -> None:
             row_id=None,
             fhir_mapping_correct=None,
         )
+
+
+def test_frozen_labgold_split_is_deterministic_and_role_disjoint() -> None:
+    first = frozen_labgold_split()
+    second = frozen_labgold_split()
+    assert first == second
+
+    calibration = tuple(item for item in first if item.role is EvaluationRole.CALIBRATION)
+    evaluation = tuple(item for item in first if item.role is EvaluationRole.EVALUATION)
+
+    assert len(calibration) == 24
+    assert len(evaluation) == 48
+    assert {item.patient_id for item in calibration}.isdisjoint(
+        {item.patient_id for item in evaluation}
+    )
+    assert {item.case_id for item in calibration}.isdisjoint(
+        {item.case_id for item in evaluation}
+    )
+    assert {item.corruption_seed for item in first if item.corruption_seed is not None}
+    assert len(
+        {item.corruption_seed for item in first if item.corruption_seed is not None}
+    ) == 36
+    assert validate_labgold_split(first) == first
+
+
+def test_each_frozen_seed_has_clean_and_corrupted_variant() -> None:
+    split = frozen_labgold_split()
+    by_seed: dict[tuple[EvaluationRole, int], set[int | None]] = {}
+    for item in split:
+        by_seed.setdefault((item.role, item.record_seed), set()).add(item.corruption_seed)
+
+    assert all(len(variants) == 2 for variants in by_seed.values())
+    assert all(None in variants for variants in by_seed.values())
+
+
+def test_labgold_split_manifest_is_canonical_and_stable() -> None:
+    first = labgold_split_manifest_json(frozen_labgold_split())
+    second = labgold_split_manifest_json(frozen_labgold_split())
+    assert first == second
+    assert first.endswith("\n")
+    assert '"schema_version":1' in first
+
+
+def test_split_validation_rejects_patient_role_leakage() -> None:
+    split = list(frozen_labgold_split())
+    calibration = next(item for item in split if item.role is EvaluationRole.CALIBRATION)
+    evaluation_index = next(
+        index for index, item in enumerate(split) if item.role is EvaluationRole.EVALUATION
+    )
+    evaluation = split[evaluation_index]
+    split[evaluation_index] = LabGoldCasePlan(
+        case_id=evaluation.case_id,
+        role=evaluation.role,
+        record_seed=evaluation.record_seed,
+        template=evaluation.template,
+        corruption_seed=evaluation.corruption_seed,
+        patient_id=calibration.patient_id,
+    )
+
+    with pytest.raises(ValueError, match="patient identities cross"):
+        validate_labgold_split(tuple(split))
+
+
+
+
+def test_frozen_labgold_manifest_hash_is_preregistered() -> None:
+    manifest = labgold_split_manifest_json(frozen_labgold_split())
+    assert hashlib.sha256(manifest.encode("utf-8")).hexdigest() == (
+        "3aa0af90f3d41d5a0b636ded5d784119da81a193b81a907b7bb69a789cc816a5"
+    )
+
+
+
+def test_primary_ocr_baseline_accepts_complete_and_abstains_incomplete() -> None:
+    complete = primary_ocr_prediction(
+        case_id="c1",
+        role=EvaluationRole.EVALUATION,
+        analyte_text="Potassium",
+        value_text="3.4",
+        unit_text="mmol/L",
+        patient_id="SAFE-00000001",
+        row_id="row-01",
+    )
+    assert complete.decision is DecisionState.VERIFIED_AUTO
+
+    incomplete = primary_ocr_prediction(
+        case_id="c2",
+        role=EvaluationRole.EVALUATION,
+        analyte_text="Potassium",
+        value_text=None,
+        unit_text="mmol/L",
+        patient_id="SAFE-00000001",
+        row_id="row-01",
+    )
+    assert incomplete.decision is DecisionState.ABSTAINED
+
+
+def test_tesseract_crop_baseline_is_oracle_crop_value_read_only() -> None:
+    prediction = tesseract_crop_prediction(
+        _truth(),
+        role=EvaluationRole.EVALUATION,
+        read_text="8.4",
+    )
+    result = evaluate_field(_truth(), prediction)
+    assert prediction.method is EvaluationMethod.TESSERACT_CROP
+    assert result.accepted is True
+    assert result.unsafe_accepted is True
+
+
+def test_naive_agreement_accepts_exact_value_match_and_reviews_disagreement() -> None:
+    primary = primary_ocr_prediction(
+        case_id="c1",
+        role=EvaluationRole.EVALUATION,
+        analyte_text="Potassium",
+        value_text="3.4",
+        unit_text="mmol/L",
+        patient_id="SAFE-00000001",
+        row_id="row-01",
+    )
+    accepted = naive_agreement_prediction(primary, secondary_value_text="3.4")
+    review = naive_agreement_prediction(primary, secondary_value_text="3.8")
+
+    assert accepted.decision is DecisionState.VERIFIED_AUTO
+    assert review.decision is DecisionState.REVIEW_REQUIRED
+
+
+def test_naive_agreement_rejects_non_primary_input() -> None:
+    tesseract = tesseract_crop_prediction(
+        _truth(),
+        role=EvaluationRole.EVALUATION,
+        read_text="3.4",
+    )
+    with pytest.raises(ValueError, match="primary OCR"):
+        naive_agreement_prediction(tesseract, secondary_value_text="3.4")

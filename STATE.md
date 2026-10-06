@@ -2,40 +2,35 @@
 
 ## In flight
 
-F6 Evaluation is active. F6.1 deterministic evaluation contracts are qualified; F6.2 frozen LabGold split/baseline execution is next.
+F6 Evaluation is active. F6.1 and F6.2a are qualified. F6.2b calibration-only runtime runner is next.
 
 ## Canonical local foundation
 
-- architecture commit: 6f11ccb
-- F1 foundation commit: 1d05ba4
-- F2 LabGold commit: 2c626a
-- F3 OCR adapters commit: 3aba8f6
-- F4 evidence verification commit: 11da0c
-- patient-binding prerequisite fix: c711a70
-- F5 FHIR R4 gate commit: 448f024
-- active branch: eat/f6-evaluation
+- architecture commit: `6f11ccb`
+- F1 foundation commit: `1d05ba4`
+- F2 LabGold commit: `a2c626a`
+- F3 OCR adapters commit: `3aba8f6`
+- F4 evidence verification commit: `b11da0c`
+- patient-binding prerequisite fix: `c711a70`
+- F5 FHIR R4 gate commit: `448f024`
+- F6.1 evaluation contracts commit: `f3810a8`
+- active branch: `feat/f6-evaluation`
 
-## F5 closeout
+## F6.2a split freeze
 
-- FHIR R4 4.0.1 only
-- HL7 validator CLI 6.10.4
-- validator JAR SHA-256: 1106b9d58f9e363e47bea7c4fc065841e5fc91fe9d062775c3bfdd212bd653cc
-- canonical evidence: docs/evidence/F5_RUNTIME_SMOKE.json
-- valid bundle: 0 errors, 7 documented warnings, 1 note
-- deliberately invalid control: rejected with 2 errors
-- default pytest at F5 close: 139 passed, 3 skipped
-- explicit official-validator runtime pytest: 1 passed
-- Jev and Alibaba delegated review: qualified
-
-## F6.1 closeout
-
-- deterministic evaluation metrics and role contracts implemented
-- full pytest: 147 passed, 3 skipped
-- Ruff / Pyright / pip check / git diff --check: PASS
-- Graft: 361 nodes / 1133 edges, graph check OK
-- Jev functional score: 3.20 / 4
-- Jev leakage/metric safety score: 3.35 / 4
-- Alibaba Open Code Review delegate rules applied with no blocking finding
+- canonical split: `docs/evidence/F6_LABGOLD_SPLIT.json`
+- split SHA-256: `3aa0af90f3d41d5a0b636ded5d784119da81a193b81a907b7bb69a789cc816a5`
+- calibration: 24 document cases
+- final evaluation: 48 document cases
+- clean + corrupted variants for every record seed
+- patient identities disjoint across calibration/evaluation roles
+- unique frozen corruption seeds
+- primary OCR, Tesseract crop, and naive agreement baseline semantics frozen
+- full pytest: 156 passed, 3 skipped
+- Graft: 381 nodes / 1190 edges, graph check OK
+- Jev correctness: 3.23 / 4
+- Jev leakage/preregistration safety: 3.67 / 4
+- Alibaba delegated review: no blocking finding
 
 ## Publication state
 
@@ -43,4 +38,4 @@ Local history is canonical. Remote publication is pending Git authentication for
 
 ## Current objective
 
-Implement F6.2 with a frozen LabGold calibration/evaluation split, no patient overlap, held-out final corruption seeds, and reproducible baseline evaluation.
+Build F6.2b using calibration-role data only. Freeze and qualify the runner before the first final-evaluation OCR execution.

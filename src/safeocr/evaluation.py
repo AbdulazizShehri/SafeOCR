@@ -1,10 +1,12 @@
 from __future__ import annotations
 
+import json
 import math
 from dataclasses import dataclass
 from enum import StrEnum
 
 from safeocr.contracts import DecisionState
+from safeocr.labgold import LabTemplate, generate_fake_lab_record
 from safeocr.verification import normalize_evidence_text
 
 
@@ -269,3 +271,231 @@ def require_calibration_only(
     if any(item.role is not EvaluationRole.CALIBRATION for item in predictions):
         raise ValueError("calibration-only input contains held-out evaluation data")
     return predictions
+
+@dataclass(frozen=True, slots=True)
+class LabGoldCasePlan:
+    case_id: str
+    role: EvaluationRole
+    record_seed: int
+    template: LabTemplate
+    corruption_seed: int | None
+    patient_id: str
+
+    def __post_init__(self) -> None:
+        if not self.case_id.strip():
+            raise ValueError("case_id must be non-empty")
+        if type(self.record_seed) is not int or self.record_seed < 0:
+            raise ValueError("record_seed must be a non-negative int")
+        if self.corruption_seed is not None and (
+            type(self.corruption_seed) is not int or self.corruption_seed < 0
+        ):
+            raise ValueError("corruption_seed must be a non-negative int or None")
+        if not self.patient_id.strip():
+            raise ValueError("patient_id must be non-empty")
+
+
+def _planned_variants(
+    *,
+    role: EvaluationRole,
+    record_seed: int,
+    template: LabTemplate,
+    corruption_seed: int,
+) -> tuple[LabGoldCasePlan, LabGoldCasePlan]:
+    patient_id = generate_fake_lab_record(record_seed).patient_id
+    prefix = f"labgold-{role.value}-{record_seed:06d}-{template.value}"
+    clean = LabGoldCasePlan(
+        case_id=f"{prefix}-clean",
+        role=role,
+        record_seed=record_seed,
+        template=template,
+        corruption_seed=None,
+        patient_id=patient_id,
+    )
+    corrupted = LabGoldCasePlan(
+        case_id=f"{prefix}-corrupt-{corruption_seed:06d}",
+        role=role,
+        record_seed=record_seed,
+        template=template,
+        corruption_seed=corruption_seed,
+        patient_id=patient_id,
+    )
+    return (clean, corrupted)
+
+
+def frozen_labgold_split() -> tuple[LabGoldCasePlan, ...]:
+    """Return the preregistered v0.1 LabGold calibration/evaluation schedule."""
+
+    templates = (LabTemplate.CLASSIC, LabTemplate.COMPACT, LabTemplate.GRID)
+    planned: list[LabGoldCasePlan] = []
+
+    for index, seed in enumerate(range(101, 113)):
+        planned.extend(
+            _planned_variants(
+                role=EvaluationRole.CALIBRATION,
+                record_seed=seed,
+                template=templates[index % len(templates)],
+                corruption_seed=5001 + index,
+            )
+        )
+
+    for index, seed in enumerate(range(2001, 2025)):
+        planned.extend(
+            _planned_variants(
+                role=EvaluationRole.EVALUATION,
+                record_seed=seed,
+                template=templates[index % len(templates)],
+                corruption_seed=9001 + index,
+            )
+        )
+
+    return validate_labgold_split(tuple(planned))
+
+
+def validate_labgold_split(
+    plans: tuple[LabGoldCasePlan, ...],
+) -> tuple[LabGoldCasePlan, ...]:
+    if not plans:
+        raise ValueError("LabGold split must contain at least one planned case")
+    case_ids = [item.case_id for item in plans]
+    if len(case_ids) != len(set(case_ids)):
+        raise ValueError("LabGold split case_id values must be unique")
+
+    corruption_seeds = [
+        item.corruption_seed for item in plans if item.corruption_seed is not None
+    ]
+    if len(corruption_seeds) != len(set(corruption_seeds)):
+        raise ValueError("LabGold corruption seeds must be unique")
+
+    calibration_patients = {
+        item.patient_id for item in plans if item.role is EvaluationRole.CALIBRATION
+    }
+    evaluation_patients = {
+        item.patient_id for item in plans if item.role is EvaluationRole.EVALUATION
+    }
+    external_patients = {
+        item.patient_id for item in plans if item.role is EvaluationRole.EXTERNAL_EVALUATION
+    }
+    if calibration_patients & evaluation_patients:
+        raise ValueError("LabGold patient identities cross calibration/evaluation roles")
+    if calibration_patients & external_patients:
+        raise ValueError("LabGold patient identities cross calibration/external roles")
+    if evaluation_patients & external_patients:
+        raise ValueError("LabGold patient identities cross evaluation/external roles")
+
+    by_role_seed: dict[tuple[EvaluationRole, int], list[LabGoldCasePlan]] = {}
+    for item in plans:
+        by_role_seed.setdefault((item.role, item.record_seed), []).append(item)
+    for variants in by_role_seed.values():
+        if len(variants) != 2:
+            raise ValueError("each LabGold record seed must have clean and corrupted variants")
+        corruption_values = {item.corruption_seed for item in variants}
+        if None not in corruption_values or len(corruption_values) != 2:
+            raise ValueError("each LabGold seed requires one clean and one corrupted variant")
+        patient_ids = {item.patient_id for item in variants}
+        templates = {item.template for item in variants}
+        if len(patient_ids) != 1 or len(templates) != 1:
+            raise ValueError("LabGold clean/corrupted variants must share truth identity")
+
+    return plans
+
+
+def labgold_split_manifest_json(plans: tuple[LabGoldCasePlan, ...]) -> str:
+    validated = validate_labgold_split(plans)
+    payload = {
+        "schema_version": 1,
+        "split_id": "safeocr-labgold-v1-f6",
+        "cases": [
+            {
+                "case_id": item.case_id,
+                "corruption_seed": item.corruption_seed,
+                "patient_id": item.patient_id,
+                "record_seed": item.record_seed,
+                "role": item.role.value,
+                "template": item.template.value,
+            }
+            for item in validated
+        ],
+    }
+    return json.dumps(payload, sort_keys=True, separators=(",", ":")) + "\n"
+
+
+
+def primary_ocr_prediction(
+    *,
+    case_id: str,
+    role: EvaluationRole,
+    analyte_text: str | None,
+    value_text: str | None,
+    unit_text: str | None,
+    patient_id: str | None,
+    row_id: str | None,
+) -> FieldPrediction:
+    required = (analyte_text, value_text, unit_text, patient_id, row_id)
+    complete = all(value is not None and value.strip() for value in required)
+    return FieldPrediction(
+        case_id=case_id,
+        method=EvaluationMethod.PRIMARY_OCR,
+        role=role,
+        decision=DecisionState.VERIFIED_AUTO if complete else DecisionState.ABSTAINED,
+        analyte_text=analyte_text,
+        value_text=value_text,
+        unit_text=unit_text,
+        patient_id=patient_id,
+        row_id=row_id,
+        fhir_mapping_correct=None,
+    )
+
+
+def tesseract_crop_prediction(
+    truth: FieldTruth,
+    *,
+    role: EvaluationRole,
+    read_text: str | None,
+) -> FieldPrediction:
+    value = None if read_text is None or not read_text.strip() else read_text
+    return FieldPrediction(
+        case_id=truth.case_id,
+        method=EvaluationMethod.TESSERACT_CROP,
+        role=role,
+        decision=DecisionState.VERIFIED_AUTO if value is not None else DecisionState.ABSTAINED,
+        analyte_text=truth.analyte_text if value is not None else None,
+        value_text=value,
+        unit_text=truth.unit_text if value is not None else None,
+        patient_id=truth.patient_id if value is not None else None,
+        row_id=truth.row_id if value is not None else None,
+        fhir_mapping_correct=None,
+    )
+
+
+def naive_agreement_prediction(
+    primary: FieldPrediction,
+    *,
+    secondary_value_text: str | None,
+) -> FieldPrediction:
+    if primary.method is not EvaluationMethod.PRIMARY_OCR:
+        raise ValueError("naive agreement requires a primary OCR prediction")
+
+    if primary.decision is DecisionState.ABSTAINED:
+        decision = DecisionState.ABSTAINED
+    elif (
+        primary.value_text is not None
+        and secondary_value_text is not None
+        and normalize_evidence_text(primary.value_text)
+        == normalize_evidence_text(secondary_value_text)
+    ):
+        decision = DecisionState.VERIFIED_AUTO
+    else:
+        decision = DecisionState.REVIEW_REQUIRED
+
+    return FieldPrediction(
+        case_id=primary.case_id,
+        method=EvaluationMethod.NAIVE_AGREEMENT,
+        role=primary.role,
+        decision=decision,
+        analyte_text=primary.analyte_text,
+        value_text=primary.value_text,
+        unit_text=primary.unit_text,
+        patient_id=primary.patient_id,
+        row_id=primary.row_id,
+        fhir_mapping_correct=None,
+    )

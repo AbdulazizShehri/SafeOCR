@@ -1,4 +1,4 @@
-# F6 — Evaluation
+# F6 ï¿½ Evaluation
 
 Status: IN PROGRESS
 Depends on: F5 FHIR R4 export gate (448f024)
@@ -36,7 +36,7 @@ Measure SafeOCR as a selective clinical-OCR verification system without tuning o
 - naive exact-agreement gate
 - SafeOCR verification policy
 
-## Grain F6.1 — deterministic evaluation contracts
+## Grain F6.1 ï¿½ deterministic evaluation contracts
 
 Deliver:
 - typed truth/prediction/outcome contracts;
@@ -52,9 +52,15 @@ Exit:
 
 ## Remaining F6 grains
 
-F6.2:
+F6.2a â€” CLOSED:
 - frozen LabGold split manifest and corruption schedule;
-- baseline runners on LabGold.
+- preregistered manifest SHA-256;
+- baseline prediction semantics for primary OCR, Tesseract crop, and naive agreement.
+
+F6.2b â€” NEXT:
+- calibration-only LabGold runtime runner;
+- freeze runner before first final-evaluation execution;
+- final LabGold baseline/SafeOCR run after qualification.
 
 F6.3:
 - ClinOCR-Bench adapter + Safety Track manifest without test-set tuning.
