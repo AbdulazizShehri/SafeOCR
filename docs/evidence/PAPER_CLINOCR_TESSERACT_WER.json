@@ -1,0 +1,2983 @@
+{
+  "dataset": "ClinOCR-Bench-v1.0",
+  "engine": "tesseract",
+  "evaluation_documents": 328,
+  "overall": {
+    "deletion": {
+      "ci_high": 0.33130385137675017,
+      "ci_low": 0.2597860798173724,
+      "maximum": 1.0,
+      "mean": 0.2955449655970613,
+      "median": 0.1308483935742972,
+      "minimum": 0.0,
+      "n": 328,
+      "q1": 0.03319672131147541,
+      "q3": 0.4689094387755102
+    },
+    "insertion": {
+      "ci_high": 0.05645342054683519,
+      "ci_low": 0.039946231874153706,
+      "maximum": 0.42528735632183906,
+      "mean": 0.04819982621049445,
+      "median": 0.02050169681279082,
+      "minimum": 0.0,
+      "n": 328,
+      "q1": 0.0,
+      "q3": 0.05672000747186376
+    },
+    "n": 328,
+    "substitution": {
+      "ci_high": 0.2412007233054666,
+      "ci_low": 0.18906099258588877,
+      "maximum": 1.0,
+      "mean": 0.21513085794567768,
+      "median": 0.10582566090561568,
+      "minimum": 0.0,
+      "n": 328,
+      "q1": 0.03527340513670257,
+      "q3": 0.37153669724770644
+    },
+    "wer": {
+      "ci_high": 0.5968376322909066,
+      "ci_low": 0.5209136672155603,
+      "maximum": 1.135135135135135,
+      "mean": 0.5588756497532334,
+      "median": 0.564694796837654,
+      "minimum": 0.0043859649122807015,
+      "n": 328,
+      "q1": 0.19666048237476808,
+      "q3": 0.886385558770842
+    }
+  },
+  "per_document": [
+    {
+      "deletion": 0.025974025974025976,
+      "doc_id": "handwriting_t1_s2",
+      "insertion": 0.03463203463203463,
+      "subset": "handwriting",
+      "substitution": 0.1341991341991342,
+      "wer": 0.19480519480519481
+    },
+    {
+      "deletion": 0.052478134110787174,
+      "doc_id": "handwriting_t1_s3",
+      "insertion": 0.03498542274052478,
+      "subset": "handwriting",
+      "substitution": 0.3848396501457726,
+      "wer": 0.47230320699708456
+    },
+    {
+      "deletion": 0.03278688524590164,
+      "doc_id": "handwriting_t1_s4",
+      "insertion": 0.04262295081967213,
+      "subset": "handwriting",
+      "substitution": 0.17049180327868851,
+      "wer": 0.2459016393442623
+    },
+    {
+      "deletion": 0.013559322033898305,
+      "doc_id": "handwriting_t1_s5",
+      "insertion": 0.013559322033898305,
+      "subset": "handwriting",
+      "substitution": 0.2135593220338983,
+      "wer": 0.24067796610169492
+    },
+    {
+      "deletion": 0.3462897526501767,
+      "doc_id": "handwriting_t1_s6",
+      "insertion": 0.05653710247349823,
+      "subset": "handwriting",
+      "substitution": 0.02120141342756184,
+      "wer": 0.42402826855123676
+    },
+    {
+      "deletion": 0.4809688581314879,
+      "doc_id": "handwriting_t1_s7",
+      "insertion": 0.02768166089965398,
+      "subset": "handwriting",
+      "substitution": 0.03806228373702422,
+      "wer": 0.5467128027681661
+    },
+    {
+      "deletion": 0.16352201257861634,
+      "doc_id": "handwriting_t1_s8",
+      "insertion": 0.018867924528301886,
+      "subset": "handwriting",
+      "substitution": 0.2672955974842767,
+      "wer": 0.449685534591195
+    },
+    {
+      "deletion": 0.4642857142857143,
+      "doc_id": "handwriting_t2_s2",
+      "insertion": 0.025,
+      "subset": "handwriting",
+      "substitution": 0.3892857142857143,
+      "wer": 0.8785714285714286
+    },
+    {
+      "deletion": 0.0,
+      "doc_id": "handwriting_t2_s3",
+      "insertion": 0.05952380952380952,
+      "subset": "handwriting",
+      "substitution": 0.8293650793650794,
+      "wer": 0.8888888888888888
+    },
+    {
+      "deletion": 0.5833333333333334,
+      "doc_id": "handwriting_t2_s4",
+      "insertion": 0.0,
+      "subset": "handwriting",
+      "substitution": 0.3194444444444444,
+      "wer": 0.9027777777777778
+    },
+    {
+      "deletion": 0.06597222222222222,
+      "doc_id": "handwriting_t2_s5",
+      "insertion": 0.017361111111111112,
+      "subset": "handwriting",
+      "substitution": 0.7986111111111112,
+      "wer": 0.8819444444444444
+    },
+    {
+      "deletion": 0.012195121951219513,
+      "doc_id": "handwriting_t2_s6",
+      "insertion": 0.13821138211382114,
+      "subset": "handwriting",
+      "substitution": 0.7357723577235772,
+      "wer": 0.8861788617886179
+    },
+    {
+      "deletion": 0.09216589861751152,
+      "doc_id": "handwriting_t2_s7",
+      "insertion": 0.08294930875576037,
+      "subset": "handwriting",
+      "substitution": 0.631336405529954,
+      "wer": 0.8064516129032258
+    },
+    {
+      "deletion": 0.40559440559440557,
+      "doc_id": "handwriting_t2_s8",
+      "insertion": 0.024475524475524476,
+      "subset": "handwriting",
+      "substitution": 0.458041958041958,
+      "wer": 0.8881118881118881
+    },
+    {
+      "deletion": 0.6146341463414634,
+      "doc_id": "handwriting_t3_s2",
+      "insertion": 0.014634146341463415,
+      "subset": "handwriting",
+      "substitution": 0.25609756097560976,
+      "wer": 0.8853658536585366
+    },
+    {
+      "deletion": 0.5991189427312775,
+      "doc_id": "handwriting_t3_s3",
+      "insertion": 0.01762114537444934,
+      "subset": "handwriting",
+      "substitution": 0.15859030837004406,
+      "wer": 0.775330396475771
+    },
+    {
+      "deletion": 0.5567282321899736,
+      "doc_id": "handwriting_t3_s4",
+      "insertion": 0.005277044854881266,
+      "subset": "handwriting",
+      "substitution": 0.26649076517150394,
+      "wer": 0.8284960422163589
+    },
+    {
+      "deletion": 0.6987951807228916,
+      "doc_id": "handwriting_t3_s5",
+      "insertion": 0.008032128514056224,
+      "subset": "handwriting",
+      "substitution": 0.05622489959839357,
+      "wer": 0.7630522088353414
+    },
+    {
+      "deletion": 0.6863354037267081,
+      "doc_id": "handwriting_t3_s6",
+      "insertion": 0.009316770186335404,
+      "subset": "handwriting",
+      "substitution": 0.13975155279503104,
+      "wer": 0.8354037267080745
+    },
+    {
+      "deletion": 0.4870848708487085,
+      "doc_id": "handwriting_t3_s7",
+      "insertion": 0.014760147601476014,
+      "subset": "handwriting",
+      "substitution": 0.22140221402214022,
+      "wer": 0.7232472324723247
+    },
+    {
+      "deletion": 0.660427807486631,
+      "doc_id": "handwriting_t3_s8",
+      "insertion": 0.0106951871657754,
+      "subset": "handwriting",
+      "substitution": 0.1497326203208556,
+      "wer": 0.820855614973262
+    },
+    {
+      "deletion": 0.08059701492537313,
+      "doc_id": "handwriting_t4_s2",
+      "insertion": 0.041791044776119404,
+      "subset": "handwriting",
+      "substitution": 0.6835820895522388,
+      "wer": 0.8059701492537313
+    },
+    {
+      "deletion": 0.2757660167130919,
+      "doc_id": "handwriting_t4_s3",
+      "insertion": 0.008356545961002786,
+      "subset": "handwriting",
+      "substitution": 0.5766016713091922,
+      "wer": 0.8607242339832869
+    },
+    {
+      "deletion": 0.12813370473537605,
+      "doc_id": "handwriting_t4_s4",
+      "insertion": 0.002785515320334262,
+      "subset": "handwriting",
+      "substitution": 0.7214484679665738,
+      "wer": 0.8523676880222841
+    },
+    {
+      "deletion": 0.20708446866485014,
+      "doc_id": "handwriting_t4_s5",
+      "insertion": 0.0,
+      "subset": "handwriting",
+      "substitution": 0.7302452316076294,
+      "wer": 0.9373297002724795
+    },
+    {
+      "deletion": 0.41379310344827586,
+      "doc_id": "handwriting_t4_s6",
+      "insertion": 0.0038314176245210726,
+      "subset": "handwriting",
+      "substitution": 0.4674329501915709,
+      "wer": 0.8850574712643678
+    },
+    {
+      "deletion": 0.2625,
+      "doc_id": "handwriting_t4_s7",
+      "insertion": 0.0,
+      "subset": "handwriting",
+      "substitution": 0.5833333333333334,
+      "wer": 0.8458333333333333
+    },
+    {
+      "deletion": 0.45495495495495497,
+      "doc_id": "handwriting_t4_s8",
+      "insertion": 0.0,
+      "subset": "handwriting",
+      "substitution": 0.40540540540540543,
+      "wer": 0.8603603603603603
+    },
+    {
+      "deletion": 0.015748031496062992,
+      "doc_id": "handwriting_t5_s2",
+      "insertion": 0.06299212598425197,
+      "subset": "handwriting",
+      "substitution": 0.7165354330708661,
+      "wer": 0.7952755905511811
+    },
+    {
+      "deletion": 0.18867924528301888,
+      "doc_id": "handwriting_t5_s3",
+      "insertion": 0.06289308176100629,
+      "subset": "handwriting",
+      "substitution": 0.5157232704402516,
+      "wer": 0.7672955974842768
+    },
+    {
+      "deletion": 0.0784313725490196,
+      "doc_id": "handwriting_t5_s4",
+      "insertion": 0.032679738562091505,
+      "subset": "handwriting",
+      "substitution": 0.7189542483660131,
+      "wer": 0.8300653594771242
+    },
+    {
+      "deletion": 0.38095238095238093,
+      "doc_id": "handwriting_t5_s5",
+      "insertion": 0.027210884353741496,
+      "subset": "handwriting",
+      "substitution": 0.4013605442176871,
+      "wer": 0.8095238095238095
+    },
+    {
+      "deletion": 0.11920529801324503,
+      "doc_id": "handwriting_t5_s6",
+      "insertion": 0.006622516556291391,
+      "subset": "handwriting",
+      "substitution": 0.6887417218543046,
+      "wer": 0.8145695364238411
+    },
+    {
+      "deletion": 0.1171875,
+      "doc_id": "handwriting_t5_s7",
+      "insertion": 0.0078125,
+      "subset": "handwriting",
+      "substitution": 0.6875,
+      "wer": 0.8125
+    },
+    {
+      "deletion": 0.1956521739130435,
+      "doc_id": "handwriting_t5_s8",
+      "insertion": 0.0,
+      "subset": "handwriting",
+      "substitution": 0.6086956521739131,
+      "wer": 0.8043478260869565
+    },
+    {
+      "deletion": 0.042105263157894736,
+      "doc_id": "handwriting_t6_s2",
+      "insertion": 0.03684210526315789,
+      "subset": "handwriting",
+      "substitution": 0.7684210526315789,
+      "wer": 0.8473684210526315
+    },
+    {
+      "deletion": 0.30319148936170215,
+      "doc_id": "handwriting_t6_s3",
+      "insertion": 0.031914893617021274,
+      "subset": "handwriting",
+      "substitution": 0.526595744680851,
+      "wer": 0.8617021276595744
+    },
+    {
+      "deletion": 0.39846743295019155,
+      "doc_id": "handwriting_t6_s4",
+      "insertion": 0.007662835249042145,
+      "subset": "handwriting",
+      "substitution": 0.4559386973180077,
+      "wer": 0.8620689655172413
+    },
+    {
+      "deletion": 0.05263157894736842,
+      "doc_id": "handwriting_t6_s5",
+      "insertion": 0.024291497975708502,
+      "subset": "handwriting",
+      "substitution": 0.8259109311740891,
+      "wer": 0.902834008097166
+    },
+    {
+      "deletion": 0.43478260869565216,
+      "doc_id": "handwriting_t6_s6",
+      "insertion": 0.003952569169960474,
+      "subset": "handwriting",
+      "substitution": 0.4624505928853755,
+      "wer": 0.9011857707509882
+    },
+    {
+      "deletion": 0.3854748603351955,
+      "doc_id": "handwriting_t6_s7",
+      "insertion": 0.0223463687150838,
+      "subset": "handwriting",
+      "substitution": 0.35195530726256985,
+      "wer": 0.7597765363128491
+    },
+    {
+      "deletion": 0.7459016393442623,
+      "doc_id": "handwriting_t6_s8",
+      "insertion": 0.01639344262295082,
+      "subset": "handwriting",
+      "substitution": 0.16393442622950818,
+      "wer": 0.9262295081967213
+    },
+    {
+      "deletion": 0.16374269005847952,
+      "doc_id": "handwriting_t7_s2",
+      "insertion": 0.03508771929824561,
+      "subset": "handwriting",
+      "substitution": 0.6374269005847953,
+      "wer": 0.8362573099415205
+    },
+    {
+      "deletion": 0.5344827586206896,
+      "doc_id": "handwriting_t7_s3",
+      "insertion": 0.0,
+      "subset": "handwriting",
+      "substitution": 0.25287356321839083,
+      "wer": 0.7873563218390804
+    },
+    {
+      "deletion": 0.004761904761904762,
+      "doc_id": "handwriting_t7_s4",
+      "insertion": 0.0,
+      "subset": "handwriting",
+      "substitution": 0.8380952380952381,
+      "wer": 0.8428571428571429
+    },
+    {
+      "deletion": 0.6748466257668712,
+      "doc_id": "handwriting_t7_s5",
+      "insertion": 0.006134969325153374,
+      "subset": "handwriting",
+      "substitution": 0.147239263803681,
+      "wer": 0.8282208588957055
+    },
+    {
+      "deletion": 0.2755102040816326,
+      "doc_id": "handwriting_t7_s6",
+      "insertion": 0.00510204081632653,
+      "subset": "handwriting",
+      "substitution": 0.5663265306122449,
+      "wer": 0.8469387755102041
+    },
+    {
+      "deletion": 0.3413173652694611,
+      "doc_id": "handwriting_t7_s7",
+      "insertion": 0.005988023952095809,
+      "subset": "handwriting",
+      "substitution": 0.40119760479041916,
+      "wer": 0.7485029940119761
+    },
+    {
+      "deletion": 0.2787878787878788,
+      "doc_id": "handwriting_t7_s8",
+      "insertion": 0.0,
+      "subset": "handwriting",
+      "substitution": 0.4909090909090909,
+      "wer": 0.7696969696969697
+    },
+    {
+      "deletion": 0.06756756756756757,
+      "doc_id": "handwriting_t8_s2",
+      "insertion": 0.013513513513513514,
+      "subset": "handwriting",
+      "substitution": 0.481981981981982,
+      "wer": 0.5630630630630631
+    },
+    {
+      "deletion": 0.18811881188118812,
+      "doc_id": "handwriting_t8_s3",
+      "insertion": 0.019801980198019802,
+      "subset": "handwriting",
+      "substitution": 0.49504950495049505,
+      "wer": 0.7029702970297029
+    },
+    {
+      "deletion": 0.0845771144278607,
+      "doc_id": "handwriting_t8_s4",
+      "insertion": 0.004975124378109453,
+      "subset": "handwriting",
+      "substitution": 0.4129353233830846,
+      "wer": 0.5024875621890548
+    },
+    {
+      "deletion": 0.018779342723004695,
+      "doc_id": "handwriting_t8_s5",
+      "insertion": 0.03286384976525822,
+      "subset": "handwriting",
+      "substitution": 0.4788732394366197,
+      "wer": 0.5305164319248826
+    },
+    {
+      "deletion": 0.04824561403508772,
+      "doc_id": "handwriting_t8_s6",
+      "insertion": 0.017543859649122806,
+      "subset": "handwriting",
+      "substitution": 0.5087719298245614,
+      "wer": 0.5745614035087719
+    },
+    {
+      "deletion": 0.3394495412844037,
+      "doc_id": "handwriting_t8_s7",
+      "insertion": 0.0,
+      "subset": "handwriting",
+      "substitution": 0.24770642201834864,
+      "wer": 0.5871559633027523
+    },
+    {
+      "deletion": 0.08,
+      "doc_id": "handwriting_t8_s8",
+      "insertion": 0.025,
+      "subset": "handwriting",
+      "substitution": 0.345,
+      "wer": 0.45
+    },
+    {
+      "deletion": 1.0,
+      "doc_id": "mixed_t10_s4",
+      "insertion": 0.0,
+      "subset": "mixed",
+      "substitution": 0.0,
+      "wer": 1.0
+    },
+    {
+      "deletion": 1.0,
+      "doc_id": "mixed_t10_s5",
+      "insertion": 0.0,
+      "subset": "mixed",
+      "substitution": 0.0,
+      "wer": 1.0
+    },
+    {
+      "deletion": 0.6982758620689655,
+      "doc_id": "mixed_t10_s6",
+      "insertion": 0.0,
+      "subset": "mixed",
+      "substitution": 0.22413793103448276,
+      "wer": 0.9224137931034483
+    },
+    {
+      "deletion": 0.2155688622754491,
+      "doc_id": "mixed_t11_s5",
+      "insertion": 0.05389221556886228,
+      "subset": "mixed",
+      "substitution": 0.18562874251497005,
+      "wer": 0.4550898203592814
+    },
+    {
+      "deletion": 0.9941176470588236,
+      "doc_id": "mixed_t11_s6",
+      "insertion": 0.0,
+      "subset": "mixed",
+      "substitution": 0.0058823529411764705,
+      "wer": 1.0
+    },
+    {
+      "deletion": 0.35119047619047616,
+      "doc_id": "mixed_t11_s8",
+      "insertion": 0.0,
+      "subset": "mixed",
+      "substitution": 0.5238095238095238,
+      "wer": 0.875
+    },
+    {
+      "deletion": 1.0,
+      "doc_id": "mixed_t12_s2",
+      "insertion": 0.0,
+      "subset": "mixed",
+      "substitution": 0.0,
+      "wer": 1.0
+    },
+    {
+      "deletion": 1.0,
+      "doc_id": "mixed_t12_s3",
+      "insertion": 0.0,
+      "subset": "mixed",
+      "substitution": 0.0,
+      "wer": 1.0
+    },
+    {
+      "deletion": 0.20610687022900764,
+      "doc_id": "mixed_t12_s8",
+      "insertion": 0.05343511450381679,
+      "subset": "mixed",
+      "substitution": 0.2595419847328244,
+      "wer": 0.5190839694656488
+    },
+    {
+      "deletion": 1.0,
+      "doc_id": "mixed_t13_s4",
+      "insertion": 0.0,
+      "subset": "mixed",
+      "substitution": 0.0,
+      "wer": 1.0
+    },
+    {
+      "deletion": 0.7391304347826086,
+      "doc_id": "mixed_t13_s5",
+      "insertion": 0.0,
+      "subset": "mixed",
+      "substitution": 0.2360248447204969,
+      "wer": 0.9751552795031055
+    },
+    {
+      "deletion": 0.8975903614457831,
+      "doc_id": "mixed_t13_s6",
+      "insertion": 0.0,
+      "subset": "mixed",
+      "substitution": 0.0963855421686747,
+      "wer": 0.9939759036144579
+    },
+    {
+      "deletion": 0.8090909090909091,
+      "doc_id": "mixed_t14_s6",
+      "insertion": 0.0,
+      "subset": "mixed",
+      "substitution": 0.19090909090909092,
+      "wer": 1.0
+    },
+    {
+      "deletion": 0.9678899082568807,
+      "doc_id": "mixed_t14_s7",
+      "insertion": 0.0,
+      "subset": "mixed",
+      "substitution": 0.03211009174311927,
+      "wer": 1.0
+    },
+    {
+      "deletion": 0.5333333333333333,
+      "doc_id": "mixed_t14_s8",
+      "insertion": 0.009523809523809525,
+      "subset": "mixed",
+      "substitution": 0.2,
+      "wer": 0.7428571428571429
+    },
+    {
+      "deletion": 0.6160714285714286,
+      "doc_id": "mixed_t15_s6",
+      "insertion": 0.0,
+      "subset": "mixed",
+      "substitution": 0.17857142857142858,
+      "wer": 0.7946428571428571
+    },
+    {
+      "deletion": 1.0,
+      "doc_id": "mixed_t15_s7",
+      "insertion": 0.0,
+      "subset": "mixed",
+      "substitution": 0.0,
+      "wer": 1.0
+    },
+    {
+      "deletion": 0.4594594594594595,
+      "doc_id": "mixed_t15_s8",
+      "insertion": 0.0,
+      "subset": "mixed",
+      "substitution": 0.43243243243243246,
+      "wer": 0.8918918918918919
+    },
+    {
+      "deletion": 0.6861702127659575,
+      "doc_id": "mixed_t16_s6",
+      "insertion": 0.0,
+      "subset": "mixed",
+      "substitution": 0.21808510638297873,
+      "wer": 0.9042553191489362
+    },
+    {
+      "deletion": 1.0,
+      "doc_id": "mixed_t16_s7",
+      "insertion": 0.0,
+      "subset": "mixed",
+      "substitution": 0.0,
+      "wer": 1.0
+    },
+    {
+      "deletion": 1.0,
+      "doc_id": "mixed_t16_s8",
+      "insertion": 0.0,
+      "subset": "mixed",
+      "substitution": 0.0,
+      "wer": 1.0
+    },
+    {
+      "deletion": 0.13442622950819672,
+      "doc_id": "mixed_t1_s4",
+      "insertion": 0.0,
+      "subset": "mixed",
+      "substitution": 0.8655737704918033,
+      "wer": 1.0
+    },
+    {
+      "deletion": 0.35335689045936397,
+      "doc_id": "mixed_t1_s6",
+      "insertion": 0.0,
+      "subset": "mixed",
+      "substitution": 0.6431095406360424,
+      "wer": 0.9964664310954063
+    },
+    {
+      "deletion": 0.40484429065743943,
+      "doc_id": "mixed_t1_s7",
+      "insertion": 0.0,
+      "subset": "mixed",
+      "substitution": 0.5916955017301038,
+      "wer": 0.9965397923875432
+    },
+    {
+      "deletion": 0.44642857142857145,
+      "doc_id": "mixed_t2_s2",
+      "insertion": 0.0,
+      "subset": "mixed",
+      "substitution": 0.4714285714285714,
+      "wer": 0.9178571428571428
+    },
+    {
+      "deletion": 0.8611111111111112,
+      "doc_id": "mixed_t2_s4",
+      "insertion": 0.003472222222222222,
+      "subset": "mixed",
+      "substitution": 0.06597222222222222,
+      "wer": 0.9305555555555556
+    },
+    {
+      "deletion": 0.5345622119815668,
+      "doc_id": "mixed_t2_s7",
+      "insertion": 0.004608294930875576,
+      "subset": "mixed",
+      "substitution": 0.3870967741935484,
+      "wer": 0.9262672811059908
+    },
+    {
+      "deletion": 0.6543535620052771,
+      "doc_id": "mixed_t3_s4",
+      "insertion": 0.0079155672823219,
+      "subset": "mixed",
+      "substitution": 0.21372031662269128,
+      "wer": 0.8759894459102903
+    },
+    {
+      "deletion": 0.7389558232931727,
+      "doc_id": "mixed_t3_s5",
+      "insertion": 0.040160642570281124,
+      "subset": "mixed",
+      "substitution": 0.05622489959839357,
+      "wer": 0.8353413654618473
+    },
+    {
+      "deletion": 0.7727272727272727,
+      "doc_id": "mixed_t3_s8",
+      "insertion": 0.0,
+      "subset": "mixed",
+      "substitution": 0.18983957219251338,
+      "wer": 0.9625668449197861
+    },
+    {
+      "deletion": 0.5994550408719346,
+      "doc_id": "mixed_t4_s5",
+      "insertion": 0.0027247956403269754,
+      "subset": "mixed",
+      "substitution": 0.34877384196185285,
+      "wer": 0.9509536784741145
+    },
+    {
+      "deletion": 1.0,
+      "doc_id": "mixed_t4_s6",
+      "insertion": 0.0,
+      "subset": "mixed",
+      "substitution": 0.0,
+      "wer": 1.0
+    },
+    {
+      "deletion": 1.0,
+      "doc_id": "mixed_t4_s7",
+      "insertion": 0.0,
+      "subset": "mixed",
+      "substitution": 0.0,
+      "wer": 1.0
+    },
+    {
+      "deletion": 1.0,
+      "doc_id": "mixed_t5_s4",
+      "insertion": 0.0,
+      "subset": "mixed",
+      "substitution": 0.0,
+      "wer": 1.0
+    },
+    {
+      "deletion": 0.5374149659863946,
+      "doc_id": "mixed_t5_s5",
+      "insertion": 0.0,
+      "subset": "mixed",
+      "substitution": 0.41496598639455784,
+      "wer": 0.9523809523809523
+    },
+    {
+      "deletion": 0.46875,
+      "doc_id": "mixed_t5_s7",
+      "insertion": 0.0,
+      "subset": "mixed",
+      "substitution": 0.40625,
+      "wer": 0.875
+    },
+    {
+      "deletion": 1.0,
+      "doc_id": "mixed_t6_s2",
+      "insertion": 0.0,
+      "subset": "mixed",
+      "substitution": 0.0,
+      "wer": 1.0
+    },
+    {
+      "deletion": 0.5691489361702128,
+      "doc_id": "mixed_t6_s3",
+      "insertion": 0.010638297872340425,
+      "subset": "mixed",
+      "substitution": 0.31382978723404253,
+      "wer": 0.8936170212765957
+    },
+    {
+      "deletion": 1.0,
+      "doc_id": "mixed_t6_s5",
+      "insertion": 0.0,
+      "subset": "mixed",
+      "substitution": 0.0,
+      "wer": 1.0
+    },
+    {
+      "deletion": 1.0,
+      "doc_id": "mixed_t7_s4",
+      "insertion": 0.0,
+      "subset": "mixed",
+      "substitution": 0.0,
+      "wer": 1.0
+    },
+    {
+      "deletion": 0.31901840490797545,
+      "doc_id": "mixed_t7_s5",
+      "insertion": 0.0,
+      "subset": "mixed",
+      "substitution": 0.50920245398773,
+      "wer": 0.8282208588957055
+    },
+    {
+      "deletion": 0.7757575757575758,
+      "doc_id": "mixed_t7_s8",
+      "insertion": 0.0,
+      "subset": "mixed",
+      "substitution": 0.1393939393939394,
+      "wer": 0.9151515151515152
+    },
+    {
+      "deletion": 0.5446009389671361,
+      "doc_id": "mixed_t8_s5",
+      "insertion": 0.0,
+      "subset": "mixed",
+      "substitution": 0.2535211267605634,
+      "wer": 0.7981220657276995
+    },
+    {
+      "deletion": 1.0,
+      "doc_id": "mixed_t8_s7",
+      "insertion": 0.0,
+      "subset": "mixed",
+      "substitution": 0.0,
+      "wer": 1.0
+    },
+    {
+      "deletion": 0.31,
+      "doc_id": "mixed_t8_s8",
+      "insertion": 0.0,
+      "subset": "mixed",
+      "substitution": 0.37,
+      "wer": 0.68
+    },
+    {
+      "deletion": 0.7294117647058823,
+      "doc_id": "mixed_t9_s2",
+      "insertion": 0.0,
+      "subset": "mixed",
+      "substitution": 0.27058823529411763,
+      "wer": 1.0
+    },
+    {
+      "deletion": 1.0,
+      "doc_id": "mixed_t9_s3",
+      "insertion": 0.0,
+      "subset": "mixed",
+      "substitution": 0.0,
+      "wer": 1.0
+    },
+    {
+      "deletion": 0.31875,
+      "doc_id": "mixed_t9_s4",
+      "insertion": 0.0125,
+      "subset": "mixed",
+      "substitution": 0.5375,
+      "wer": 0.86875
+    },
+    {
+      "deletion": 0.025974025974025976,
+      "doc_id": "normal_t1_s2",
+      "insertion": 0.05194805194805195,
+      "subset": "normal",
+      "substitution": 0.047619047619047616,
+      "wer": 0.12554112554112554
+    },
+    {
+      "deletion": 0.014577259475218658,
+      "doc_id": "normal_t1_s3",
+      "insertion": 0.04664723032069971,
+      "subset": "normal",
+      "substitution": 0.05830903790087463,
+      "wer": 0.119533527696793
+    },
+    {
+      "deletion": 0.03278688524590164,
+      "doc_id": "normal_t1_s4",
+      "insertion": 0.06557377049180328,
+      "subset": "normal",
+      "substitution": 0.03278688524590164,
+      "wer": 0.13114754098360656
+    },
+    {
+      "deletion": 0.04406779661016949,
+      "doc_id": "normal_t1_s5",
+      "insertion": 0.02711864406779661,
+      "subset": "normal",
+      "substitution": 0.07796610169491526,
+      "wer": 0.14915254237288136
+    },
+    {
+      "deletion": 0.028268551236749116,
+      "doc_id": "normal_t1_s6",
+      "insertion": 0.02120141342756184,
+      "subset": "normal",
+      "substitution": 0.09540636042402827,
+      "wer": 0.14487632508833923
+    },
+    {
+      "deletion": 0.010380622837370242,
+      "doc_id": "normal_t1_s7",
+      "insertion": 0.02422145328719723,
+      "subset": "normal",
+      "substitution": 0.07612456747404844,
+      "wer": 0.11072664359861592
+    },
+    {
+      "deletion": 0.012578616352201259,
+      "doc_id": "normal_t1_s8",
+      "insertion": 0.015723270440251572,
+      "subset": "normal",
+      "substitution": 0.05660377358490566,
+      "wer": 0.08490566037735849
+    },
+    {
+      "deletion": 0.09285714285714286,
+      "doc_id": "normal_t2_s2",
+      "insertion": 0.1392857142857143,
+      "subset": "normal",
+      "substitution": 0.02857142857142857,
+      "wer": 0.26071428571428573
+    },
+    {
+      "deletion": 0.07539682539682539,
+      "doc_id": "normal_t2_s3",
+      "insertion": 0.07539682539682539,
+      "subset": "normal",
+      "substitution": 0.06746031746031746,
+      "wer": 0.21825396825396826
+    },
+    {
+      "deletion": 0.11458333333333333,
+      "doc_id": "normal_t2_s4",
+      "insertion": 0.034722222222222224,
+      "subset": "normal",
+      "substitution": 0.027777777777777776,
+      "wer": 0.17708333333333334
+    },
+    {
+      "deletion": 0.09375,
+      "doc_id": "normal_t2_s5",
+      "insertion": 0.10416666666666667,
+      "subset": "normal",
+      "substitution": 0.020833333333333332,
+      "wer": 0.21875
+    },
+    {
+      "deletion": 0.06097560975609756,
+      "doc_id": "normal_t2_s6",
+      "insertion": 0.06504065040650407,
+      "subset": "normal",
+      "substitution": 0.08130081300813008,
+      "wer": 0.2073170731707317
+    },
+    {
+      "deletion": 0.1152073732718894,
+      "doc_id": "normal_t2_s7",
+      "insertion": 0.12903225806451613,
+      "subset": "normal",
+      "substitution": 0.013824884792626729,
+      "wer": 0.25806451612903225
+    },
+    {
+      "deletion": 0.03496503496503497,
+      "doc_id": "normal_t2_s8",
+      "insertion": 0.03496503496503497,
+      "subset": "normal",
+      "substitution": 0.1853146853146853,
+      "wer": 0.25524475524475526
+    },
+    {
+      "deletion": 0.01707317073170732,
+      "doc_id": "normal_t3_s2",
+      "insertion": 0.01707317073170732,
+      "subset": "normal",
+      "substitution": 0.0,
+      "wer": 0.03414634146341464
+    },
+    {
+      "deletion": 0.00881057268722467,
+      "doc_id": "normal_t3_s3",
+      "insertion": 0.00881057268722467,
+      "subset": "normal",
+      "substitution": 0.0,
+      "wer": 0.01762114537444934
+    },
+    {
+      "deletion": 0.0870712401055409,
+      "doc_id": "normal_t3_s4",
+      "insertion": 0.023746701846965697,
+      "subset": "normal",
+      "substitution": 0.005277044854881266,
+      "wer": 0.11609498680738786
+    },
+    {
+      "deletion": 0.08032128514056225,
+      "doc_id": "normal_t3_s5",
+      "insertion": 0.024096385542168676,
+      "subset": "normal",
+      "substitution": 0.008032128514056224,
+      "wer": 0.11244979919678715
+    },
+    {
+      "deletion": 0.021739130434782608,
+      "doc_id": "normal_t3_s6",
+      "insertion": 0.055900621118012424,
+      "subset": "normal",
+      "substitution": 0.0,
+      "wer": 0.07763975155279502
+    },
+    {
+      "deletion": 0.08856088560885608,
+      "doc_id": "normal_t3_s7",
+      "insertion": 0.05166051660516605,
+      "subset": "normal",
+      "substitution": 0.0,
+      "wer": 0.14022140221402213
+    },
+    {
+      "deletion": 0.058823529411764705,
+      "doc_id": "normal_t3_s8",
+      "insertion": 0.0374331550802139,
+      "subset": "normal",
+      "substitution": 0.0,
+      "wer": 0.0962566844919786
+    },
+    {
+      "deletion": 0.023880597014925373,
+      "doc_id": "normal_t4_s2",
+      "insertion": 0.041791044776119404,
+      "subset": "normal",
+      "substitution": 0.0029850746268656717,
+      "wer": 0.06865671641791045
+    },
+    {
+      "deletion": 0.019498607242339833,
+      "doc_id": "normal_t4_s3",
+      "insertion": 0.033426183844011144,
+      "subset": "normal",
+      "substitution": 0.025069637883008356,
+      "wer": 0.07799442896935933
+    },
+    {
+      "deletion": 0.03064066852367688,
+      "doc_id": "normal_t4_s4",
+      "insertion": 0.04178272980501393,
+      "subset": "normal",
+      "substitution": 0.027855153203342618,
+      "wer": 0.10027855153203342
+    },
+    {
+      "deletion": 0.008174386920980926,
+      "doc_id": "normal_t4_s5",
+      "insertion": 0.013623978201634877,
+      "subset": "normal",
+      "substitution": 0.010899182561307902,
+      "wer": 0.0326975476839237
+    },
+    {
+      "deletion": 0.03065134099616858,
+      "doc_id": "normal_t4_s6",
+      "insertion": 0.05363984674329502,
+      "subset": "normal",
+      "substitution": 0.034482758620689655,
+      "wer": 0.11877394636015326
+    },
+    {
+      "deletion": 0.03333333333333333,
+      "doc_id": "normal_t4_s7",
+      "insertion": 0.0375,
+      "subset": "normal",
+      "substitution": 0.0625,
+      "wer": 0.13333333333333333
+    },
+    {
+      "deletion": 0.036036036036036036,
+      "doc_id": "normal_t4_s8",
+      "insertion": 0.06306306306306306,
+      "subset": "normal",
+      "substitution": 0.04054054054054054,
+      "wer": 0.13963963963963963
+    },
+    {
+      "deletion": 0.0,
+      "doc_id": "normal_t5_s2",
+      "insertion": 0.13385826771653545,
+      "subset": "normal",
+      "substitution": 0.023622047244094488,
+      "wer": 0.15748031496062992
+    },
+    {
+      "deletion": 0.0,
+      "doc_id": "normal_t5_s3",
+      "insertion": 0.16352201257861634,
+      "subset": "normal",
+      "substitution": 0.012578616352201259,
+      "wer": 0.1761006289308176
+    },
+    {
+      "deletion": 0.0,
+      "doc_id": "normal_t5_s4",
+      "insertion": 0.10457516339869281,
+      "subset": "normal",
+      "substitution": 0.0196078431372549,
+      "wer": 0.12418300653594772
+    },
+    {
+      "deletion": 0.0,
+      "doc_id": "normal_t5_s5",
+      "insertion": 0.061224489795918366,
+      "subset": "normal",
+      "substitution": 0.006802721088435374,
+      "wer": 0.06802721088435375
+    },
+    {
+      "deletion": 0.006622516556291391,
+      "doc_id": "normal_t5_s6",
+      "insertion": 0.0728476821192053,
+      "subset": "normal",
+      "substitution": 0.006622516556291391,
+      "wer": 0.08609271523178808
+    },
+    {
+      "deletion": 0.0078125,
+      "doc_id": "normal_t5_s7",
+      "insertion": 0.03125,
+      "subset": "normal",
+      "substitution": 0.0234375,
+      "wer": 0.0625
+    },
+    {
+      "deletion": 0.0,
+      "doc_id": "normal_t5_s8",
+      "insertion": 0.050724637681159424,
+      "subset": "normal",
+      "substitution": 0.021739130434782608,
+      "wer": 0.07246376811594203
+    },
+    {
+      "deletion": 0.05263157894736842,
+      "doc_id": "normal_t6_s2",
+      "insertion": 0.05789473684210526,
+      "subset": "normal",
+      "substitution": 0.02631578947368421,
+      "wer": 0.1368421052631579
+    },
+    {
+      "deletion": 0.03723404255319149,
+      "doc_id": "normal_t6_s3",
+      "insertion": 0.03723404255319149,
+      "subset": "normal",
+      "substitution": 0.047872340425531915,
+      "wer": 0.12234042553191489
+    },
+    {
+      "deletion": 0.038314176245210725,
+      "doc_id": "normal_t6_s4",
+      "insertion": 0.022988505747126436,
+      "subset": "normal",
+      "substitution": 0.07279693486590039,
+      "wer": 0.13409961685823754
+    },
+    {
+      "deletion": 0.016194331983805668,
+      "doc_id": "normal_t6_s5",
+      "insertion": 0.03643724696356275,
+      "subset": "normal",
+      "substitution": 0.03643724696356275,
+      "wer": 0.08906882591093117
+    },
+    {
+      "deletion": 0.015810276679841896,
+      "doc_id": "normal_t6_s6",
+      "insertion": 0.05533596837944664,
+      "subset": "normal",
+      "substitution": 0.043478260869565216,
+      "wer": 0.11462450592885376
+    },
+    {
+      "deletion": 0.0446927374301676,
+      "doc_id": "normal_t6_s7",
+      "insertion": 0.0893854748603352,
+      "subset": "normal",
+      "substitution": 0.05027932960893855,
+      "wer": 0.18435754189944134
+    },
+    {
+      "deletion": 0.02459016393442623,
+      "doc_id": "normal_t6_s8",
+      "insertion": 0.045081967213114756,
+      "subset": "normal",
+      "substitution": 0.05737704918032787,
+      "wer": 0.12704918032786885
+    },
+    {
+      "deletion": 0.0,
+      "doc_id": "normal_t7_s2",
+      "insertion": 0.005847953216374269,
+      "subset": "normal",
+      "substitution": 0.07017543859649122,
+      "wer": 0.07602339181286549
+    },
+    {
+      "deletion": 0.0,
+      "doc_id": "normal_t7_s3",
+      "insertion": 0.011494252873563218,
+      "subset": "normal",
+      "substitution": 0.08045977011494253,
+      "wer": 0.09195402298850575
+    },
+    {
+      "deletion": 0.004761904761904762,
+      "doc_id": "normal_t7_s4",
+      "insertion": 0.0,
+      "subset": "normal",
+      "substitution": 0.06190476190476191,
+      "wer": 0.06666666666666667
+    },
+    {
+      "deletion": 0.006134969325153374,
+      "doc_id": "normal_t7_s5",
+      "insertion": 0.006134969325153374,
+      "subset": "normal",
+      "substitution": 0.08588957055214724,
+      "wer": 0.09815950920245399
+    },
+    {
+      "deletion": 0.00510204081632653,
+      "doc_id": "normal_t7_s6",
+      "insertion": 0.01020408163265306,
+      "subset": "normal",
+      "substitution": 0.0663265306122449,
+      "wer": 0.08163265306122448
+    },
+    {
+      "deletion": 0.023952095808383235,
+      "doc_id": "normal_t7_s7",
+      "insertion": 0.04790419161676647,
+      "subset": "normal",
+      "substitution": 0.017964071856287425,
+      "wer": 0.08982035928143713
+    },
+    {
+      "deletion": 0.0,
+      "doc_id": "normal_t7_s8",
+      "insertion": 0.030303030303030304,
+      "subset": "normal",
+      "substitution": 0.07878787878787878,
+      "wer": 0.10909090909090909
+    },
+    {
+      "deletion": 0.0,
+      "doc_id": "normal_t8_s2",
+      "insertion": 0.009009009009009009,
+      "subset": "normal",
+      "substitution": 0.02702702702702703,
+      "wer": 0.036036036036036036
+    },
+    {
+      "deletion": 0.0,
+      "doc_id": "normal_t8_s3",
+      "insertion": 0.0,
+      "subset": "normal",
+      "substitution": 0.0049504950495049506,
+      "wer": 0.0049504950495049506
+    },
+    {
+      "deletion": 0.0,
+      "doc_id": "normal_t8_s4",
+      "insertion": 0.004975124378109453,
+      "subset": "normal",
+      "substitution": 0.01990049751243781,
+      "wer": 0.024875621890547265
+    },
+    {
+      "deletion": 0.004694835680751174,
+      "doc_id": "normal_t8_s5",
+      "insertion": 0.0,
+      "subset": "normal",
+      "substitution": 0.014084507042253521,
+      "wer": 0.018779342723004695
+    },
+    {
+      "deletion": 0.0,
+      "doc_id": "normal_t8_s6",
+      "insertion": 0.0,
+      "subset": "normal",
+      "substitution": 0.0043859649122807015,
+      "wer": 0.0043859649122807015
+    },
+    {
+      "deletion": 0.0,
+      "doc_id": "normal_t8_s7",
+      "insertion": 0.0,
+      "subset": "normal",
+      "substitution": 0.0045871559633027525,
+      "wer": 0.0045871559633027525
+    },
+    {
+      "deletion": 0.0,
+      "doc_id": "normal_t8_s8",
+      "insertion": 0.0,
+      "subset": "normal",
+      "substitution": 0.01,
+      "wer": 0.01
+    },
+    {
+      "deletion": 0.1471861471861472,
+      "doc_id": "poor_t1_s2",
+      "insertion": 0.05627705627705628,
+      "subset": "poor",
+      "substitution": 0.4329004329004329,
+      "wer": 0.6363636363636364
+    },
+    {
+      "deletion": 0.0728862973760933,
+      "doc_id": "poor_t1_s3",
+      "insertion": 0.05830903790087463,
+      "subset": "poor",
+      "substitution": 0.13994169096209913,
+      "wer": 0.27113702623906705
+    },
+    {
+      "deletion": 0.05245901639344262,
+      "doc_id": "poor_t1_s4",
+      "insertion": 0.0,
+      "subset": "poor",
+      "substitution": 0.9245901639344263,
+      "wer": 0.9770491803278688
+    },
+    {
+      "deletion": 1.0,
+      "doc_id": "poor_t1_s5",
+      "insertion": 0.0,
+      "subset": "poor",
+      "substitution": 0.0,
+      "wer": 1.0
+    },
+    {
+      "deletion": 0.9858657243816255,
+      "doc_id": "poor_t1_s6",
+      "insertion": 0.0,
+      "subset": "poor",
+      "substitution": 0.014134275618374558,
+      "wer": 1.0
+    },
+    {
+      "deletion": 0.28719723183391005,
+      "doc_id": "poor_t1_s7",
+      "insertion": 0.0,
+      "subset": "poor",
+      "substitution": 0.4359861591695502,
+      "wer": 0.7231833910034602
+    },
+    {
+      "deletion": 0.44025157232704404,
+      "doc_id": "poor_t1_s8",
+      "insertion": 0.006289308176100629,
+      "subset": "poor",
+      "substitution": 0.39308176100628933,
+      "wer": 0.839622641509434
+    },
+    {
+      "deletion": 0.15,
+      "doc_id": "poor_t2_s2",
+      "insertion": 0.19642857142857142,
+      "subset": "poor",
+      "substitution": 0.2892857142857143,
+      "wer": 0.6357142857142857
+    },
+    {
+      "deletion": 0.10714285714285714,
+      "doc_id": "poor_t2_s3",
+      "insertion": 0.047619047619047616,
+      "subset": "poor",
+      "substitution": 0.07539682539682539,
+      "wer": 0.23015873015873015
+    },
+    {
+      "deletion": 0.8784722222222222,
+      "doc_id": "poor_t2_s4",
+      "insertion": 0.0,
+      "subset": "poor",
+      "substitution": 0.11458333333333333,
+      "wer": 0.9930555555555556
+    },
+    {
+      "deletion": 1.0,
+      "doc_id": "poor_t2_s5",
+      "insertion": 0.0,
+      "subset": "poor",
+      "substitution": 0.0,
+      "wer": 1.0
+    },
+    {
+      "deletion": 0.9471544715447154,
+      "doc_id": "poor_t2_s6",
+      "insertion": 0.0,
+      "subset": "poor",
+      "substitution": 0.024390243902439025,
+      "wer": 0.9715447154471545
+    },
+    {
+      "deletion": 0.06451612903225806,
+      "doc_id": "poor_t2_s7",
+      "insertion": 0.009216589861751152,
+      "subset": "poor",
+      "substitution": 0.5391705069124424,
+      "wer": 0.6129032258064516
+    },
+    {
+      "deletion": 0.13986013986013987,
+      "doc_id": "poor_t2_s8",
+      "insertion": 0.23426573426573427,
+      "subset": "poor",
+      "substitution": 0.5,
+      "wer": 0.8741258741258742
+    },
+    {
+      "deletion": 0.036585365853658534,
+      "doc_id": "poor_t3_s2",
+      "insertion": 0.06341463414634146,
+      "subset": "poor",
+      "substitution": 0.05365853658536585,
+      "wer": 0.15365853658536585
+    },
+    {
+      "deletion": 0.3392070484581498,
+      "doc_id": "poor_t3_s3",
+      "insertion": 0.030837004405286344,
+      "subset": "poor",
+      "substitution": 0.08370044052863436,
+      "wer": 0.45374449339207046
+    },
+    {
+      "deletion": 0.9947229551451188,
+      "doc_id": "poor_t3_s4",
+      "insertion": 0.0,
+      "subset": "poor",
+      "substitution": 0.005277044854881266,
+      "wer": 1.0
+    },
+    {
+      "deletion": 0.5220883534136547,
+      "doc_id": "poor_t3_s5",
+      "insertion": 0.0,
+      "subset": "poor",
+      "substitution": 0.3333333333333333,
+      "wer": 0.8554216867469879
+    },
+    {
+      "deletion": 0.8291925465838509,
+      "doc_id": "poor_t3_s6",
+      "insertion": 0.006211180124223602,
+      "subset": "poor",
+      "substitution": 0.08695652173913043,
+      "wer": 0.922360248447205
+    },
+    {
+      "deletion": 1.0,
+      "doc_id": "poor_t3_s7",
+      "insertion": 0.0,
+      "subset": "poor",
+      "substitution": 0.0,
+      "wer": 1.0
+    },
+    {
+      "deletion": 0.9866310160427807,
+      "doc_id": "poor_t3_s8",
+      "insertion": 0.0,
+      "subset": "poor",
+      "substitution": 0.0106951871657754,
+      "wer": 0.9973262032085561
+    },
+    {
+      "deletion": 0.05970149253731343,
+      "doc_id": "poor_t4_s2",
+      "insertion": 0.03880597014925373,
+      "subset": "poor",
+      "substitution": 0.03283582089552239,
+      "wer": 0.13134328358208955
+    },
+    {
+      "deletion": 0.06128133704735376,
+      "doc_id": "poor_t4_s3",
+      "insertion": 0.05013927576601671,
+      "subset": "poor",
+      "substitution": 0.0584958217270195,
+      "wer": 0.16991643454038996
+    },
+    {
+      "deletion": 0.005571030640668524,
+      "doc_id": "poor_t4_s4",
+      "insertion": 0.06128133704735376,
+      "subset": "poor",
+      "substitution": 0.9526462395543176,
+      "wer": 1.0194986072423398
+    },
+    {
+      "deletion": 0.7956403269754768,
+      "doc_id": "poor_t4_s5",
+      "insertion": 0.0027247956403269754,
+      "subset": "poor",
+      "substitution": 0.16621253405994552,
+      "wer": 0.9645776566757494
+    },
+    {
+      "deletion": 1.0,
+      "doc_id": "poor_t4_s6",
+      "insertion": 0.0,
+      "subset": "poor",
+      "substitution": 0.0,
+      "wer": 1.0
+    },
+    {
+      "deletion": 0.08333333333333333,
+      "doc_id": "poor_t4_s7",
+      "insertion": 0.016666666666666666,
+      "subset": "poor",
+      "substitution": 0.3875,
+      "wer": 0.4875
+    },
+    {
+      "deletion": 0.5945945945945946,
+      "doc_id": "poor_t4_s8",
+      "insertion": 0.02252252252252252,
+      "subset": "poor",
+      "substitution": 0.2747747747747748,
+      "wer": 0.8918918918918919
+    },
+    {
+      "deletion": 0.14960629921259844,
+      "doc_id": "poor_t5_s2",
+      "insertion": 0.09448818897637795,
+      "subset": "poor",
+      "substitution": 0.08661417322834646,
+      "wer": 0.33070866141732286
+    },
+    {
+      "deletion": 0.20754716981132076,
+      "doc_id": "poor_t5_s3",
+      "insertion": 0.34591194968553457,
+      "subset": "poor",
+      "substitution": 0.16352201257861634,
+      "wer": 0.7169811320754716
+    },
+    {
+      "deletion": 0.5098039215686274,
+      "doc_id": "poor_t5_s4",
+      "insertion": 0.006535947712418301,
+      "subset": "poor",
+      "substitution": 0.45751633986928103,
+      "wer": 0.9738562091503268
+    },
+    {
+      "deletion": 1.0,
+      "doc_id": "poor_t5_s5",
+      "insertion": 0.0,
+      "subset": "poor",
+      "substitution": 0.0,
+      "wer": 1.0
+    },
+    {
+      "deletion": 1.0,
+      "doc_id": "poor_t5_s6",
+      "insertion": 0.0,
+      "subset": "poor",
+      "substitution": 0.0,
+      "wer": 1.0
+    },
+    {
+      "deletion": 0.0234375,
+      "doc_id": "poor_t5_s7",
+      "insertion": 0.0390625,
+      "subset": "poor",
+      "substitution": 0.3125,
+      "wer": 0.375
+    },
+    {
+      "deletion": 0.9420289855072463,
+      "doc_id": "poor_t5_s8",
+      "insertion": 0.0,
+      "subset": "poor",
+      "substitution": 0.043478260869565216,
+      "wer": 0.9855072463768116
+    },
+    {
+      "deletion": 0.09473684210526316,
+      "doc_id": "poor_t6_s2",
+      "insertion": 0.07368421052631578,
+      "subset": "poor",
+      "substitution": 0.04736842105263158,
+      "wer": 0.21578947368421053
+    },
+    {
+      "deletion": 0.1276595744680851,
+      "doc_id": "poor_t6_s3",
+      "insertion": 0.05319148936170213,
+      "subset": "poor",
+      "substitution": 0.11702127659574468,
+      "wer": 0.2978723404255319
+    },
+    {
+      "deletion": 0.3486590038314176,
+      "doc_id": "poor_t6_s4",
+      "insertion": 0.0,
+      "subset": "poor",
+      "substitution": 0.6360153256704981,
+      "wer": 0.9846743295019157
+    },
+    {
+      "deletion": 0.4008097165991903,
+      "doc_id": "poor_t6_s5",
+      "insertion": 0.0,
+      "subset": "poor",
+      "substitution": 0.145748987854251,
+      "wer": 0.5465587044534413
+    },
+    {
+      "deletion": 0.7035573122529645,
+      "doc_id": "poor_t6_s6",
+      "insertion": 0.0,
+      "subset": "poor",
+      "substitution": 0.18181818181818182,
+      "wer": 0.8853754940711462
+    },
+    {
+      "deletion": 0.4134078212290503,
+      "doc_id": "poor_t6_s7",
+      "insertion": 0.0,
+      "subset": "poor",
+      "substitution": 0.40782122905027934,
+      "wer": 0.8212290502793296
+    },
+    {
+      "deletion": 0.18032786885245902,
+      "doc_id": "poor_t6_s8",
+      "insertion": 0.1598360655737705,
+      "subset": "poor",
+      "substitution": 0.47950819672131145,
+      "wer": 0.819672131147541
+    },
+    {
+      "deletion": 0.10526315789473684,
+      "doc_id": "poor_t7_s2",
+      "insertion": 0.0,
+      "subset": "poor",
+      "substitution": 0.09941520467836257,
+      "wer": 0.2046783625730994
+    },
+    {
+      "deletion": 0.028735632183908046,
+      "doc_id": "poor_t7_s3",
+      "insertion": 0.017241379310344827,
+      "subset": "poor",
+      "substitution": 0.1206896551724138,
+      "wer": 0.16666666666666666
+    },
+    {
+      "deletion": 0.0,
+      "doc_id": "poor_t7_s4",
+      "insertion": 0.0,
+      "subset": "poor",
+      "substitution": 0.0761904761904762,
+      "wer": 0.0761904761904762
+    },
+    {
+      "deletion": 0.9079754601226994,
+      "doc_id": "poor_t7_s5",
+      "insertion": 0.012269938650306749,
+      "subset": "poor",
+      "substitution": 0.0736196319018405,
+      "wer": 0.9938650306748467
+    },
+    {
+      "deletion": 0.23469387755102042,
+      "doc_id": "poor_t7_s6",
+      "insertion": 0.01020408163265306,
+      "subset": "poor",
+      "substitution": 0.10204081632653061,
+      "wer": 0.3469387755102041
+    },
+    {
+      "deletion": 0.017964071856287425,
+      "doc_id": "poor_t7_s7",
+      "insertion": 0.005988023952095809,
+      "subset": "poor",
+      "substitution": 0.437125748502994,
+      "wer": 0.46107784431137727
+    },
+    {
+      "deletion": 0.40606060606060607,
+      "doc_id": "poor_t7_s8",
+      "insertion": 0.048484848484848485,
+      "subset": "poor",
+      "substitution": 0.40606060606060607,
+      "wer": 0.8606060606060606
+    },
+    {
+      "deletion": 0.0,
+      "doc_id": "poor_t8_s2",
+      "insertion": 0.013513513513513514,
+      "subset": "poor",
+      "substitution": 0.02702702702702703,
+      "wer": 0.04054054054054054
+    },
+    {
+      "deletion": 0.0,
+      "doc_id": "poor_t8_s3",
+      "insertion": 0.0,
+      "subset": "poor",
+      "substitution": 0.0049504950495049506,
+      "wer": 0.0049504950495049506
+    },
+    {
+      "deletion": 0.2935323383084577,
+      "doc_id": "poor_t8_s4",
+      "insertion": 0.009950248756218905,
+      "subset": "poor",
+      "substitution": 0.472636815920398,
+      "wer": 0.7761194029850746
+    },
+    {
+      "deletion": 0.009389671361502348,
+      "doc_id": "poor_t8_s5",
+      "insertion": 0.004694835680751174,
+      "subset": "poor",
+      "substitution": 0.014084507042253521,
+      "wer": 0.028169014084507043
+    },
+    {
+      "deletion": 1.0,
+      "doc_id": "poor_t8_s6",
+      "insertion": 0.0,
+      "subset": "poor",
+      "substitution": 0.0,
+      "wer": 1.0
+    },
+    {
+      "deletion": 0.16055045871559634,
+      "doc_id": "poor_t8_s7",
+      "insertion": 0.0045871559633027525,
+      "subset": "poor",
+      "substitution": 0.3761467889908257,
+      "wer": 0.5412844036697247
+    },
+    {
+      "deletion": 0.01,
+      "doc_id": "poor_t8_s8",
+      "insertion": 0.395,
+      "subset": "poor",
+      "substitution": 0.69,
+      "wer": 1.095
+    },
+    {
+      "deletion": 0.18181818181818182,
+      "doc_id": "rotated_t1_s2",
+      "insertion": 0.05627705627705628,
+      "subset": "rotated",
+      "substitution": 0.06493506493506493,
+      "wer": 0.30303030303030304
+    },
+    {
+      "deletion": 0.15160349854227406,
+      "doc_id": "rotated_t1_s3",
+      "insertion": 0.19825072886297376,
+      "subset": "rotated",
+      "substitution": 0.13411078717201166,
+      "wer": 0.4839650145772595
+    },
+    {
+      "deletion": 0.07213114754098361,
+      "doc_id": "rotated_t1_s4",
+      "insertion": 0.08196721311475409,
+      "subset": "rotated",
+      "substitution": 0.05573770491803279,
+      "wer": 0.2098360655737705
+    },
+    {
+      "deletion": 0.05423728813559322,
+      "doc_id": "rotated_t1_s5",
+      "insertion": 0.02711864406779661,
+      "subset": "rotated",
+      "substitution": 0.15254237288135594,
+      "wer": 0.23389830508474577
+    },
+    {
+      "deletion": 0.3745583038869258,
+      "doc_id": "rotated_t1_s6",
+      "insertion": 0.028268551236749116,
+      "subset": "rotated",
+      "substitution": 0.1166077738515901,
+      "wer": 0.519434628975265
+    },
+    {
+      "deletion": 0.39792387543252594,
+      "doc_id": "rotated_t1_s7",
+      "insertion": 0.03460207612456748,
+      "subset": "rotated",
+      "substitution": 0.0726643598615917,
+      "wer": 0.5051903114186851
+    },
+    {
+      "deletion": 0.0,
+      "doc_id": "rotated_t1_s8",
+      "insertion": 0.02830188679245283,
+      "subset": "rotated",
+      "substitution": 1.0,
+      "wer": 1.028301886792453
+    },
+    {
+      "deletion": 0.25,
+      "doc_id": "rotated_t2_s2",
+      "insertion": 0.2785714285714286,
+      "subset": "rotated",
+      "substitution": 0.16785714285714284,
+      "wer": 0.6964285714285714
+    },
+    {
+      "deletion": 1.0,
+      "doc_id": "rotated_t2_s3",
+      "insertion": 0.0,
+      "subset": "rotated",
+      "substitution": 0.0,
+      "wer": 1.0
+    },
+    {
+      "deletion": 1.0,
+      "doc_id": "rotated_t2_s4",
+      "insertion": 0.0,
+      "subset": "rotated",
+      "substitution": 0.0,
+      "wer": 1.0
+    },
+    {
+      "deletion": 0.7048611111111112,
+      "doc_id": "rotated_t2_s5",
+      "insertion": 0.017361111111111112,
+      "subset": "rotated",
+      "substitution": 0.0763888888888889,
+      "wer": 0.7986111111111112
+    },
+    {
+      "deletion": 0.556910569105691,
+      "doc_id": "rotated_t2_s6",
+      "insertion": 0.06097560975609756,
+      "subset": "rotated",
+      "substitution": 0.12195121951219512,
+      "wer": 0.7398373983739838
+    },
+    {
+      "deletion": 0.0967741935483871,
+      "doc_id": "rotated_t2_s7",
+      "insertion": 0.10138248847926268,
+      "subset": "rotated",
+      "substitution": 0.06451612903225806,
+      "wer": 0.2626728110599078
+    },
+    {
+      "deletion": 0.08741258741258741,
+      "doc_id": "rotated_t2_s8",
+      "insertion": 0.08391608391608392,
+      "subset": "rotated",
+      "substitution": 0.045454545454545456,
+      "wer": 0.21678321678321677
+    },
+    {
+      "deletion": 0.08048780487804878,
+      "doc_id": "rotated_t3_s2",
+      "insertion": 0.14146341463414633,
+      "subset": "rotated",
+      "substitution": 0.3780487804878049,
+      "wer": 0.6
+    },
+    {
+      "deletion": 0.039647577092511016,
+      "doc_id": "rotated_t3_s3",
+      "insertion": 0.05726872246696035,
+      "subset": "rotated",
+      "substitution": 0.7444933920704846,
+      "wer": 0.8414096916299559
+    },
+    {
+      "deletion": 0.26649076517150394,
+      "doc_id": "rotated_t3_s4",
+      "insertion": 0.29815303430079154,
+      "subset": "rotated",
+      "substitution": 0.3403693931398417,
+      "wer": 0.9050131926121372
+    },
+    {
+      "deletion": 0.41365461847389556,
+      "doc_id": "rotated_t3_s5",
+      "insertion": 0.0321285140562249,
+      "subset": "rotated",
+      "substitution": 0.008032128514056224,
+      "wer": 0.4538152610441767
+    },
+    {
+      "deletion": 0.031055900621118012,
+      "doc_id": "rotated_t3_s6",
+      "insertion": 0.034161490683229816,
+      "subset": "rotated",
+      "substitution": 0.015527950310559006,
+      "wer": 0.08074534161490683
+    },
+    {
+      "deletion": 0.1033210332103321,
+      "doc_id": "rotated_t3_s7",
+      "insertion": 0.02214022140221402,
+      "subset": "rotated",
+      "substitution": 0.033210332103321034,
+      "wer": 0.15867158671586715
+    },
+    {
+      "deletion": 0.32085561497326204,
+      "doc_id": "rotated_t3_s8",
+      "insertion": 0.0,
+      "subset": "rotated",
+      "substitution": 0.6764705882352942,
+      "wer": 0.9973262032085561
+    },
+    {
+      "deletion": 0.14626865671641792,
+      "doc_id": "rotated_t4_s2",
+      "insertion": 0.19402985074626866,
+      "subset": "rotated",
+      "substitution": 0.2537313432835821,
+      "wer": 0.5940298507462687
+    },
+    {
+      "deletion": 1.0,
+      "doc_id": "rotated_t4_s3",
+      "insertion": 0.0,
+      "subset": "rotated",
+      "substitution": 0.0,
+      "wer": 1.0
+    },
+    {
+      "deletion": 0.10863509749303621,
+      "doc_id": "rotated_t4_s4",
+      "insertion": 0.1671309192200557,
+      "subset": "rotated",
+      "substitution": 0.3593314763231198,
+      "wer": 0.6350974930362117
+    },
+    {
+      "deletion": 0.027247956403269755,
+      "doc_id": "rotated_t4_s5",
+      "insertion": 0.14986376021798364,
+      "subset": "rotated",
+      "substitution": 0.1553133514986376,
+      "wer": 0.33242506811989103
+    },
+    {
+      "deletion": 0.3103448275862069,
+      "doc_id": "rotated_t4_s6",
+      "insertion": 0.42528735632183906,
+      "subset": "rotated",
+      "substitution": 0.13793103448275862,
+      "wer": 0.8735632183908046
+    },
+    {
+      "deletion": 0.12916666666666668,
+      "doc_id": "rotated_t4_s7",
+      "insertion": 0.10416666666666667,
+      "subset": "rotated",
+      "substitution": 0.14583333333333334,
+      "wer": 0.37916666666666665
+    },
+    {
+      "deletion": 0.0,
+      "doc_id": "rotated_t4_s8",
+      "insertion": 0.13513513513513514,
+      "subset": "rotated",
+      "substitution": 1.0,
+      "wer": 1.135135135135135
+    },
+    {
+      "deletion": 0.09448818897637795,
+      "doc_id": "rotated_t5_s2",
+      "insertion": 0.28346456692913385,
+      "subset": "rotated",
+      "substitution": 0.15748031496062992,
+      "wer": 0.5354330708661418
+    },
+    {
+      "deletion": 0.07547169811320754,
+      "doc_id": "rotated_t5_s3",
+      "insertion": 0.2641509433962264,
+      "subset": "rotated",
+      "substitution": 0.08176100628930817,
+      "wer": 0.42138364779874216
+    },
+    {
+      "deletion": 1.0,
+      "doc_id": "rotated_t5_s4",
+      "insertion": 0.0,
+      "subset": "rotated",
+      "substitution": 0.0,
+      "wer": 1.0
+    },
+    {
+      "deletion": 0.08163265306122448,
+      "doc_id": "rotated_t5_s5",
+      "insertion": 0.061224489795918366,
+      "subset": "rotated",
+      "substitution": 0.05442176870748299,
+      "wer": 0.19727891156462585
+    },
+    {
+      "deletion": 0.013245033112582781,
+      "doc_id": "rotated_t5_s6",
+      "insertion": 0.06622516556291391,
+      "subset": "rotated",
+      "substitution": 0.10596026490066225,
+      "wer": 0.18543046357615894
+    },
+    {
+      "deletion": 0.0078125,
+      "doc_id": "rotated_t5_s7",
+      "insertion": 0.0546875,
+      "subset": "rotated",
+      "substitution": 0.0625,
+      "wer": 0.125
+    },
+    {
+      "deletion": 0.5144927536231884,
+      "doc_id": "rotated_t5_s8",
+      "insertion": 0.0,
+      "subset": "rotated",
+      "substitution": 0.4782608695652174,
+      "wer": 0.9927536231884058
+    },
+    {
+      "deletion": 0.6263157894736842,
+      "doc_id": "rotated_t6_s2",
+      "insertion": 0.0,
+      "subset": "rotated",
+      "substitution": 0.28421052631578947,
+      "wer": 0.9105263157894737
+    },
+    {
+      "deletion": 0.1595744680851064,
+      "doc_id": "rotated_t6_s3",
+      "insertion": 0.22340425531914893,
+      "subset": "rotated",
+      "substitution": 0.44148936170212766,
+      "wer": 0.824468085106383
+    },
+    {
+      "deletion": 1.0,
+      "doc_id": "rotated_t6_s4",
+      "insertion": 0.0,
+      "subset": "rotated",
+      "substitution": 0.0,
+      "wer": 1.0
+    },
+    {
+      "deletion": 0.020242914979757085,
+      "doc_id": "rotated_t6_s5",
+      "insertion": 0.06072874493927125,
+      "subset": "rotated",
+      "substitution": 0.05263157894736842,
+      "wer": 0.13360323886639677
+    },
+    {
+      "deletion": 0.541501976284585,
+      "doc_id": "rotated_t6_s6",
+      "insertion": 0.07509881422924901,
+      "subset": "rotated",
+      "substitution": 0.06719367588932806,
+      "wer": 0.6837944664031621
+    },
+    {
+      "deletion": 0.0446927374301676,
+      "doc_id": "rotated_t6_s7",
+      "insertion": 0.1005586592178771,
+      "subset": "rotated",
+      "substitution": 0.07262569832402235,
+      "wer": 0.21787709497206703
+    },
+    {
+      "deletion": 0.0,
+      "doc_id": "rotated_t6_s8",
+      "insertion": 0.06147540983606557,
+      "subset": "rotated",
+      "substitution": 1.0,
+      "wer": 1.0614754098360655
+    },
+    {
+      "deletion": 0.12280701754385964,
+      "doc_id": "rotated_t7_s2",
+      "insertion": 0.0935672514619883,
+      "subset": "rotated",
+      "substitution": 0.08771929824561403,
+      "wer": 0.30409356725146197
+    },
+    {
+      "deletion": 0.08045977011494253,
+      "doc_id": "rotated_t7_s3",
+      "insertion": 0.1206896551724138,
+      "subset": "rotated",
+      "substitution": 0.06896551724137931,
+      "wer": 0.27011494252873564
+    },
+    {
+      "deletion": 0.14761904761904762,
+      "doc_id": "rotated_t7_s4",
+      "insertion": 0.09047619047619047,
+      "subset": "rotated",
+      "substitution": 0.20952380952380953,
+      "wer": 0.44761904761904764
+    },
+    {
+      "deletion": 0.3803680981595092,
+      "doc_id": "rotated_t7_s5",
+      "insertion": 0.018404907975460124,
+      "subset": "rotated",
+      "substitution": 0.09815950920245399,
+      "wer": 0.49693251533742333
+    },
+    {
+      "deletion": 0.46938775510204084,
+      "doc_id": "rotated_t7_s6",
+      "insertion": 0.04081632653061224,
+      "subset": "rotated",
+      "substitution": 0.05612244897959184,
+      "wer": 0.5663265306122449
+    },
+    {
+      "deletion": 0.3592814371257485,
+      "doc_id": "rotated_t7_s7",
+      "insertion": 0.011976047904191617,
+      "subset": "rotated",
+      "substitution": 0.05389221556886228,
+      "wer": 0.4251497005988024
+    },
+    {
+      "deletion": 0.0,
+      "doc_id": "rotated_t7_s8",
+      "insertion": 0.07272727272727272,
+      "subset": "rotated",
+      "substitution": 1.0,
+      "wer": 1.0727272727272728
+    },
+    {
+      "deletion": 0.04954954954954955,
+      "doc_id": "rotated_t8_s2",
+      "insertion": 0.08108108108108109,
+      "subset": "rotated",
+      "substitution": 0.13963963963963963,
+      "wer": 0.2702702702702703
+    },
+    {
+      "deletion": 1.0,
+      "doc_id": "rotated_t8_s3",
+      "insertion": 0.0,
+      "subset": "rotated",
+      "substitution": 0.0,
+      "wer": 1.0
+    },
+    {
+      "deletion": 1.0,
+      "doc_id": "rotated_t8_s4",
+      "insertion": 0.0,
+      "subset": "rotated",
+      "substitution": 0.0,
+      "wer": 1.0
+    },
+    {
+      "deletion": 0.2112676056338028,
+      "doc_id": "rotated_t8_s5",
+      "insertion": 0.0,
+      "subset": "rotated",
+      "substitution": 0.028169014084507043,
+      "wer": 0.23943661971830985
+    },
+    {
+      "deletion": 0.05263157894736842,
+      "doc_id": "rotated_t8_s6",
+      "insertion": 0.06140350877192982,
+      "subset": "rotated",
+      "substitution": 0.6622807017543859,
+      "wer": 0.7763157894736842
+    },
+    {
+      "deletion": 0.6009174311926605,
+      "doc_id": "rotated_t8_s7",
+      "insertion": 0.0,
+      "subset": "rotated",
+      "substitution": 0.03211009174311927,
+      "wer": 0.6330275229357798
+    },
+    {
+      "deletion": 0.005,
+      "doc_id": "rotated_t8_s8",
+      "insertion": 0.0,
+      "subset": "rotated",
+      "substitution": 0.995,
+      "wer": 1.0
+    },
+    {
+      "deletion": 0.10569105691056911,
+      "doc_id": "tables_t10_s2",
+      "insertion": 0.17073170731707318,
+      "subset": "tables",
+      "substitution": 0.07317073170731707,
+      "wer": 0.34959349593495936
+    },
+    {
+      "deletion": 0.1092436974789916,
+      "doc_id": "tables_t10_s3",
+      "insertion": 0.14285714285714285,
+      "subset": "tables",
+      "substitution": 0.09243697478991597,
+      "wer": 0.3445378151260504
+    },
+    {
+      "deletion": 0.10344827586206896,
+      "doc_id": "tables_t10_s4",
+      "insertion": 0.1896551724137931,
+      "subset": "tables",
+      "substitution": 0.12931034482758622,
+      "wer": 0.4224137931034483
+    },
+    {
+      "deletion": 0.046296296296296294,
+      "doc_id": "tables_t10_s5",
+      "insertion": 0.14814814814814814,
+      "subset": "tables",
+      "substitution": 0.12037037037037036,
+      "wer": 0.3148148148148148
+    },
+    {
+      "deletion": 0.1206896551724138,
+      "doc_id": "tables_t10_s6",
+      "insertion": 0.27586206896551724,
+      "subset": "tables",
+      "substitution": 0.07758620689655173,
+      "wer": 0.47413793103448276
+    },
+    {
+      "deletion": 0.11304347826086956,
+      "doc_id": "tables_t10_s7",
+      "insertion": 0.16521739130434782,
+      "subset": "tables",
+      "substitution": 0.06956521739130435,
+      "wer": 0.34782608695652173
+    },
+    {
+      "deletion": 0.10833333333333334,
+      "doc_id": "tables_t10_s8",
+      "insertion": 0.23333333333333334,
+      "subset": "tables",
+      "substitution": 0.09166666666666666,
+      "wer": 0.43333333333333335
+    },
+    {
+      "deletion": 0.03550295857988166,
+      "doc_id": "tables_t11_s2",
+      "insertion": 0.023668639053254437,
+      "subset": "tables",
+      "substitution": 0.04142011834319527,
+      "wer": 0.10059171597633136
+    },
+    {
+      "deletion": 0.03592814371257485,
+      "doc_id": "tables_t11_s3",
+      "insertion": 0.041916167664670656,
+      "subset": "tables",
+      "substitution": 0.017964071856287425,
+      "wer": 0.09580838323353294
+    },
+    {
+      "deletion": 0.047058823529411764,
+      "doc_id": "tables_t11_s4",
+      "insertion": 0.023529411764705882,
+      "subset": "tables",
+      "substitution": 0.058823529411764705,
+      "wer": 0.12941176470588237
+    },
+    {
+      "deletion": 0.023952095808383235,
+      "doc_id": "tables_t11_s5",
+      "insertion": 0.03592814371257485,
+      "subset": "tables",
+      "substitution": 0.03592814371257485,
+      "wer": 0.09580838323353294
+    },
+    {
+      "deletion": 0.03529411764705882,
+      "doc_id": "tables_t11_s6",
+      "insertion": 0.07058823529411765,
+      "subset": "tables",
+      "substitution": 0.07058823529411765,
+      "wer": 0.17647058823529413
+    },
+    {
+      "deletion": 0.023952095808383235,
+      "doc_id": "tables_t11_s7",
+      "insertion": 0.07784431137724551,
+      "subset": "tables",
+      "substitution": 0.04790419161676647,
+      "wer": 0.1497005988023952
+    },
+    {
+      "deletion": 0.017857142857142856,
+      "doc_id": "tables_t11_s8",
+      "insertion": 0.041666666666666664,
+      "subset": "tables",
+      "substitution": 0.05357142857142857,
+      "wer": 0.1130952380952381
+    },
+    {
+      "deletion": 0.11267605633802817,
+      "doc_id": "tables_t12_s2",
+      "insertion": 0.007042253521126761,
+      "subset": "tables",
+      "substitution": 0.19718309859154928,
+      "wer": 0.31690140845070425
+    },
+    {
+      "deletion": 0.016260162601626018,
+      "doc_id": "tables_t12_s3",
+      "insertion": 0.016260162601626018,
+      "subset": "tables",
+      "substitution": 0.10569105691056911,
+      "wer": 0.13821138211382114
+    },
+    {
+      "deletion": 0.06299212598425197,
+      "doc_id": "tables_t12_s4",
+      "insertion": 0.015748031496062992,
+      "subset": "tables",
+      "substitution": 0.14960629921259844,
+      "wer": 0.2283464566929134
+    },
+    {
+      "deletion": 0.096,
+      "doc_id": "tables_t12_s5",
+      "insertion": 0.144,
+      "subset": "tables",
+      "substitution": 0.088,
+      "wer": 0.328
+    },
+    {
+      "deletion": 0.023622047244094488,
+      "doc_id": "tables_t12_s6",
+      "insertion": 0.047244094488188976,
+      "subset": "tables",
+      "substitution": 0.08661417322834646,
+      "wer": 0.15748031496062992
+    },
+    {
+      "deletion": 0.008264462809917356,
+      "doc_id": "tables_t12_s7",
+      "insertion": 0.04132231404958678,
+      "subset": "tables",
+      "substitution": 0.024793388429752067,
+      "wer": 0.0743801652892562
+    },
+    {
+      "deletion": 0.015267175572519083,
+      "doc_id": "tables_t12_s8",
+      "insertion": 0.08396946564885496,
+      "subset": "tables",
+      "substitution": 0.0916030534351145,
+      "wer": 0.19083969465648856
+    },
+    {
+      "deletion": 0.12804878048780488,
+      "doc_id": "tables_t13_s2",
+      "insertion": 0.012195121951219513,
+      "subset": "tables",
+      "substitution": 0.10365853658536585,
+      "wer": 0.24390243902439024
+    },
+    {
+      "deletion": 0.12269938650306748,
+      "doc_id": "tables_t13_s3",
+      "insertion": 0.024539877300613498,
+      "subset": "tables",
+      "substitution": 0.08588957055214724,
+      "wer": 0.2331288343558282
+    },
+    {
+      "deletion": 0.15476190476190477,
+      "doc_id": "tables_t13_s4",
+      "insertion": 0.011904761904761904,
+      "subset": "tables",
+      "substitution": 0.11904761904761904,
+      "wer": 0.2857142857142857
+    },
+    {
+      "deletion": 0.12422360248447205,
+      "doc_id": "tables_t13_s5",
+      "insertion": 0.024844720496894408,
+      "subset": "tables",
+      "substitution": 0.17391304347826086,
+      "wer": 0.32298136645962733
+    },
+    {
+      "deletion": 0.13253012048192772,
+      "doc_id": "tables_t13_s6",
+      "insertion": 0.012048192771084338,
+      "subset": "tables",
+      "substitution": 0.0963855421686747,
+      "wer": 0.24096385542168675
+    },
+    {
+      "deletion": 0.11976047904191617,
+      "doc_id": "tables_t13_s7",
+      "insertion": 0.005988023952095809,
+      "subset": "tables",
+      "substitution": 0.11976047904191617,
+      "wer": 0.24550898203592814
+    },
+    {
+      "deletion": 0.1625,
+      "doc_id": "tables_t13_s8",
+      "insertion": 0.00625,
+      "subset": "tables",
+      "substitution": 0.15625,
+      "wer": 0.325
+    },
+    {
+      "deletion": 0.2300469483568075,
+      "doc_id": "tables_t14_s2",
+      "insertion": 0.028169014084507043,
+      "subset": "tables",
+      "substitution": 0.18309859154929578,
+      "wer": 0.4413145539906103
+    },
+    {
+      "deletion": 0.2304147465437788,
+      "doc_id": "tables_t14_s3",
+      "insertion": 0.02304147465437788,
+      "subset": "tables",
+      "substitution": 0.0967741935483871,
+      "wer": 0.35023041474654376
+    },
+    {
+      "deletion": 0.22596153846153846,
+      "doc_id": "tables_t14_s4",
+      "insertion": 0.028846153846153848,
+      "subset": "tables",
+      "substitution": 0.18269230769230768,
+      "wer": 0.4375
+    },
+    {
+      "deletion": 0.20187793427230047,
+      "doc_id": "tables_t14_s5",
+      "insertion": 0.014084507042253521,
+      "subset": "tables",
+      "substitution": 0.18779342723004694,
+      "wer": 0.40375586854460094
+    },
+    {
+      "deletion": 0.21363636363636362,
+      "doc_id": "tables_t14_s6",
+      "insertion": 0.04090909090909091,
+      "subset": "tables",
+      "substitution": 0.10909090909090909,
+      "wer": 0.36363636363636365
+    },
+    {
+      "deletion": 0.22477064220183487,
+      "doc_id": "tables_t14_s7",
+      "insertion": 0.013761467889908258,
+      "subset": "tables",
+      "substitution": 0.16055045871559634,
+      "wer": 0.39908256880733944
+    },
+    {
+      "deletion": 0.20952380952380953,
+      "doc_id": "tables_t14_s8",
+      "insertion": 0.01904761904761905,
+      "subset": "tables",
+      "substitution": 0.09523809523809523,
+      "wer": 0.3238095238095238
+    },
+    {
+      "deletion": 0.30701754385964913,
+      "doc_id": "tables_t15_s2",
+      "insertion": 0.02631578947368421,
+      "subset": "tables",
+      "substitution": 0.35964912280701755,
+      "wer": 0.6929824561403509
+    },
+    {
+      "deletion": 0.2982456140350877,
+      "doc_id": "tables_t15_s3",
+      "insertion": 0.008771929824561403,
+      "subset": "tables",
+      "substitution": 0.21052631578947367,
+      "wer": 0.5175438596491229
+    },
+    {
+      "deletion": 0.25663716814159293,
+      "doc_id": "tables_t15_s4",
+      "insertion": 0.017699115044247787,
+      "subset": "tables",
+      "substitution": 0.22123893805309736,
+      "wer": 0.49557522123893805
+    },
+    {
+      "deletion": 0.3148148148148148,
+      "doc_id": "tables_t15_s5",
+      "insertion": 0.027777777777777776,
+      "subset": "tables",
+      "substitution": 0.3611111111111111,
+      "wer": 0.7037037037037037
+    },
+    {
+      "deletion": 0.30357142857142855,
+      "doc_id": "tables_t15_s6",
+      "insertion": 0.008928571428571428,
+      "subset": "tables",
+      "substitution": 0.15178571428571427,
+      "wer": 0.4642857142857143
+    },
+    {
+      "deletion": 0.3119266055045872,
+      "doc_id": "tables_t15_s7",
+      "insertion": 0.01834862385321101,
+      "subset": "tables",
+      "substitution": 0.11926605504587157,
+      "wer": 0.44954128440366975
+    },
+    {
+      "deletion": 0.2972972972972973,
+      "doc_id": "tables_t15_s8",
+      "insertion": 0.009009009009009009,
+      "subset": "tables",
+      "substitution": 0.14414414414414414,
+      "wer": 0.45045045045045046
+    },
+    {
+      "deletion": 0.03260869565217391,
+      "doc_id": "tables_t16_s2",
+      "insertion": 0.30434782608695654,
+      "subset": "tables",
+      "substitution": 0.43478260869565216,
+      "wer": 0.7717391304347826
+    },
+    {
+      "deletion": 0.011299435028248588,
+      "doc_id": "tables_t16_s3",
+      "insertion": 0.3163841807909605,
+      "subset": "tables",
+      "substitution": 0.5028248587570622,
+      "wer": 0.8305084745762712
+    },
+    {
+      "deletion": 0.027624309392265192,
+      "doc_id": "tables_t16_s4",
+      "insertion": 0.26519337016574585,
+      "subset": "tables",
+      "substitution": 0.4861878453038674,
+      "wer": 0.7790055248618785
+    },
+    {
+      "deletion": 0.04918032786885246,
+      "doc_id": "tables_t16_s5",
+      "insertion": 0.3989071038251366,
+      "subset": "tables",
+      "substitution": 0.40437158469945356,
+      "wer": 0.8524590163934426
+    },
+    {
+      "deletion": 0.026595744680851064,
+      "doc_id": "tables_t16_s6",
+      "insertion": 0.35638297872340424,
+      "subset": "tables",
+      "substitution": 0.44148936170212766,
+      "wer": 0.824468085106383
+    },
+    {
+      "deletion": 0.02824858757062147,
+      "doc_id": "tables_t16_s7",
+      "insertion": 0.3898305084745763,
+      "subset": "tables",
+      "substitution": 0.4689265536723164,
+      "wer": 0.8870056497175142
+    },
+    {
+      "deletion": 0.03626943005181347,
+      "doc_id": "tables_t16_s8",
+      "insertion": 0.25906735751295334,
+      "subset": "tables",
+      "substitution": 0.41450777202072536,
+      "wer": 0.7098445595854922
+    },
+    {
+      "deletion": 0.023529411764705882,
+      "doc_id": "tables_t9_s2",
+      "insertion": 0.08823529411764706,
+      "subset": "tables",
+      "substitution": 0.03529411764705882,
+      "wer": 0.14705882352941177
+    },
+    {
+      "deletion": 0.026143790849673203,
+      "doc_id": "tables_t9_s3",
+      "insertion": 0.0784313725490196,
+      "subset": "tables",
+      "substitution": 0.0457516339869281,
+      "wer": 0.1503267973856209
+    },
+    {
+      "deletion": 0.05,
+      "doc_id": "tables_t9_s4",
+      "insertion": 0.06875,
+      "subset": "tables",
+      "substitution": 0.075,
+      "wer": 0.19375
+    },
+    {
+      "deletion": 0.04225352112676056,
+      "doc_id": "tables_t9_s5",
+      "insertion": 0.1056338028169014,
+      "subset": "tables",
+      "substitution": 0.035211267605633804,
+      "wer": 0.18309859154929578
+    },
+    {
+      "deletion": 0.018518518518518517,
+      "doc_id": "tables_t9_s6",
+      "insertion": 0.07407407407407407,
+      "subset": "tables",
+      "substitution": 0.08333333333333333,
+      "wer": 0.17592592592592593
+    },
+    {
+      "deletion": 0.025477707006369428,
+      "doc_id": "tables_t9_s7",
+      "insertion": 0.025477707006369428,
+      "subset": "tables",
+      "substitution": 0.050955414012738856,
+      "wer": 0.10191082802547771
+    },
+    {
+      "deletion": 0.027624309392265192,
+      "doc_id": "tables_t9_s8",
+      "insertion": 0.055248618784530384,
+      "subset": "tables",
+      "substitution": 0.08287292817679558,
+      "wer": 0.16574585635359115
+    }
+  ],
+  "run_metadata": {
+    "dataset": "ClinOCR-Bench-v1.0",
+    "engine": "tesseract",
+    "evaluation_documents": 328,
+    "failures": [],
+    "git_head": "19461d8705f851ee72a5714baabcee2e9a8f500f",
+    "ground_truth_opened": false,
+    "paddle_backend": null,
+    "paddle_models": null,
+    "paddleocr_version": null,
+    "schema_version": 1,
+    "tesseract_version": "tesseract v5.4.0.20240606",
+    "tuning_performed": false,
+    "working_tree_dirty": false
+  },
+  "schema_version": 1,
+  "scoring": {
+    "compatible_with": "ClinOCR-Bench-Baseline",
+    "metric": "WER=(S+D+I)/reference_words",
+    "tokenization": "whitespace split"
+  },
+  "subsets": {
+    "handwriting": {
+      "deletion": {
+        "ci_high": 0.333447356116329,
+        "ci_low": 0.21739828061524039,
+        "maximum": 0.7459016393442623,
+        "mean": 0.2754228183657847,
+        "median": 0.23479223433242508,
+        "minimum": 0.0,
+        "n": 56,
+        "q1": 0.0757154213036566,
+        "q3": 0.4398256952604779
+      },
+      "insertion": {
+        "ci_high": 0.02825174339335898,
+        "ci_low": 0.015431624055004511,
+        "maximum": 0.13821138211382114,
+        "mean": 0.021841683724181746,
+        "median": 0.015576795112213417,
+        "minimum": 0.0,
+        "n": 56,
+        "q1": 0.0052332938452425825,
+        "q3": 0.03210610485328883
+      },
+      "n": 56,
+      "substitution": {
+        "ci_high": 0.5055128560630159,
+        "ci_low": 0.3875210568420443,
+        "maximum": 0.8380952380952381,
+        "mean": 0.4465169564525301,
+        "median": 0.46024627546366675,
+        "minimum": 0.02120141342756184,
+        "n": 56,
+        "q1": 0.25529156153630506,
+        "q3": 0.6328590292936643
+      },
+      "wer": {
+        "ci_high": 0.7914281584197177,
+        "ci_low": 0.6961347586652754,
+        "maximum": 0.9373297002724795,
+        "mean": 0.7437814585424966,
+        "median": 0.8135347682119205,
+        "minimum": 0.19480519480519481,
+        "n": 56,
+        "q1": 0.7181779986116692,
+        "q3": 0.8609687074023588
+      }
+    },
+    "mixed": {
+      "deletion": {
+        "ci_high": 0.7906256813090099,
+        "ci_low": 0.6363355418604971,
+        "maximum": 1.0,
+        "mean": 0.7134806115847535,
+        "median": 0.7390431290378907,
+        "minimum": 0.13442622950819672,
+        "n": 48,
+        "q1": 0.5171875,
+        "q3": 1.0
+      },
+      "insertion": {
+        "ci_high": 0.007562460190965674,
+        "ci_low": 0.000723829813820027,
+        "maximum": 0.05389221556886228,
+        "mean": 0.004143145002392851,
+        "median": 0.0,
+        "minimum": 0.0,
+        "n": 48,
+        "q1": 0.0,
+        "q3": 0.0
+      },
+      "n": 48,
+      "substitution": {
+        "ci_high": 0.26533434178001014,
+        "ci_low": 0.14434089205765205,
+        "maximum": 0.8655737704918033,
+        "mean": 0.2048376169188311,
+        "median": 0.18773415735374172,
+        "minimum": 0.0,
+        "n": 48,
+        "q1": 0.0,
+        "q3": 0.35408038147138965
+      },
+      "wer": {
+        "ci_high": 0.9561505759267022,
+        "ci_low": 0.8887721710852527,
+        "maximum": 1.0,
+        "mean": 0.9224613735059775,
+        "median": 0.9845655915587816,
+        "minimum": 0.4550898203592814,
+        "n": 48,
+        "q1": 0.8879162803964915,
+        "q3": 1.0
+      }
+    },
+    "normal": {
+      "deletion": {
+        "ci_high": 0.03661500460593216,
+        "ci_low": 0.020153996544877907,
+        "maximum": 0.1152073732718894,
+        "mean": 0.028384500575405033,
+        "median": 0.018285888987023574,
+        "minimum": 0.0,
+        "n": 56,
+        "q1": 0.0035211267605633804,
+        "q3": 0.037504075976196295
+      },
+      "insertion": {
+        "ci_high": 0.05314463052179207,
+        "ci_low": 0.033527654629604754,
+        "maximum": 0.16352201257861634,
+        "mean": 0.043336142575698414,
+        "median": 0.03683564475837712,
+        "minimum": 0.0,
+        "n": 56,
+        "q1": 0.015198447380597398,
+        "q3": 0.05639915004903563
+      },
+      "n": 56,
+      "substitution": {
+        "ci_high": 0.04605587823899195,
+        "ci_low": 0.028335247873109655,
+        "maximum": 0.1853146853146853,
+        "mean": 0.037195563056050804,
+        "median": 0.027402402402402402,
+        "minimum": 0.0,
+        "n": 56,
+        "q1": 0.010674386920980926,
+        "q3": 0.05920796890184645
+      },
+      "wer": {
+        "ci_high": 0.12547139285687067,
+        "ci_low": 0.09236101955743783,
+        "maximum": 0.26071428571428573,
+        "mean": 0.10891620620715425,
+        "median": 0.10990877634476251,
+        "minimum": 0.0043859649122807015,
+        "n": 56,
+        "q1": 0.07151200519143414,
+        "q3": 0.13754148885727835
+      }
+    },
+    "poor": {
+      "deletion": {
+        "ci_high": 0.5077973804773626,
+        "ci_low": 0.30853435164476045,
+        "maximum": 1.0,
+        "mean": 0.40816586606106153,
+        "median": 0.2609455546924652,
+        "minimum": 0.0,
+        "n": 56,
+        "q1": 0.07079375529013449,
+        "q3": 0.8415124654934437
+      },
+      "insertion": {
+        "ci_high": 0.06000767134065706,
+        "ci_low": 0.018408511151388748,
+        "maximum": 0.395,
+        "mean": 0.039208091246022904,
+        "median": 0.006250244150162116,
+        "minimum": 0.0,
+        "n": 56,
+        "q1": 0.0,
+        "q3": 0.047835497835497835
+      },
+      "n": 56,
+      "substitution": {
+        "ci_high": 0.2813903473327889,
+        "ci_low": 0.1581977791248028,
+        "maximum": 0.9526462395543176,
+        "mean": 0.21979406322879583,
+        "median": 0.115802304964539,
+        "minimum": 0.0,
+        "n": 56,
+        "q1": 0.031383622428398546,
+        "q3": 0.3963264722698685
+      },
+      "wer": {
+        "ci_high": 0.756869475299662,
+        "ci_low": 0.5774665657720984,
+        "maximum": 1.095,
+        "mean": 0.6671680205358802,
+        "median": 0.8204505907134353,
+        "minimum": 0.0049504950495049506,
+        "n": 56,
+        "q1": 0.34288124698698375,
+        "q3": 0.9873943236714976
+      }
+    },
+    "rotated": {
+      "deletion": {
+        "ci_high": 0.38014909700368227,
+        "ci_low": 0.21142830585163697,
+        "maximum": 1.0,
+        "mean": 0.2957887014276596,
+        "median": 0.14694385216773276,
+        "minimum": 0.0,
+        "n": 56,
+        "q1": 0.05383586083853702,
+        "q3": 0.4275879026309319
+      },
+      "insertion": {
+        "ci_high": 0.10614832146104504,
+        "ci_low": 0.058140348377840476,
+        "maximum": 0.42528735632183906,
+        "mean": 0.08214433491944276,
+        "median": 0.0608521773476844,
+        "minimum": 0.0,
+        "n": 56,
+        "q1": 0.01601484530938124,
+        "q3": 0.10207853302611368
+      },
+      "n": 56,
+      "substitution": {
+        "ci_high": 0.30268391703443603,
+        "ci_low": 0.14771524027744865,
+        "maximum": 1.0,
+        "mean": 0.22519957865594234,
+        "median": 0.092939403724034,
+        "minimum": 0.0,
+        "n": 56,
+        "q1": 0.05357705641348881,
+        "q3": 0.26135113904163393
+      },
+      "wer": {
+        "ci_high": 0.6867648011561135,
+        "ci_low": 0.5195004288499759,
+        "maximum": 1.135135135135135,
+        "mean": 0.6031326150030447,
+        "median": 0.5801781906792568,
+        "minimum": 0.08074534161490683,
+        "n": 56,
+        "q1": 0.29484029484029484,
+        "q3": 0.9310831426392068
+      }
+    },
+    "tables": {
+      "deletion": {
+        "ci_high": 0.1369209331852327,
+        "ci_low": 0.08654384251808583,
+        "maximum": 0.3148148148148148,
+        "mean": 0.11173238785165927,
+        "median": 0.09972413793103449,
+        "minimum": 0.008264462809917356,
+        "n": 56,
+        "q1": 0.027624309392265192,
+        "q3": 0.17234448356807514
+      },
+      "insertion": {
+        "ci_high": 0.12053884460392275,
+        "ci_low": 0.06392465178421852,
+        "maximum": 0.3989071038251366,
+        "mean": 0.09223174819407064,
+        "median": 0.04111570247933884,
+        "minimum": 0.005988023952095809,
+        "n": 56,
+        "q1": 0.018186246650970204,
+        "q3": 0.14314285714285713
+      },
+      "n": 56,
+      "substitution": {
+        "ci_high": 0.1899582205742371,
+        "ci_low": 0.12158359214192437,
+        "maximum": 0.5028248587570622,
+        "mean": 0.15577090635808075,
+        "median": 0.10467479674796748,
+        "minimum": 0.017964071856287425,
+        "n": 56,
+        "q1": 0.07454268292682927,
+        "q3": 0.18279387865655472
+      },
+      "wer": {
+        "ci_high": 0.4176430565627044,
+        "ci_low": 0.3018270282449169,
+        "maximum": 0.8870056497175142,
+        "mean": 0.35973504240381066,
+        "median": 0.3244047619047619,
+        "minimum": 0.0743801652892562,
+        "n": 56,
+        "q1": 0.17633442265795207,
+        "q3": 0.4497685759153649
+      }
+    }
+  }
+}
