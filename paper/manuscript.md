@@ -185,11 +185,11 @@ The compared operating points were:
 
 The primary v0.1 SafeOCR policy has one frozen operating point. We do not retrospectively sweep thresholds on the final set.
 
-### 3.10 External benchmark integration
+### 3.10 External OCR generalization
 
-ClinOCR-Bench was pinned as an external realism benchmark. Its published metadata contains 384 documents, including 56 exemplars and 328 evaluation documents [@hsu2026clinocr]. SafeOCR freezes an external-evaluation adapter that prevents test/evaluation records from entering tuning paths.
+ClinOCR-Bench was pinned as an external realism benchmark. Its published metadata contains 384 documents, including 56 exemplars and 328 evaluation documents spanning normal, handwriting, poor-quality, rotated, table, and mixed-artifact subsets [@hsu2026clinocr]. Before outcome inspection, we froze a no-tuning protocol for the two OCR engines already used by SafeOCR. Ground-truth transcripts were inaccessible to the OCR runner and were opened only by a separate scorer after all predictions had been written. Word error rate (WER), substitution, deletion, and insertion components were calculated using whitespace tokenization compatible with the official ClinOCR-Bench baseline implementation.
 
-Because ClinOCR-Bench v1.0 provides full-document transcript ground truth rather than SafeOCR-specific field, patient-linkage, association, and FHIR annotations, v0.1 does not fabricate structured critical-field safety results from that benchmark.
+The external experiment evaluates transcription generalization only. ClinOCR-Bench v1.0 provides full-document transcript ground truth rather than the field, patient-linkage, association, and FHIR annotations required for SafeOCR safety endpoints; therefore document-level WER is not converted into unsafe-accept or verified-coverage claims.
 
 ## 4. Results
 
@@ -223,6 +223,14 @@ This establishes that the tested export artifact conformed sufficiently to the v
 ### 4.4 Evidence traceability
 
 The static evidence artifact demonstrates field-level traceability for a verified laboratory value. The example includes source-page SHA-256, bounding boxes for analyte/value/unit spans, OCR engine/version, policy version, verification signals, decision state, failed gates, and a deterministic explanation. The corresponding source crop is hash-bound.
+
+### 4.5 External OCR generalization on ClinOCR-Bench
+
+Both frozen OCR engines were evaluated on all 328 ClinOCR-Bench evaluation documents. Local Tesseract produced a mean WER of 0.5589 (95% CI 0.5209-0.5968) and median WER of 0.5647. Frozen PaddleOCR produced a lower overall mean WER of 0.4769 (95% CI 0.4372-0.5165) and median WER of 0.3659.
+
+Performance varied substantially by artifact type. PaddleOCR mean WER was 0.1149 on normal documents, 0.2694 on poor-quality documents, 0.2847 on tables, 0.4256 on handwriting, 0.9035 on rotated documents, and 0.9276 on mixed-artifact documents. The PaddleOCR run recorded 57 runtime failures; these cases were retained in the denominator and scored as empty predictions under the frozen failure policy. Tesseract similarly showed strong artifact sensitivity, with mean WER ranging from 0.1089 on normal documents to 0.9225 on mixed-artifact documents.
+
+These results are reported as transcription-generalization evidence only. They do not establish field-level clinical safety, and the local Tesseract run is not described as an exact reproduction of the benchmark authors' software environment.
 
 ## 5. Discussion
 
