@@ -1,0 +1,109 @@
+{
+  "field_count": 1,
+  "fields": [
+    {
+      "analyte_text": "Potassium",
+      "criticality": "CRITICAL",
+      "crop_sha256": "3768eb05e4c4ef78d77539b2edd55b431ab292ce708011dd2efc00bba761029a",
+      "evidence_record": {
+        "decision": {
+          "criticality": "CRITICAL",
+          "failed_gates": [],
+          "state": "VERIFIED_AUTO"
+        },
+        "field": {
+          "analyte_text": "Potassium",
+          "criticality": "CRITICAL",
+          "source_spans": [
+            {
+              "box": {
+                "x1": 38,
+                "x2": 134,
+                "y1": 283,
+                "y2": 309
+              },
+              "confidence": 0.9999727606773376,
+              "engine_name": "paddleocr",
+              "engine_version": "3.7.0",
+              "page": {
+                "document_sha256": "f6acec4c54e4fb4ce6bcd4a0c7ee76b9fa748015bd7c21621d13684b54110d16",
+                "height_px": 760,
+                "page_index": 0,
+                "page_sha256": "f6acec4c54e4fb4ce6bcd4a0c7ee76b9fa748015bd7c21621d13684b54110d16",
+                "width_px": 1000
+              },
+              "text": "Potassium"
+            },
+            {
+              "box": {
+                "x1": 326,
+                "x2": 364,
+                "y1": 282,
+                "y2": 313
+              },
+              "confidence": 0.9999935030937195,
+              "engine_name": "paddleocr",
+              "engine_version": "3.7.0",
+              "page": {
+                "document_sha256": "f6acec4c54e4fb4ce6bcd4a0c7ee76b9fa748015bd7c21621d13684b54110d16",
+                "height_px": 760,
+                "page_index": 0,
+                "page_sha256": "f6acec4c54e4fb4ce6bcd4a0c7ee76b9fa748015bd7c21621d13684b54110d16",
+                "width_px": 1000
+              },
+              "text": "3.4"
+            },
+            {
+              "box": {
+                "x1": 476,
+                "x2": 552,
+                "y1": 281,
+                "y2": 311
+              },
+              "confidence": 0.9999311566352844,
+              "engine_name": "paddleocr",
+              "engine_version": "3.7.0",
+              "page": {
+                "document_sha256": "f6acec4c54e4fb4ce6bcd4a0c7ee76b9fa748015bd7c21621d13684b54110d16",
+                "height_px": 760,
+                "page_index": 0,
+                "page_sha256": "f6acec4c54e4fb4ce6bcd4a0c7ee76b9fa748015bd7c21621d13684b54110d16",
+                "width_px": 1000
+              },
+              "text": "mmol/L"
+            }
+          ],
+          "unit_text": "mmol/L",
+          "value_text": "3.4"
+        },
+        "policy_version": "f4-v1",
+        "signals": {
+          "candidate_present": true,
+          "independent_agreement": true,
+          "numeric_parse_unambiguous": true,
+          "patient_linkage_unambiguous": true,
+          "perturbation_stable": true,
+          "runtime_healthy": true,
+          "structural_association": true,
+          "unit_valid": true,
+          "visual_grounded": true
+        }
+      },
+      "explanation": "Verified automatically because all required verification gates passed.",
+      "failed_gates": [],
+      "field_id": "5d86476c0f002df9c218e9b6",
+      "page_sha256": "f6acec4c54e4fb4ce6bcd4a0c7ee76b9fa748015bd7c21621d13684b54110d16",
+      "policy_version": "f4-v1",
+      "source_box": {
+        "x1": 38,
+        "x2": 552,
+        "y1": 281,
+        "y2": 313
+      },
+      "state": "VERIFIED_AUTO",
+      "unit_text": "mmol/L",
+      "value_text": "3.4"
+    }
+  ],
+  "schema_version": 1
+}

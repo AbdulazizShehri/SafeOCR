@@ -2,7 +2,7 @@
 
 ## In flight
 
-F6 Evaluation is closed with declared limitations. The primary LabGold artifact is frozen and must not be rerun or overwritten. ClinOCR-Bench external metadata integration and the no-tuning Safety Track manifest are frozen. F7 Evidence Report is next.
+F7 Static Evidence Report is complete and qualified locally. F8 v0.1 release hardening is next: package/release metadata, final notices, CI/release checks, tag readiness, and remote publication.
 
 ## Canonical local foundation
 
@@ -70,4 +70,4 @@ Local history is canonical. Remote publication is still blocked by local Git cre
 
 ## Current objective
 
-Implement F7 Evidence Report: deterministic CLI output plus a static HTML evidence report where every critical field resolves to source evidence and every verified/review/abstain state has a machine-readable explanation.
+Complete F8 v0.1 release hardening, qualify the exact release head, then publish the canonical local history to `AbdulazizShehri/SafeOCR` without rewriting history.
