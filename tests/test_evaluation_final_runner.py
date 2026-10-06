@@ -14,6 +14,7 @@ def test_final_runner_exposes_no_partial_case_limit_or_calibration_role() -> Non
     assert "EvaluationRole.CALIBRATION" not in source
     assert "if item.role is EvaluationRole.EVALUATION" in source
     assert '"run_kind": "primary_v0_1_final_evaluation"' in source
+    assert "text_recognition_batch_size=1" in source
 
 
 def test_final_runner_help_is_non_executing_and_has_only_runtime_options() -> None:

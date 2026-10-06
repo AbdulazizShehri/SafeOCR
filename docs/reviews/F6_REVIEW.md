@@ -70,3 +70,11 @@ Execution guards:
 Mechanical pre-commit tests cover the CLI surface and rerun refusal without executing final-role data. Final-role execution remains prohibited until the runner commit receives exact-head qualification.
 
 Pre-execution review evidence: Jev final-runner governance score 3.31/4 (57% strong, 39% excellent). Alibaba Open Code Review delegated Python/default rules were applied to the final runner, tests, and spec; host-agent review found no blocking correctness or security issue. Full pre-commit gates: 165 passed / 4 skipped, Ruff PASS, Pyright strict 0 errors / 0 warnings, pip check PASS, Graft 440 nodes / 1424 edges with graph check OK.
+
+## F6.2d attempt 1 infrastructure failure
+
+The exact-head runner at `162a9c03536a82e1e1b346ecfdaeb56124de7940` started the frozen final role but terminated after 804.72 seconds with `numpy._core._exceptions._ArrayMemoryError` while PaddleOCR attempted to allocate a 17.1 MiB recognition array of shape `(6, 40, 18710)`. No `F6_FINAL_EVALUATION.json` artifact was created and no final metric payload was emitted or inspected. The failure is preserved at `docs/evidence/F6_FINAL_ATTEMPT_1_FAILURE.json`.
+
+Recovery is infrastructure-only: reduce PaddleOCR text-recognition batch size while preserving the exact OCR model names/revisions, SafeOCR verification policy, thresholds, frozen split SHA-256, corruption seeds, truth, and metric definitions. Recovery must be requalified entirely on calibration data before a second final-role attempt.
+
+Recovery calibration check: PaddleOCR text-recognition batch size was reduced from its default to `1` in both calibration and final runners. The OCR model identities, SafeOCR policy, frozen split, corruption seeds, and metric definitions were unchanged. A 2-document / 12-field calibration rerun completed without memory failure and reproduced the prior bounded metrics exactly, including SafeOCR CFEA 1.0 / UAR 0.0 / coverage 1.0 and Tesseract crop CFEA 0.8333333333333334 / UAR 0.16666666666666666.

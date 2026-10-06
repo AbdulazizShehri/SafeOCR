@@ -48,4 +48,4 @@ Local history is canonical. Remote publication is still blocked by local Git cre
 
 ## Current objective
 
-Commit and exact-head qualify the F6.2d final-only runner. Only after that gate passes may it execute all 48 frozen final-role document cases once and write `docs/evidence/F6_FINAL_EVALUATION.json`.
+F6.2d attempt 1 at exact head `162a9c03536a82e1e1b346ecfdaeb56124de7940` failed from infrastructure memory exhaustion before any metric artifact was emitted. Preserve `docs/evidence/F6_FINAL_ATTEMPT_1_FAILURE.json`. Recovery may change only PaddleOCR text-recognition batch size, must requalify on calibration data, and may not change models, policy, thresholds, split, seeds, or truth.

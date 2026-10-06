@@ -69,13 +69,16 @@ F6.2c — CLOSED:
 - [x] design and qualify an OCR-only end-to-end association scorer before any headline table-association claim;
 - [x] exact-head qualify commit `c6abed545b531834a46784f06997ac7fcbb8291b` before unlocking final LabGold execution.
 
-F6.2d — IMPLEMENTED / EXECUTION LOCKED:
+F6.2d — INFRASTRUCTURE RECOVERY:
 - [x] implement a final-evaluation-only runner over the frozen split;
 - [x] expose no partial-case, threshold-tuning, or calibration path;
 - [x] record the exact split SHA-256 and clean git head at run start;
 - [x] refuse overwrite/rerun when primary evidence already exists;
-- [ ] exact-head qualify the committed runner;
-- [ ] run all 48 frozen final-role document cases exactly once for the primary v0.1 claim.
+- [x] exact-head qualify runner commit `162a9c03536a82e1e1b346ecfdaeb56124de7940`;
+- [x] preserve failed attempt 1 as infrastructure-only evidence with no final metrics emitted;
+- [x] constrain PaddleOCR text-recognition batch size without changing model/policy/split;
+- [ ] requalify the recovery runner on calibration data and exact head;
+- [ ] execute the recovery final run and report it explicitly as attempt 2.
 
 F6.3:
 - ClinOCR-Bench adapter + Safety Track manifest without test-set tuning.

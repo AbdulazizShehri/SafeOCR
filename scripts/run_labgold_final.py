@@ -78,6 +78,7 @@ def _build_paddle_pipeline() -> _PaddlePipeline:
         use_doc_orientation_classify=False,
         use_doc_unwarping=False,
         use_textline_orientation=False,
+        text_recognition_batch_size=1,
         engine="onnxruntime",
         device="cpu",
     )
