@@ -1,0 +1,215 @@
+{
+  "clean": {
+    "decision": "VERIFIED_AUTO",
+    "signals": {
+      "candidate_present": true,
+      "independent_agreement": true,
+      "numeric_parse_unambiguous": true,
+      "patient_linkage_unambiguous": true,
+      "perturbation_stable": true,
+      "runtime_healthy": true,
+      "structural_association": true,
+      "unit_valid": true,
+      "visual_grounded": true
+    },
+    "trace": {
+      "evidence_record": {
+        "decision": {
+          "criticality": "CRITICAL",
+          "failed_gates": [],
+          "state": "VERIFIED_AUTO"
+        },
+        "field": {
+          "analyte_text": "Potassium",
+          "criticality": "CRITICAL",
+          "source_spans": [
+            {
+              "box": {
+                "x1": 38,
+                "x2": 134,
+                "y1": 283,
+                "y2": 309
+              },
+              "confidence": 0.9999727606773376,
+              "engine_name": "paddleocr",
+              "engine_version": "3.7.0",
+              "page": {
+                "document_sha256": "f6acec4c54e4fb4ce6bcd4a0c7ee76b9fa748015bd7c21621d13684b54110d16",
+                "height_px": 760,
+                "page_index": 0,
+                "page_sha256": "f6acec4c54e4fb4ce6bcd4a0c7ee76b9fa748015bd7c21621d13684b54110d16",
+                "width_px": 1000
+              },
+              "text": "Potassium"
+            },
+            {
+              "box": {
+                "x1": 326,
+                "x2": 364,
+                "y1": 282,
+                "y2": 313
+              },
+              "confidence": 0.9999935030937195,
+              "engine_name": "paddleocr",
+              "engine_version": "3.7.0",
+              "page": {
+                "document_sha256": "f6acec4c54e4fb4ce6bcd4a0c7ee76b9fa748015bd7c21621d13684b54110d16",
+                "height_px": 760,
+                "page_index": 0,
+                "page_sha256": "f6acec4c54e4fb4ce6bcd4a0c7ee76b9fa748015bd7c21621d13684b54110d16",
+                "width_px": 1000
+              },
+              "text": "3.4"
+            },
+            {
+              "box": {
+                "x1": 476,
+                "x2": 552,
+                "y1": 281,
+                "y2": 311
+              },
+              "confidence": 0.9999311566352844,
+              "engine_name": "paddleocr",
+              "engine_version": "3.7.0",
+              "page": {
+                "document_sha256": "f6acec4c54e4fb4ce6bcd4a0c7ee76b9fa748015bd7c21621d13684b54110d16",
+                "height_px": 760,
+                "page_index": 0,
+                "page_sha256": "f6acec4c54e4fb4ce6bcd4a0c7ee76b9fa748015bd7c21621d13684b54110d16",
+                "width_px": 1000
+              },
+              "text": "mmol/L"
+            }
+          ],
+          "unit_text": "mmol/L",
+          "value_text": "3.4"
+        },
+        "policy_version": "f4-v1",
+        "signals": {
+          "candidate_present": true,
+          "independent_agreement": true,
+          "numeric_parse_unambiguous": true,
+          "patient_linkage_unambiguous": true,
+          "perturbation_stable": true,
+          "runtime_healthy": true,
+          "structural_association": true,
+          "unit_valid": true,
+          "visual_grounded": true
+        }
+      },
+      "independent_read": {
+        "crop_sha256": "0b5a2e43ca7d1c2c0d22019382a828d6b3ccbd70a58aead79d1562e42c37aa43",
+        "engine_name": "tesseract",
+        "engine_version": "tesseract v5.4.0.20240606",
+        "executable": "C:\\Program Files\\Tesseract-OCR\\tesseract.exe",
+        "text": "3.4"
+      },
+      "parsed_value": {
+        "comparator": null,
+        "kind": "NUMERIC",
+        "normalized_text": "3.4",
+        "numeric_value": "3.4",
+        "qualitative_token": null
+      },
+      "patient_linkage": {
+        "exact_match": true,
+        "expected_present": true,
+        "observed_count": 1,
+        "observed_unique_count": 1
+      },
+      "perturbation_reads": [
+        {
+          "image_sha256": "a112cd2016027190c4012aee8eea2af0050f98d1adfd91ff507ae34a6b4c5019",
+          "name": "brightness_095",
+          "runtime_healthy": true,
+          "text": "3.4"
+        },
+        {
+          "image_sha256": "2d54fcf6b793703863e2616ef32b9174b48f347fca410d8520d7630b0346a02f",
+          "name": "brightness_105",
+          "runtime_healthy": true,
+          "text": "3.4"
+        },
+        {
+          "image_sha256": "9861af634e35f04e0780eebb03113577664b0c4e72471889eb6ee714ffebcced",
+          "name": "contrast_105",
+          "runtime_healthy": true,
+          "text": "3.4"
+        },
+        {
+          "image_sha256": "2d02226e5d1440e22eea3fc1df712db32cc1803e502d2739bee38b94dd941768",
+          "name": "scale_110",
+          "runtime_healthy": true,
+          "text": "3.4"
+        }
+      ],
+      "runtime_errors": [],
+      "unit_validation": {
+        "error": null,
+        "source_text": "mmol/L",
+        "status": "VALID",
+        "validator_name": "ucumvert",
+        "validator_version": "0.3.2"
+      }
+    }
+  },
+  "disagreement_control": {
+    "decision": "REVIEW_REQUIRED",
+    "failed_gates": [
+      "independent_agreement"
+    ],
+    "secondary_value": "3.8"
+  },
+  "field": {
+    "analyte": "Potassium",
+    "independent_value": "3.4",
+    "primary_value": "3.4",
+    "unit": "mmol/L",
+    "value_crop_sha256": "0b5a2e43ca7d1c2c0d22019382a828d6b3ccbd70a58aead79d1562e42c37aa43"
+  },
+  "labgold": {
+    "page_sha256": "f6acec4c54e4fb4ce6bcd4a0c7ee76b9fa748015bd7c21621d13684b54110d16",
+    "patient_id": "SAFE-69904705",
+    "seed": 53,
+    "template": "classic"
+  },
+  "packages": {
+    "onnxruntime": "1.23.2",
+    "paddleocr": "3.7.0",
+    "ucumvert": "0.3.2"
+  },
+  "perturbations": [
+    {
+      "image_sha256": "a112cd2016027190c4012aee8eea2af0050f98d1adfd91ff507ae34a6b4c5019",
+      "name": "brightness_095",
+      "runtime_healthy": true,
+      "text": "3.4"
+    },
+    {
+      "image_sha256": "2d54fcf6b793703863e2616ef32b9174b48f347fca410d8520d7630b0346a02f",
+      "name": "brightness_105",
+      "runtime_healthy": true,
+      "text": "3.4"
+    },
+    {
+      "image_sha256": "9861af634e35f04e0780eebb03113577664b0c4e72471889eb6ee714ffebcced",
+      "name": "contrast_105",
+      "runtime_healthy": true,
+      "text": "3.4"
+    },
+    {
+      "image_sha256": "2d02226e5d1440e22eea3fc1df712db32cc1803e502d2739bee38b94dd941768",
+      "name": "scale_110",
+      "runtime_healthy": true,
+      "text": "3.4"
+    }
+  ],
+  "platform": "Windows-11-10.0.26300-SP0",
+  "python_version": "3.12.13",
+  "schema_version": 1,
+  "unit_validation": {
+    "source_text": "mmol/L",
+    "status": "VALID",
+    "validator_version": "0.3.2"
+  }
+}

@@ -2,26 +2,26 @@
 
 ## In flight
 
-F3 OCR + critical-crop verifier closed locally. F4 Evidence Verification is next.
+F4 Evidence Verification is closed locally. F5 FHIR R4 export gate is next.
 
 ## Canonical local foundation
 
-- architecture commit: `6f11ccb`
-- F1 foundation commit: `1d05ba4`
-- F2 LabGold commit: `a2c626a`
-- active branch: `feat/f3-ocr-adapters`
+- architecture commit: 6f11ccb
+- F1 foundation commit: 1d05ba4
+- F2 LabGold commit: a2c626a
+- F3 OCR adapters commit: 3aba8f6
+- active branch: feat/f4-evidence-verification
 - remote repository is currently read-only from the connected credentials
 
-## F3 runtime
+## F4 runtime
 
 - PaddleOCR 3.7.0
-- PaddleX 3.7.2
 - ONNX Runtime 1.23.2 CPU
-- PP-OCRv6_small_det_onnx
-- PP-OCRv6_small_rec_onnx
 - Tesseract 5.4.0.20240606
-- runtime evidence: `docs/evidence/F3_RUNTIME_SMOKE.json`
+- ucumvert 0.3.2
+- runtime evidence: docs/evidence/F4_RUNTIME_SMOKE.json
+- review evidence: docs/reviews/F4_REVIEW.md
 
 ## Current objective
 
-Specify F4 evidence verification: independent agreement, perturbation stability, structural association, and fail-closed signal derivation. F4 must consume F3 engine outputs without adding clinical correction.
+Specify F5 as a narrow FHIR R4 export gate that exports only VERIFIED_AUTO evidence, preserves source-document provenance, and blocks export on validation failure. F5 must not weaken F4 verification or invent missing clinical content.

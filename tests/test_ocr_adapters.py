@@ -227,6 +227,7 @@ def test_tesseract_invocation_is_safe_and_not_clinically_corrected() -> None:
     read = read_tesseract_crop(
         crop,
         executable="tesseract",
+        engine_version="5.4-test",
         runner=runner,
         timeout_seconds=4.0,
     )
@@ -244,6 +245,8 @@ def test_tesseract_invocation_is_safe_and_not_clinically_corrected() -> None:
     assert call["shell"] is False
     assert call["timeout"] == 4.0
     assert read.text == "6.B"
+    assert read.engine_version == "5.4-test"
+    assert read.crop_sha256 == crop.crop_sha256
 
 
 @pytest.mark.parametrize(
@@ -259,7 +262,12 @@ def test_tesseract_runtime_failures_are_explicit(completed: _Completed) -> None:
     runner = _Runner(completed)
 
     with pytest.raises(EngineRuntimeError):
-        read_tesseract_crop(crop, executable="tesseract", runner=runner)
+        read_tesseract_crop(
+            crop,
+            executable="tesseract",
+            engine_version="5.4-test",
+            runner=runner,
+        )
 
 
 def test_runtime_probe_does_not_require_importing_heavy_models() -> None:

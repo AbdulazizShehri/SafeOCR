@@ -3,6 +3,7 @@ from __future__ import annotations
 import hashlib
 import importlib.metadata
 import io
+import re
 import shutil
 import subprocess
 from collections.abc import Mapping, Sequence
@@ -69,11 +70,23 @@ class CriticalCrop:
 
 @dataclass(frozen=True, slots=True)
 class CropRead:
-    """Independent OCR read of one critical crop."""
+    """Independent OCR read bound to the exact critical crop."""
 
     text: str
     engine_name: str
+    engine_version: str
     executable: str
+    crop_sha256: str
+
+    def __post_init__(self) -> None:
+        if not self.engine_name.strip():
+            raise ValueError("engine_name must be non-empty")
+        if not self.engine_version.strip():
+            raise ValueError("engine_version must be non-empty")
+        if not self.executable.strip():
+            raise ValueError("executable must be non-empty")
+        if not re.fullmatch(r"[0-9a-fA-F]{64}", self.crop_sha256):
+            raise ValueError("crop_sha256 must be a 64-character hexadecimal SHA-256")
 
 
 @dataclass(frozen=True, slots=True)
@@ -268,6 +281,7 @@ def read_tesseract_crop(
     crop: CriticalCrop,
     *,
     executable: str,
+    engine_version: str,
     runner: _Runner = _subprocess_runner,
     timeout_seconds: float = 5.0,
 ) -> CropRead:
@@ -275,6 +289,8 @@ def read_tesseract_crop(
 
     if not executable.strip():
         raise ValueError("Tesseract executable must be non-empty")
+    if not engine_version.strip():
+        raise ValueError("Tesseract engine_version must be non-empty")
     if timeout_seconds <= 0:
         raise ValueError("timeout_seconds must be positive")
 
@@ -309,7 +325,13 @@ def read_tesseract_crop(
     except UnicodeDecodeError as exc:
         raise EngineRuntimeError("Tesseract stdout was not valid UTF-8") from exc
 
-    return CropRead(text=text, engine_name="tesseract", executable=executable)
+    return CropRead(
+        text=text,
+        engine_name="tesseract",
+        engine_version=engine_version,
+        executable=executable,
+        crop_sha256=crop.crop_sha256,
+    )
 
 
 def _installed_version(distribution: str) -> str | None:

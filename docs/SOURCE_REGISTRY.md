@@ -28,6 +28,7 @@ Status values:
 | HAPI FHIR | R4 validation tooling | Apache-2.0 | APPROVED validation tool |
 | LOINC | Lab-test identity normalization | Open license with attribution/use conditions | APPROVED terminology subject to license notice |
 | UCUM | Units | UCUM license | APPROVED terminology subject to license notice |
+| ucumvert 0.3.2 | Local case-sensitive UCUM parser for F4 terminology veto | MIT code; bundled UCUM files retain UCUM license | APPROVED and pinned; notices in docs/THIRD_PARTY_NOTICES.md |
 | RxNorm Current Prescribable Content | Future medication normalization | NLM terms apply | DEFERRED to v0.2 |
 | Full RxNorm release | Future terminology data | UMLS/RxNorm terms may apply | DEFERRED |
 | SNOMED CT | Potential future terminology | jurisdiction/licensing complexity | DEFERRED |
@@ -63,9 +64,9 @@ Pixel coordinates and verification details remain in the SafeOCR Evidence Manife
 
 LOINC is used to normalize test identity when enough source evidence exists.
 
-UCUM is used to parse/canonicalize units and to detect inconsistent unit representations.
+UCUM is used in F4 only to parse and validate the exact source unit code. SafeOCR does not canonicalize, rewrite, or substitute the source unit during verification.
 
-Neither may be used to invent missing source content.
+Neither LOINC nor UCUM may be used to invent missing source content.
 
 ## Benchmark-source policy
 

@@ -152,9 +152,11 @@ def run_smoke(*, tesseract: Path) -> dict[str, object]:
         truth_value.box,
         padding_px=6,
     )
+    tesseract_version = _tesseract_version(tesseract)
     tesseract_read = read_tesseract_crop(
         crop,
         executable=str(tesseract),
+        engine_version=tesseract_version,
         timeout_seconds=10.0,
     )
     paddle_truth_match = any(span.text == truth_value.text for span in normalized.spans)
@@ -181,7 +183,7 @@ def run_smoke(*, tesseract: Path) -> dict[str, object]:
         },
         "models": _model_hashes(),
         "tesseract": {
-            "version": _tesseract_version(tesseract),
+            "version": tesseract_version,
             "eng_traineddata_sha256": _sha256(eng_data),
             "eng_traineddata_bytes": eng_data.stat().st_size,
         },
