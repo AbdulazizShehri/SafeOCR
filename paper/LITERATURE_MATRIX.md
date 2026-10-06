@@ -1,0 +1,48 @@
+[Reading 41 lines from start (total: 41 lines, 0 remaining)]
+
+# SafeOCR Literature Matrix
+
+This matrix is the manuscript's claim-control layer. It separates what prior work actually establishes from what SafeOCR may claim.
+
+| Source | Domain / task | What it establishes | Relevance to SafeOCR | Limitation relative to SafeOCR |
+|---|---|---|---|---|
+| Ma et al., 2023, BMC Medical Informatics and Decision Making, DOI 10.1186/s12911-023-02346-6 | OCR + information extraction from paper laboratory reports | End-to-end OCR/IE can digitize laboratory-report fields across heterogeneous layouts; reports OCR accuracy and downstream entity extraction performance on real hospital data | Closest direct clinical-laboratory predecessor; motivates laboratory-report scope and mixed text/numeric/unit structure | Optimizes extraction accuracy; does not make pixel-bound evidence verification, reject-option safety, or provenance-preserving FHIR export the central evaluation target |
+| Laique et al., 2021, Gastrointestinal Endoscopy, DOI 10.1016/j.gie.2020.08.038 | OCR + NLP on scanned colonoscopy/pathology reports | OCR/NLP can recover clinical quality variables from scanned records at scale | Supports the practical need for OCR before downstream NLP in legacy clinical documents | Different document family and does not evaluate a selective field-level verification gate |
+| Hsu et al., 2022, JAMIA Open, DOI 10.1093/jamiaopen/ooac045 | OCR + NLP on scanned EHR documents | Evaluates image preprocessing, OCR, layout, and NLP on 955 scanned sleep-study reports | Strong evidence that scanned-document extraction quality depends on multiple pipeline stages and layout | Optimizes end-to-end extraction performance rather than field-level trust promotion or export gating |
+| Hsu et al., 2026, ClinOCR-Bench, arXiv:2607.03650 | Public clinical OCR benchmark | Provides 384 PHI-free scanned clinical documents across normal, handwriting, poor-quality, rotation, tables, and mixed-artifact subsets | Supplies an external realism benchmark and demonstrates the shortage of public clinical OCR evaluation data | Ground truth is full-document transcript; it does not natively provide SafeOCR critical-field, patient-linkage, FHIR-mapping, or field-level evidence annotations |
+| Li et al., 2026, MedStruct-S, arXiv:2605.03103 | Semi-structured extraction from OCR clinical reports | Benchmarks key discovery, key-conditioned QA, and key-value extraction under OCR noise on 3,582 pages | Shows that OCR noise and heterogeneous schemas remain important for structured clinical extraction | Evaluates extraction capability, not evidence-bound acceptance/review/abstention or FHIR gating |
+| Shang et al., 2026, MedRepBench, ECCV 2026 | Structured understanding of medical report images | Extends evaluation beyond plain OCR toward structured medical-report understanding | Relevant to structure-aware extraction and table/report reasoning | Broader structured-understanding benchmark; not a clinical safety gate or provenance system |
+| Swaminathan et al., 2023/2024, JAMIA, DOI 10.1093/jamia/ocad182 | Selective prediction for unstructured clinical data abstraction | Shows that allowing abstention can improve clinical data-extraction utility and accuracy under asymmetric error costs | Direct conceptual support for SafeOCR's review/abstain design | Operates on clinical-note classifiers rather than OCR evidence binding and structured export |
+| Geifman & El-Yaniv, 2019, ICML/PMLR | Selective prediction / reject option | Formalizes learned risk-coverage trade-offs for predictive systems with rejection | Provides the general risk-coverage language used to report SafeOCR verified coverage versus unsafe accepts | Generic ML setting; SafeOCR uses deterministic healthcare verification gates rather than a learned SelectiveNet architecture |
+| Angelopoulos et al., 2025, Annals of Applied Statistics, DOI 10.1214/24-AOAS1998 | Distribution-free risk control | Shows how calibration can provide finite-sample risk guarantees without model refitting | Motivates calibration-first, held-out evaluation discipline and explicit risk control | SafeOCR v0.1 does not claim a formal conformal guarantee; it reports observed error and Wilson intervals |
+| Kim et al., 2025, AAAI Symposium Series, DOI 10.1609/aaaiss.v7i1.36929 | Conformal verification of LLM EHR extraction | Demonstrates conformal verification for accepted structured extractions from clinical narratives | Strong contemporary evidence that verification should be separated from generation/extraction | LLM narrative extraction rather than scanned OCR; verification mechanism and evidence representation differ |
+| Daumke et al., 2019, MEDINFO, DOI 10.3233/SHTI190188 | Clinical text mining on FHIR | Connects clinical text mining with FHIR-based semantic interoperability and highlights provenance | Supports SafeOCR's design choice to treat structured export as an interoperability boundary | Text-mining/FHIR architecture rather than OCR-specific field verification |
+| Margheri et al., 2020, International Journal of Medical Informatics, DOI 10.1016/j.ijmedinf.2020.104197 | Healthcare provenance | Demonstrates provenance records integrated with healthcare data exchange and represented through FHIR | Supports explicit provenance as part of trustworthy downstream use | Focuses on data provenance infrastructure, not OCR extraction correctness |
+| Girda & Groza, 2026, arXiv:2608.29965 | Source-grounded integrity gating for laboratory data | Keeps LLM-generated laboratory candidates provisional until a deterministic monitor verifies a unique source quotation, same-row evidence, and provenance; refused candidates remain for review | This is the closest conceptual predecessor/parallel work found in the review and materially overlaps SafeOCR's trust-boundary framing | Evaluates integrity-gate behavior on 9 historical PDF reports and does not claim clinical correctness/safety; SafeOCR differs in OCR-engine independence checks, perturbation stability, explicit criticality, risk/coverage evaluation, and gated FHIR export |
+| Ben Hmida et al., 2025, INISTA, DOI 10.1109/INISTA68122.2025.11249647 | Ontology-constrained OCR with verified abstention | Demonstrates that OCR validation can combine semantic constraints with explicit abstention | Important non-clinical/adjacent evidence that verification and abstention can be integrated directly into OCR systems | Not specific to clinical laboratory safety, pixel-bound provenance, patient linkage, or FHIR export |
+| HL7 FHIR R4 specification | Interoperability / provenance standard | Defines R4 resources, metadata, source identity, and Provenance relationships | Normative basis for SafeOCR R4 export and provenance representation | Conformance to FHIR does not establish correctness of extracted clinical values |
+
+## Synthesis
+
+The literature separates into four mature but only partially connected lines:
+
+1. **Clinical document OCR and extraction** show that scanned reports can be digitized effectively, including laboratory reports, but primarily optimize transcription/entity accuracy.
+2. **Selective prediction and risk control** show that abstention can be preferable to forced prediction and provide the language of coverage versus conditional error.
+3. **Clinical extraction verification** increasingly treats model output as something that must be calibrated or independently verified rather than trusted directly.
+4. **FHIR and provenance work** provides an interoperability and audit layer for downstream clinical data.
+
+SafeOCR should therefore be positioned as a **systems-and-evaluation contribution at the intersection of these lines**, not as a claim that any individual component (OCR, abstention, provenance, or FHIR) is new.
+
+## Defensible novelty statement
+
+Recent work substantially narrows the novelty space. Girda and Groza (2026) independently describe a source-grounded deterministic trust-promotion gate for laboratory data with same-row evidence, provenance, and review retention, and Ben Hmida et al. (2025) combine OCR verification with abstention. SafeOCR therefore must not claim novelty for evidence gating or abstention in isolation. Its defensible contribution is the specific healthcare OCR safety contract that combines pixel-bound field evidence, independent OCR-family rereading, perturbation stability, patient/document linkage, explicit criticality, governed risk/coverage evaluation, and FHIR export that is mechanically blocked for non-verified fields. This should be presented as a distinct integration and evaluation design, not as a universal first.
+
+## Claims that must remain withheld
+
+- SafeOCR is not shown to outperform the raw primary OCR baseline on LabGold.
+- Zero observed unsafe accepts does not imply zero underlying risk.
+- ClinOCR-Bench does not currently support SafeOCR field-level safety claims without an additional governed annotation layer.
+- FHIR validator conformance is not equivalent to a measured FHIR mapping-error rate.
+- The v0.1 evidence does not establish clinical deployment safety or medical-device performance.
+
+[executed on device: Abdulaziz (21c6d2a8-392c-4893-8a76-ab80c7e787c4)]
