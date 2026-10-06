@@ -20,4 +20,11 @@
 | FHIR mapping error rate was zero | NOT SUPPORTED | F6 did not estimate field-level FHIR mapping error | Prohibited |
 | FHIR validator passed the canonical valid bundle with zero errors | supported | F5_RUNTIME_SMOKE.json | Conformance claim only |
 | ClinOCR-Bench supports SafeOCR field-level safety metrics | NOT SUPPORTED | transcript truth lacks required field/patient/FHIR labels | Prohibited in v0.1 |
-| SafeOCR is the first system to combine all four design components | INSUFFICIENT FOR ABSOLUTE FIRST CLAIM | current literature screen found no direct match | Phrase as "our review did not identify..." |
+| Visual grounding of extracted clinical fields to source-image regions has prior art | supported | RAPTOR+ 2026 | Do not claim pixel/bounding-box grounding itself as novel |
+| Source-grounded trust promotion for laboratory data has prior art | supported | Girda & Groza 2026 | Do not claim evidence gating itself as novel |
+| Clinical text-to-FHIR and printed-form-to-FHIR have prior art | supported | SMART Text2FHIR; Werlitz et al. 2025 | Do not claim FHIR conversion itself as novel |
+| Local frozen Tesseract on ClinOCR-Bench test had mean WER 0.5589 and median WER 0.5647 | supported | PAPER_CLINOCR_TESSERACT_WER.json | Call this a local frozen-runtime result, not an exact reproduction of the authors' environment |
+| SafeOCR invented visual grounding for clinical document extraction | NOT SUPPORTED | RAPTOR+ evaluates source-image bounding-box grounding | Prohibited |
+| SafeOCR invented evidence-gated trust promotion for laboratory extraction | NOT SUPPORTED | Girda & Groza 2026 | Prohibited |
+| SafeOCR invented extraction-to-FHIR | NOT SUPPORTED | SMART Text2FHIR and printed-form-to-FHIR prior art | Prohibited |
+| SafeOCR is the first system with this exact combination | INSUFFICIENT FOR ABSOLUTE FIRST CLAIM | broad multi-tool literature screen found no exact match but cannot prove universal absence | Describe a distinct integration/evaluation design; avoid "first" |

@@ -1,0 +1,54 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="760" viewBox="0 0 1280 760">
+<rect width="100%" height="100%" fill="white"/>
+<style>.box{fill:#f7f7f7;stroke:#222;stroke-width:2;}.gate{fill:#efefef;stroke:#222;stroke-width:2;}.title{font:700 20px Arial,sans-serif;fill:#111;}.sub{font:15px Arial,sans-serif;fill:#333;}.label{font:700 18px Arial,sans-serif;fill:#111;}.arrow{stroke:#333;stroke-width:2.5;fill:none;marker-end:url(#a);}.dash{stroke:#666;stroke-width:2;stroke-dasharray:8 6;fill:none;marker-end:url(#a);}</style>
+<defs><marker id="a" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto"><path d="M0,0 L0,6 L9,3 z" fill="#333"/></marker></defs>
+<text x="60" y="45" class="title">SafeOCR v0.1: evidence-grounded selective verification contract</text>
+<rect class="box" x="60" y="90" width="180" height="84" rx="12"/>
+<text x="150.0" y="124" text-anchor="middle" class="label">Clinical document</text>
+<text x="150.0" y="151" text-anchor="middle" class="sub">PDF / image</text>
+<rect class="box" x="290" y="90" width="180" height="84" rx="12"/>
+<text x="380.0" y="124" text-anchor="middle" class="label">Primary OCR</text>
+<text x="380.0" y="151" text-anchor="middle" class="sub">PaddleOCR</text>
+<rect class="box" x="520" y="90" width="200" height="84" rx="12"/>
+<text x="620.0" y="124" text-anchor="middle" class="label">Evidence-bound</text>
+<text x="620.0" y="151" text-anchor="middle" class="sub">field candidate</text>
+<rect class="box" x="770" y="90" width="210" height="84" rx="12"/>
+<text x="875.0" y="124" text-anchor="middle" class="label">Verification gates</text>
+<text x="875.0" y="151" text-anchor="middle" class="sub">deterministic</text>
+<rect class="box" x="1030" y="90" width="180" height="84" rx="12"/>
+<text x="1120.0" y="124" text-anchor="middle" class="label">Terminal state</text>
+<text x="1120.0" y="151" text-anchor="middle" class="sub">3-way decision</text>
+<rect class="gate" x="80" y="315" width="235" height="94" rx="12"/>
+<text x="197.5" y="349" text-anchor="middle" class="label">Pixel grounding</text>
+<text x="197.5" y="376" text-anchor="middle" class="sub">page + bounding region</text>
+<rect class="gate" x="355" y="315" width="235" height="94" rx="12"/>
+<text x="472.5" y="349" text-anchor="middle" class="label">Independent reread</text>
+<text x="472.5" y="376" text-anchor="middle" class="sub">Tesseract critical crop</text>
+<rect class="gate" x="630" y="315" width="235" height="94" rx="12"/>
+<text x="747.5" y="349" text-anchor="middle" class="label">Perturbation stability</text>
+<text x="747.5" y="376" text-anchor="middle" class="sub">non-destructive variants</text>
+<rect class="gate" x="905" y="315" width="235" height="94" rx="12"/>
+<text x="1022.5" y="349" text-anchor="middle" class="label">Clinical structure</text>
+<text x="1022.5" y="376" text-anchor="middle" class="sub">row / unit / patient</text>
+<rect class="box" x="150" y="545" width="220" height="92" rx="12"/>
+<text x="260.0" y="579" text-anchor="middle" class="label">VERIFIED_AUTO</text>
+<text x="260.0" y="606" text-anchor="middle" class="sub">FHIR export permitted</text>
+<rect class="box" x="530" y="545" width="220" height="92" rx="12"/>
+<text x="640.0" y="579" text-anchor="middle" class="label">REVIEW_REQUIRED</text>
+<text x="640.0" y="606" text-anchor="middle" class="sub">automatic export blocked</text>
+<rect class="box" x="910" y="545" width="220" height="92" rx="12"/>
+<text x="1020.0" y="579" text-anchor="middle" class="label">ABSTAINED</text>
+<text x="1020.0" y="606" text-anchor="middle" class="sub">automatic export blocked</text>
+<path class="arrow" d="M240,132 L282,132"/>
+<path class="arrow" d="M470,132 L512,132"/>
+<path class="arrow" d="M720,132 L762,132"/>
+<path class="arrow" d="M980,132 L1022,132"/>
+<path class="dash" d="M197,315 L197,245 L875,245 L875,178"/>
+<path class="dash" d="M472,315 L472,245 L875,245 L875,178"/>
+<path class="dash" d="M747,315 L747,245 L875,245 L875,178"/>
+<path class="dash" d="M1022,315 L1022,245 L875,245 L875,178"/>
+<path class="arrow" d="M1120,174 L1120,485 L260,485 L260,537"/>
+<path class="arrow" d="M1120,485 L640,485 L640,537"/>
+<path class="arrow" d="M1120,485 L1020,485 L1020,537"/>
+<text x="60" y="700" class="sub">Only VERIFIED_AUTO fields may pass the structured-export boundary; review and abstention remain source-linked but are not exported automatically.</text>
+</svg>

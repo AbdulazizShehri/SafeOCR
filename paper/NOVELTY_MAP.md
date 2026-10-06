@@ -23,25 +23,35 @@ The goal of this document is to prevent an overbroad novelty claim.
 
 ## Positioning
 
-The strongest novelty claim is **not** "the first evidence-gated medical OCR system."
+The strongest novelty claim is **not** "the first evidence-gated medical OCR system," "the first visually grounded clinical extraction system," or "the first OCR-to-FHIR system."
 
-The literature now contains close prior/parallel work, especially Girda and Groza (2026), which also treats laboratory extraction as a trust-promotion problem with deterministic source verification, same-row evidence, provenance, and review retention.
+The literature contains close prior/parallel work. Girda and Groza (2026) treat laboratory extraction as deterministic trust promotion with source support, same-row evidence, provenance, and review retention. RAPTOR+ (2026) links extracted clinical fields to source-image bounding boxes and evaluates joint value correctness plus evidence localisation. Ben Hmida et al. (2025) combine OCR verification with abstention. SMART Text2FHIR and printed-form-to-FHIR studies establish prior art for mapping extracted clinical information into FHIR.
 
 A defensible contribution statement is:
 
-> SafeOCR contributes a healthcare OCR verification contract that combines pixel-bound field evidence, independent OCR-family rereading, perturbation stability, structural and patient-linkage gates, explicit criticality, selective automation states, governed risk/coverage evaluation, and verification-gated FHIR R4 export in one reproducible pipeline.
+> SafeOCR contributes a reproducible healthcare OCR safety contract that combines source-region binding with independent OCR-family rereading, perturbation stability, structural and patient-linkage gates, explicit clinical criticality, selective automation states, governed accepted-error/coverage evaluation, and FHIR R4 export mechanically blocked for non-verified fields.
 
 This is an **integration + evaluation + safety-contract contribution**.
 
-## What makes the paper interesting despite close prior work
+## What still differentiates SafeOCR
 
-1. The trust decision is tied to the exact source pixel region rather than only a supporting quotation.
-2. Verification uses a second OCR family on the bounded critical crop.
-3. Non-destructive perturbation stability is part of acceptance.
-4. Patient/document linkage and row association are explicit safety gates.
-5. Criticality changes verification strictness without rewriting source text.
-6. The paper reports unsafe accepted error jointly with verified coverage.
-7. Calibration/final evaluation roles are mechanically separated.
-8. FHIR R4 export is downstream of the trust decision and is mechanically blocked for non-verified fields.
-9. FHIR validator conformance evidence and extraction correctness are intentionally reported as different claims.
-10. The manuscript publishes negative evidence: the primary OCR baseline was perfect on LabGold, so superiority is not claimed.
+1. The accepting verifier uses a second OCR family on the bounded critical crop rather than relying solely on the extracting model's own grounding.
+2. Non-destructive perturbation stability is a mandatory acceptance signal.
+3. Patient/document linkage and row association are explicit fail-closed safety gates.
+4. Criticality changes verification strictness without rewriting source text.
+5. The paper reports unsafe accepted error jointly with verified coverage.
+6. Calibration/final evaluation roles are mechanically separated and final outcomes cannot be routed back into tuning.
+7. FHIR R4 export is downstream of the trust decision and mechanically blocked for non-verified fields.
+8. FHIR validator conformance evidence and extraction correctness are intentionally reported as separate claims.
+9. The manuscript publishes negative evidence: the primary OCR baseline was perfect on LabGold, so superiority is not claimed.
+10. External OCR generalization is evaluated under a frozen no-tuning protocol separately from SafeOCR's field-level safety claims.
+
+## Prohibited novelty shortcuts
+
+- Do not claim pixel-level visual grounding is new.
+- Do not claim source-grounded admission is new.
+- Do not claim abstention/review is new.
+- Do not claim provenance is new.
+- Do not claim FHIR conversion is new.
+- Do not claim that lower WER is equivalent to lower clinical risk.
+- Avoid absolute "first" claims; the paper does not need one.

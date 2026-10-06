@@ -1,0 +1,51 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="980" height="700" viewBox="0 0 980 700">
+<rect width="100%" height="100%" fill="white"/>
+<style>.axis{stroke:#222;stroke-width:2;}.grid{stroke:#ddd;stroke-width:1;}.txt{font:16px Arial,sans-serif;fill:#222;}.title{font:700 22px Arial,sans-serif;fill:#111;}.pt{fill:#222;stroke:#fff;stroke-width:2;}.ci{stroke:#555;stroke-width:2;}</style>
+<text x="100" y="40" class="title">Frozen LabGold operating points: coverage versus unsafe accepted error</text>
+<line class="grid" x1="100.0" y1="80" x2="100.0" y2="560"/>
+<text class="txt" x="100.0" y="590" text-anchor="middle">0.00</text>
+<line class="grid" x1="290.0" y1="80" x2="290.0" y2="560"/>
+<text class="txt" x="290.0" y="590" text-anchor="middle">0.25</text>
+<line class="grid" x1="480.0" y1="80" x2="480.0" y2="560"/>
+<text class="txt" x="480.0" y="590" text-anchor="middle">0.50</text>
+<line class="grid" x1="670.0" y1="80" x2="670.0" y2="560"/>
+<text class="txt" x="670.0" y="590" text-anchor="middle">0.75</text>
+<line class="grid" x1="860.0" y1="80" x2="860.0" y2="560"/>
+<text class="txt" x="860.0" y="590" text-anchor="middle">1.00</text>
+<line class="grid" x1="100" y1="560.0" x2="860" y2="560.0"/>
+<text class="txt" x="82" y="566.0" text-anchor="end">0.00</text>
+<line class="grid" x1="100" y1="450.9090909090909" x2="860" y2="450.9090909090909"/>
+<text class="txt" x="82" y="456.9090909090909" text-anchor="end">0.05</text>
+<line class="grid" x1="100" y1="341.8181818181818" x2="860" y2="341.8181818181818"/>
+<text class="txt" x="82" y="347.8181818181818" text-anchor="end">0.10</text>
+<line class="grid" x1="100" y1="232.72727272727275" x2="860" y2="232.72727272727275"/>
+<text class="txt" x="82" y="238.72727272727275" text-anchor="end">0.15</text>
+<line class="grid" x1="100" y1="123.63636363636363" x2="860" y2="123.63636363636363"/>
+<text class="txt" x="82" y="129.63636363636363" text-anchor="end">0.20</text>
+<line class="axis" x1="100" y1="80" x2="100" y2="560"/>
+<line class="axis" x1="100" y1="560" x2="860" y2="560"/>
+<text class="txt" x="480.0" y="645" text-anchor="middle">Verified coverage</text>
+<text class="txt" transform="translate(28,320.0) rotate(-90)" text-anchor="middle">Unsafe accept rate</text>
+<line class="ci" x1="860.0" y1="531.281103330676" x2="860.0" y2="560.0"/>
+<line class="ci" x1="854.0" y1="531.281103330676" x2="866.0" y2="531.281103330676"/>
+<line class="ci" x1="854.0" y1="560.0" x2="866.0" y2="560.0"/>
+<circle class="pt" cx="860.0" cy="560.0" r="7"/>
+<text class="txt" x="765.0" y="540.0">Primary OCR</text>
+<line class="ci" x1="857.3611111111111" y1="116.3039214909341" x2="857.3611111111111" y2="299.72147360392626"/>
+<line class="ci" x1="851.3611111111111" y1="116.3039214909341" x2="863.3611111111111" y2="116.3039214909341"/>
+<line class="ci" x1="851.3611111111111" y1="299.72147360392626" x2="863.3611111111111" y2="299.72147360392626"/>
+<circle class="pt" cx="857.3611111111111" cy="217.90307253721892" r="7"/>
+<text class="txt" x="732.3611111111111" y="205.90307253721892">Tesseract crop</text>
+<line class="ci" x1="738.6111111111111" y1="525.9074399415712" x2="738.6111111111111" y2="560.0"/>
+<line class="ci" x1="732.6111111111111" y1="525.9074399415712" x2="744.6111111111111" y2="525.9074399415712"/>
+<line class="ci" x1="732.6111111111111" y1="560.0" x2="744.6111111111111" y2="560.0"/>
+<circle class="pt" cx="738.6111111111111" cy="560.0" r="7"/>
+<text class="txt" x="593.6111111111111" y="594.0">Naive agreement</text>
+<line class="ci" x1="651.5277777777777" y1="520.6215596052785" x2="651.5277777777777" y2="560.0"/>
+<line class="ci" x1="645.5277777777777" y1="520.6215596052785" x2="657.5277777777777" y2="520.6215596052785"/>
+<line class="ci" x1="645.5277777777777" y1="560.0" x2="657.5277777777777" y2="560.0"/>
+<circle class="pt" cx="651.5277777777777" cy="560.0" r="7"/>
+<text class="txt" x="667.5277777777777" y="590.0">SafeOCR</text>
+<text class="txt" x="100" y="625">Points are fixed preregistered operating points, not a post-hoc threshold sweep.</text>
+<text class="txt" x="100" y="650">Vertical bars show 95% Wilson intervals for the unsafe accepted proportion.</text>
+</svg>
