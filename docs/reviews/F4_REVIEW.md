@@ -64,3 +64,30 @@ Alibaba Open Code Review 1.12.12 official delegate mode was applied to the produ
 - no FHIR export, clinical correction, confidence threshold, model training, or benchmark tuning was added in F4.
 
 F5 owns the FHIR R4 export gate.
+
+## F5 prerequisite identity-binding hardening
+
+A downstream FHIR design review found that identifier minimization had removed the raw patient identifier but also removed any cryptographic way for F5 to prove that a caller-supplied FHIR subject was the identifier F4 had verified.
+
+An interim plain SHA-256 approach was rejected because low-entropy identifiers can be dictionary-attacked.
+
+Final fix:
+- domain-separated HMAC-SHA256 patient binding;
+- caller key must be at least 32 bytes;
+- key is never serialized;
+- exact linkage retains only the HMAC tag;
+- failed linkage retains no tag;
+- synthetic runtime smoke uses a public test-only key and explicitly labels its scope.
+
+This is a privacy-preserving export-binding primitive, not encryption and not a persistent patient pseudonymization scheme.
+
+### HMAC prerequisite final gates
+
+- default pytest: 107 passed, 2 runtime tests skipped by design
+- explicit F4 runtime pytest: 1 passed
+- Ruff: PASS
+- Pyright strict: 0 errors, 0 warnings
+- Graft: 233 nodes / 697 edges, graph check OK
+- raw patient identifier absent from serialized trace
+- patient-binding key absent from serialized trace
+- exact linkage retains only a domain-separated HMAC-SHA256 tag

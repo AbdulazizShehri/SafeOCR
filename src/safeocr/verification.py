@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import hashlib
+import hmac
 import importlib
 import importlib.metadata
 import io
@@ -141,6 +142,7 @@ class PatientLinkageEvidence:
     observed_count: int
     observed_unique_count: int
     exact_match: bool
+    matched_identifier_hmac_sha256: str | None
 
     def __post_init__(self) -> None:
         if type(self.expected_present) is not bool:
@@ -151,6 +153,13 @@ class PatientLinkageEvidence:
             raise ValueError("patient-linkage counts must be non-negative")
         if self.observed_unique_count > self.observed_count:
             raise ValueError("observed_unique_count cannot exceed observed_count")
+        if self.exact_match:
+            if self.matched_identifier_hmac_sha256 is None:
+                raise ValueError("exact patient linkage requires an HMAC binding tag")
+            if not _SHA256_RE.fullmatch(self.matched_identifier_hmac_sha256):
+                raise ValueError("matched_identifier_hmac_sha256 must be SHA-256 hex")
+        elif self.matched_identifier_hmac_sha256 is not None:
+            raise ValueError("non-matching patient linkage cannot retain an HMAC binding tag")
 
 
 @dataclass(frozen=True, slots=True)
@@ -198,6 +207,9 @@ class VerificationTrace:
             "patient_linkage": {
                 "exact_match": self.patient_linkage.exact_match,
                 "expected_present": self.patient_linkage.expected_present,
+                "matched_identifier_hmac_sha256": (
+                    self.patient_linkage.matched_identifier_hmac_sha256
+                ),
                 "observed_count": self.patient_linkage.observed_count,
                 "observed_unique_count": self.patient_linkage.observed_unique_count,
             },
@@ -503,9 +515,42 @@ def validate_ucum_unit(
     )
 
 
+_PATIENT_BINDING_DOMAIN: Final[bytes] = b"safeocr.patient-id.v1\0"
+
+
+def _require_patient_binding_key(key: bytes) -> bytes:
+    if key.__class__ is not bytes:
+        raise ValueError("patient_binding_key must be bytes")
+    if len(key) < 32:
+        raise ValueError("patient_binding_key must be at least 32 bytes")
+    return key
+
+
+def patient_binding_hmac(identifier: str, key: bytes) -> str:
+    """Return a keyed, domain-separated binding tag for a normalized identifier."""
+
+    active_key = _require_patient_binding_key(key)
+    normalized = normalize_evidence_text(identifier)
+    if not normalized:
+        raise ValueError("patient identifier must be non-empty")
+    message = _PATIENT_BINDING_DOMAIN + normalized.encode("utf-8")
+    return hmac.new(active_key, message, hashlib.sha256).hexdigest()
+
+
+def patient_binding_matches(identifier: str, key: bytes, expected_tag: str) -> bool:
+    """Verify a caller-supplied identifier against an F4 binding tag."""
+
+    if not _SHA256_RE.fullmatch(expected_tag):
+        return False
+    candidate = patient_binding_hmac(identifier, key)
+    return hmac.compare_digest(candidate, expected_tag.lower())
+
+
 def _patient_linkage_evidence(
     expected_id: str | None,
     observed_ids: tuple[str, ...],
+    *,
+    patient_binding_key: bytes,
 ) -> PatientLinkageEvidence:
     expected = (
         "" if expected_id is None else normalize_evidence_text(expected_id)
@@ -521,11 +566,16 @@ def _patient_linkage_evidence(
         and len(unique_observed) == 1
         and next(iter(unique_observed)) == expected
     )
+    _require_patient_binding_key(patient_binding_key)
+    matched_tag = (
+        patient_binding_hmac(expected, patient_binding_key) if exact_match else None
+    )
     return PatientLinkageEvidence(
         expected_present=bool(expected),
         observed_count=len(normalized_observed),
         observed_unique_count=len(unique_observed),
         exact_match=exact_match,
+        matched_identifier_hmac_sha256=matched_tag,
     )
 
 
@@ -533,7 +583,18 @@ def patient_linkage_unambiguous(
     expected_id: str | None,
     observed_ids: tuple[str, ...],
 ) -> bool:
-    return _patient_linkage_evidence(expected_id, observed_ids).exact_match
+    expected = "" if expected_id is None else normalize_evidence_text(expected_id)
+    normalized_observed = tuple(
+        normalize_evidence_text(value)
+        for value in observed_ids
+        if normalize_evidence_text(value)
+    )
+    unique_observed = set(normalized_observed)
+    return (
+        bool(expected)
+        and len(unique_observed) == 1
+        and next(iter(unique_observed)) == expected
+    )
 
 
 def _unit_matches_field(field: LabFieldCandidate, unit: UnitValidation) -> bool:
@@ -554,6 +615,7 @@ def derive_verification_trace(
     unit_validation: UnitValidation,
     expected_patient_id: str | None,
     observed_patient_ids: tuple[str, ...],
+    patient_binding_key: bytes,
     runtime_errors: tuple[str, ...],
     policy_version: str,
 ) -> VerificationTrace:
@@ -579,7 +641,9 @@ def derive_verification_trace(
         and unit_validation.status is not UnitStatus.RUNTIME_ERROR
     )
     patient_linkage = _patient_linkage_evidence(
-        expected_patient_id, observed_patient_ids
+        expected_patient_id,
+        observed_patient_ids,
+        patient_binding_key=patient_binding_key,
     )
     signals = VerificationSignals(
         candidate_present=bool(normalize_evidence_text(binding.field.value_text)),

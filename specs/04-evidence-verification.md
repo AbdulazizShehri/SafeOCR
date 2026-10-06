@@ -194,6 +194,13 @@ Linkage is unambiguous only when:
 
 Case-folding, fuzzy matching, and demographic inference are prohibited.
 
+For downstream identity binding without serializing raw patient identifiers:
+- F4 requires a caller-supplied patient-binding key of at least 32 bytes;
+- when linkage is exact, F4 stores a domain-separated HMAC-SHA256 tag of the normalized identifier;
+- the binding key is never serialized into VerificationTrace or evidence artifacts;
+- when linkage is not exact, no identifier binding tag is retained;
+- downstream FHIR export must verify a caller-supplied identifier against this HMAC tag before emitting a patient subject.
+
 ## 9. Runtime health
 
 Overall runtime health is false if:

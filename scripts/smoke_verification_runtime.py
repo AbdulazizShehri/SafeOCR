@@ -40,6 +40,8 @@ from safeocr.verification import (
     validate_ucum_unit,
 )
 
+_SMOKE_PATIENT_BINDING_KEY = bytes.fromhex("42" * 32)
+
 
 class _PaddleResult(Protocol):
     json: Mapping[str, object]
@@ -242,6 +244,7 @@ def run_smoke(*, tesseract: Path) -> dict[str, object]:
         unit_validation=unit_validation,
         expected_patient_id=record.patient_id,
         observed_patient_ids=(patient_id_span.text,),
+        patient_binding_key=_SMOKE_PATIENT_BINDING_KEY,
         runtime_errors=(),
         policy_version="f4-v1",
     )
@@ -264,6 +267,7 @@ def run_smoke(*, tesseract: Path) -> dict[str, object]:
         unit_validation=unit_validation,
         expected_patient_id=record.patient_id,
         observed_patient_ids=(patient_id_span.text,),
+        patient_binding_key=_SMOKE_PATIENT_BINDING_KEY,
         runtime_errors=(),
         policy_version="f4-v1",
     )
@@ -305,6 +309,13 @@ def run_smoke(*, tesseract: Path) -> dict[str, object]:
             "status": unit_validation.status.value,
             "source_text": unit_validation.source_text,
             "validator_version": unit_validation.validator_version,
+        },
+        "patient_binding": {
+            "scheme": "HMAC-SHA256",
+            "key_scope": "synthetic-smoke-only",
+            "matched_identifier_hmac_sha256": (
+                clean.patient_linkage.matched_identifier_hmac_sha256
+            ),
         },
         "clean": {
             "decision": clean.evidence_record.decision.state.value,

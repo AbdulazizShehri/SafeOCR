@@ -114,6 +114,7 @@
       "patient_linkage": {
         "exact_match": true,
         "expected_present": true,
+        "matched_identifier_hmac_sha256": "dba0a08ef9b43de6c431a65ec7c75af243030134dc51adeb64e7357254eeacbd",
         "observed_count": 1,
         "observed_unique_count": 1
       },
@@ -177,6 +178,11 @@
     "onnxruntime": "1.23.2",
     "paddleocr": "3.7.0",
     "ucumvert": "0.3.2"
+  },
+  "patient_binding": {
+    "key_scope": "synthetic-smoke-only",
+    "matched_identifier_hmac_sha256": "dba0a08ef9b43de6c431a65ec7c75af243030134dc51adeb64e7357254eeacbd",
+    "scheme": "HMAC-SHA256"
   },
   "perturbations": [
     {

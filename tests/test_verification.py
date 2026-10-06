@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import hashlib
+import hmac
 import io
 import json
 from decimal import Decimal
@@ -29,6 +30,7 @@ from safeocr.verification import (
     make_approved_perturbations,
     normalize_evidence_text,
     parse_critical_value,
+    patient_binding_hmac,
     patient_linkage_unambiguous,
     structural_association,
     validate_ucum_unit,
@@ -37,6 +39,7 @@ from safeocr.verification import (
 
 SHA_A = "a" * 64
 SHA_B = "b" * 64
+PATIENT_BINDING_KEY = bytes.fromhex("11" * 32)
 
 
 def _page(*, document_sha: str = SHA_A, page_index: int = 0) -> PageAsset:
@@ -164,6 +167,7 @@ def _trace(
         unit_validation=unit or _unit(),
         expected_patient_id=expected_patient_id,
         observed_patient_ids=observed_patient_ids,
+        patient_binding_key=PATIENT_BINDING_KEY,
         runtime_errors=runtime_errors,
         policy_version="f4-v1",
     )
@@ -404,6 +408,7 @@ def test_non_tesseract_independent_read_abstains() -> None:
         unit_validation=_unit(),
         expected_patient_id="SAFE-69904705",
         observed_patient_ids=("SAFE-69904705",),
+        patient_binding_key=PATIENT_BINDING_KEY,
         runtime_errors=(),
         policy_version="f4-v1",
     )
@@ -486,6 +491,7 @@ def test_independent_read_from_different_crop_cannot_agree() -> None:
         unit_validation=_unit(),
         expected_patient_id="SAFE-69904705",
         observed_patient_ids=("SAFE-69904705",),
+        patient_binding_key=PATIENT_BINDING_KEY,
         runtime_errors=(),
         policy_version="f4-v1",
     )
@@ -517,6 +523,7 @@ def test_tampered_perturbation_hash_prevents_stability() -> None:
         unit_validation=_unit(),
         expected_patient_id="SAFE-69904705",
         observed_patient_ids=("SAFE-69904705",),
+        patient_binding_key=PATIENT_BINDING_KEY,
         runtime_errors=(),
         policy_version="f4-v1",
     )
@@ -596,6 +603,32 @@ def test_trace_serialization_does_not_expose_patient_identifier() -> None:
     assert payload["patient_linkage"] == {
         "exact_match": True,
         "expected_present": True,
+        "matched_identifier_hmac_sha256": hmac.new(
+            PATIENT_BINDING_KEY,
+            b"safeocr.patient-id.v1\0SAFE-69904705",
+            hashlib.sha256,
+        ).hexdigest(),
         "observed_count": 1,
         "observed_unique_count": 1,
     }
+
+
+def test_patient_linkage_digest_is_absent_when_not_exact() -> None:
+    trace = _trace(observed_patient_ids=("SAFE-OTHER",))
+    payload = json.loads(trace.to_json())
+    assert payload["patient_linkage"]["matched_identifier_hmac_sha256"] is None
+
+
+def test_patient_binding_hmac_is_deterministic_and_domain_separated() -> None:
+    expected = hmac.new(
+        PATIENT_BINDING_KEY,
+        b"safeocr.patient-id.v1\0SAFE-69904705",
+        hashlib.sha256,
+    ).hexdigest()
+    assert patient_binding_hmac("SAFE-69904705", PATIENT_BINDING_KEY) == expected
+    assert patient_binding_hmac(" SAFE-69904705 ", PATIENT_BINDING_KEY) == expected
+
+
+def test_patient_binding_hmac_rejects_short_key() -> None:
+    with pytest.raises(ValueError):
+        patient_binding_hmac("SAFE-69904705", b"too-short")
