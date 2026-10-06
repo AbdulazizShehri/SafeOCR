@@ -1,0 +1,43 @@
+{
+  "evidence_sha256": {
+    "docs/evidence/F3_RUNTIME_SMOKE.json": "186aee0ca9b03a4636c7104c651820f243e3406369a8d461563eb6edc1aa5241",
+    "docs/evidence/F4_RUNTIME_SMOKE.json": "74b4c17e6eb1ba7286b45d8c5db8de9fcf7a8aaa076531a54276ccda0134a9ad",
+    "docs/evidence/F5_RUNTIME_SMOKE.json": "08f3d10ff36ebcd4c56e9e2dac632da1441155f061afcfb0000366cd35cf69df",
+    "docs/evidence/F6_CLINOCR_METADATA.json": "7c4042df47d11eab626b8050decab72286bbd429b23d40ece87888cdce80fee5",
+    "docs/evidence/F6_CLOSEOUT.json": "6aae31ef264bc74313be481123dc7198f448567671b1a1e9e215a78b417b7e9f",
+    "docs/evidence/F6_FINAL_ATTEMPT_1_FAILURE.json": "6a7f2f6b11cf52b586fd3df46d1fc8d6d51f7b30fa030d4439ff78fb6e3146c8",
+    "docs/evidence/F6_FINAL_EVALUATION.json": "bc6a17d437c1de7c40607bf227f35aef07d0686965dc3d9d5df6eb71012b2908",
+    "docs/evidence/F6_RISK_COVERAGE.csv": "a16c9c7aa6d881dce4224ab221d845636ea32a54caf45e21552c3d0c25bbec76",
+    "docs/evidence/F7_EVIDENCE_REPORT.html": "8e52f47e28da7dd1c0bc60a41e996628a00386f5bec9fdb90c0bcc66e7a843c1",
+    "docs/evidence/F7_EVIDENCE_REPORT.json": "2e6933440e9b9e066dfd970ae8e9341ab3831ebc59e471b464b9c5c1d89e21f0"
+  },
+  "known_limitations": [
+    "LabGold does not establish SafeOCR superiority over raw primary OCR.",
+    "Zero observed unsafe accepts is not proof of zero risk.",
+    "ClinOCR-Bench v1.0 integration is metadata-locked and no-tuning; unsupported structured critical-field claims are withheld.",
+    "FHIR mapping error rate is not estimable from the frozen F6 final artifact."
+  ],
+  "license": "Apache-2.0",
+  "package": "safeocr-health",
+  "qualified_source_head": "76139294d1b5a9277d1fd51e7e1445b33e888f68",
+  "qualified_source_tree": "177b7c7a1eff1af89a3e6c9faa392efda90c8aca",
+  "release": "v0.1.0",
+  "release_input_sha256": {
+    ".github/workflows/ci.yml": "a67510ee12a3f196a5e19d0fcda1a020a7e2ddbc2b33b8645ee6de52da6f3c1e",
+    ".github/workflows/codeql.yml": "88dcfcd4926141719a08d3eb5628ae2b21cd37af10daec86b1d571730b08cc07",
+    "CHANGELOG.md": "ca4f0cff0cd0e597ab42456758c5d071b16823c0fd483f765509d6a0b791b243",
+    "CITATION.cff": "0fed3bc8d01bd15325ebfd3c79fab3e7e9eb27cbfbcf7f0199f5295ddc85e555",
+    "LICENSE": "777a2328885ad74fb41172254df39aaa7a2f3cb669944645f2046542ae80cd07",
+    "NOTICE": "6ecf0819b1fc396a69d8e92d1b1fbe61f8d46a33469580e18c3ba36761760930",
+    "README.md": "3792d2f21cd5e2b4b270d9a5df6bafe8ad1869c692dfb21a195c57e719a63cb1",
+    "docs/RELEASE_NOTES_v0.1.0.md": "46b53c00ac510080d1a5e150a0a729f086ed57521004b73faf9d8fec5672c632",
+    "pyproject.toml": "59289acf95f981e78b5f4766e37c98edb72bc5610bf97e0049352dc4452d8c85"
+  },
+  "safety_boundary": {
+    "diagnosis_or_treatment_use_allowed": false,
+    "medical_device": false,
+    "research_only": true
+  },
+  "schema_version": 1,
+  "version": "0.1.0"
+}

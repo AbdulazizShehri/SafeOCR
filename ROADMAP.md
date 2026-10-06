@@ -10,4 +10,4 @@
 | F5 FHIR R4 export gate | done | yes | specs/05-fhir-r4-export.md |
 | F6 Evaluation | done (declared limitations) | yes | specs/06-evaluation.md |
 | F7 Static evidence report | done | yes | specs/07-static-evidence-report.md |
-| F8 v0.1 release | in progress | yes | pending |
+| F8 v0.1 release | qualified RC; merge pending | yes | specs/08-v0.1-release.md |

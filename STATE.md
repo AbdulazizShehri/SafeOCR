@@ -2,7 +2,7 @@
 
 ## In flight
 
-F7 Static Evidence Report is complete and qualified locally. F8 v0.1 release hardening is next: package/release metadata, final notices, CI/release checks, tag readiness, and remote publication.
+F8 v0.1 release candidate is exact-head qualified locally. The deterministic release manifest is generated from qualified source head `76139294d1b5a9277d1fd51e7e1445b33e888f68`. Normal merge into `main`, merged-head requalification, tag readiness, and remote publication remain.
 
 ## Canonical local foundation
 
@@ -19,7 +19,10 @@ F7 Static Evidence Report is complete and qualified locally. F8 v0.1 release har
 - F6.2c association scorer implementation: `c6abed545b531834a46784f06997ac7fcbb8291b`
 - F6.2d final-runner commit: `162a9c03536a82e1e1b346ecfdaeb56124de7940`
 - F6.2d memory-recovery commit: `e755e36d0379e11b768b573af0c04bb9559be408`
-- active branch: `feat/f6-evaluation`
+- active branch: `release/v0.1.0`
+- F6 closeout commit: `be9b772`
+- F7 static evidence report commit: `f39540e1401d4347dd08bea77c35077933cbd484`
+- F8 release-candidate implementation commit: `76139294d1b5a9277d1fd51e7e1445b33e888f68`
 
 ## F6 split
 
@@ -70,4 +73,4 @@ Local history is canonical. Remote publication is still blocked by local Git cre
 
 ## Current objective
 
-Complete F8 v0.1 release hardening, qualify the exact release head, then publish the canonical local history to `AbdulazizShehri/SafeOCR` without rewriting history.
+Commit F8 closeout evidence, normal-merge `release/v0.1.0` into `main`, requalify the exact merged head, then create the local signed-tag-ready `v0.1.0` release point and publish canonical history when Git credentials permit.

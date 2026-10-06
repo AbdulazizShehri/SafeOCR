@@ -52,3 +52,27 @@ The release keeps these statements explicit:
 ## Next gate
 
 Commit the F8 implementation, requalify that exact head, generate `docs/evidence/F8_RELEASE_MANIFEST.json` from the clean qualified source head, commit release closeout evidence, then perform a normal merge into `main` and requalify the merged head before tag readiness.
+
+
+## Exact-head release-candidate qualification
+
+Implementation commit: `76139294d1b5a9277d1fd51e7e1445b33e888f68`
+
+The implementation commit was requalified from a clean tree:
+- full default pytest: 194 passed / 4 skipped;
+- Ruff: PASS;
+- Pyright strict: 0 errors / 0 warnings / 0 informations;
+- pip check: PASS;
+- Graft: 525 nodes / 1656 edges; graph check OK;
+- sdist and wheel build: PASS;
+- isolated wheel installation: PASS;
+- isolated import version: `0.1.0`.
+
+The deterministic release manifest was then generated from that clean exact head. `docs/evidence/F8_RELEASE_MANIFEST.json` records:
+- qualified source head `76139294d1b5a9277d1fd51e7e1445b33e888f68`;
+- qualified source tree `177b7c7a1eff1af89a3e6c9faa392efda90c8aca`;
+- SHA-256 values for the canonical F3-F7 evidence set;
+- SHA-256 values for release metadata, license/notices, README, and pinned workflows;
+- the research-only safety boundary and declared limitations.
+
+This manifest intentionally identifies the qualified source commit rather than attempting an impossible self-hash of the commit that later adds the manifest itself.
