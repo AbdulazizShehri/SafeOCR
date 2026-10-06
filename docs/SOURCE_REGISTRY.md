@@ -25,7 +25,7 @@ Status values:
 | Pillow 12.3.0 | v0.1 LabGold rendering and geometry-preserving image degradation | MIT-CMU | APPROVED and pinned |
 | OpenCV | Deterministic image perturbation | Apache-2.0 | APPROVED |
 | HL7 FHIR R4 | Interoperability specification | HL7 specification terms | REFERENCE/target standard |
-| HAPI FHIR | R4 validation tooling | Apache-2.0 | APPROVED validation tool |
+| HL7 FHIR Validator CLI 6.10.4 (hapifhir/org.hl7.fhir.core) | Official local FHIR R4 validation gate | Apache-2.0 codebase; FHIR package/spec terms apply | APPROVED and pinned; validator JAR SHA-256 recorded in F5 evidence |
 | LOINC | Lab-test identity normalization | Open license with attribution/use conditions | APPROVED terminology subject to license notice |
 | UCUM | Units | UCUM license | APPROVED terminology subject to license notice |
 | ucumvert 0.3.2 | Local case-sensitive UCUM parser for F4 terminology veto | MIT code; bundled UCUM files retain UCUM license | APPROVED and pinned; notices in docs/THIRD_PARTY_NOTICES.md |
@@ -104,3 +104,12 @@ Pinned model hashes:
 - Tesseract `eng.traineddata`: `7d4322bd2a7749724879683fc3912cb542f19906c83bcc1a52132556427170b2`
 
 SafeOCR does not vendor these binaries or model weights in v0.1.
+
+## F5 validator runtime
+
+SafeOCR v0.1 validates exported bundles with the HL7-maintained validator CLI release 6.10.4 in FHIR R4 4.0.1 mode.
+
+Pinned validator JAR SHA-256:
+1106b9d58f9e363e47bea7c4fc065841e5fc91fe9d062775c3bfdd212bd653cc
+
+The validator runs locally with remote terminology service disabled (-tx n/a). This means structural/profile validation remains authoritative for the local gate, while terminology warnings that require an external terminology service are not treated as proof of terminology correctness. F4 independently validates the exact UCUM unit through the pinned local ucumvert path.

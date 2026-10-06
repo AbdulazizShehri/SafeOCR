@@ -1,0 +1,28 @@
+{
+  "schema_version": 1,
+  "grain": "F6.2d",
+  "attempt": 1,
+  "status": "FAILED_INFRASTRUCTURE",
+  "git_head": "162a9c03536a82e1e1b346ecfdaeb56124de7940",
+  "split_sha256": "3aa0af90f3d41d5a0b636ded5d784119da81a193b81a907b7bb69a789cc816a5",
+  "run_kind": "primary_v0_1_final_evaluation",
+  "final_metrics_emitted": false,
+  "final_metrics_inspected": false,
+  "primary_output_created": false,
+  "error_class": "numpy._core._exceptions._ArrayMemoryError",
+  "error_summary": "Unable to allocate 17.1 MiB for an array with shape (6, 40, 18710) and data type float32 during PaddleOCR text recognition.",
+  "runtime_seconds": 804.72,
+  "recovery_boundary": {
+    "allowed_change": "reduce PaddleOCR text recognition runtime batch size only",
+    "forbidden_changes": [
+      "OCR model or revision",
+      "SafeOCR verification policy",
+      "acceptance thresholds",
+      "frozen split",
+      "corruption seeds",
+      "truth labels",
+      "final-role data-dependent tuning"
+    ],
+    "reason": "The attempt produced no metric artifact or persisted final-result payload; recovery is infrastructure-only."
+  }
+}

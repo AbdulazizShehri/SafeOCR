@@ -1,0 +1,22 @@
+cff-version: 1.2.0
+message: "If you use SafeOCR in research, please cite this software release."
+title: "SafeOCR"
+type: software
+version: "0.1.0"
+date-released: "2026-10-06"
+authors:
+  - family-names: "Alshehri"
+    given-names: "Abdulaziz"
+repository-code: "https://github.com/AbdulazizShehri/SafeOCR"
+url: "https://github.com/AbdulazizShehri/SafeOCR"
+license: "Apache-2.0"
+abstract: >-
+  Healthcare-only, evidence-grounded verification infrastructure for clinical
+  OCR with fail-closed decisions, FHIR R4 export gating, and reproducible
+  safety evaluation.
+keywords:
+  - clinical OCR
+  - healthcare AI
+  - selective prediction
+  - FHIR
+  - evidence verification
