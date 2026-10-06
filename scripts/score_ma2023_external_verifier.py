@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import argparse
+import hashlib
 import io
 import json
 import subprocess
@@ -106,6 +107,35 @@ def _source_png_bytes(path: Path) -> bytes:
     with Image.open(path) as opened:
         opened.convert("RGB").save(buffer, format="PNG")
     return buffer.getvalue()
+
+
+def _rebind_to_source_png(
+    result: PageOcrResult,
+    png_bytes: bytes,
+) -> PageOcrResult:
+    normalized_page = PageAsset(
+        document_sha256=result.page.document_sha256,
+        page_index=result.page.page_index,
+        width_px=result.page.width_px,
+        height_px=result.page.height_px,
+        page_sha256=hashlib.sha256(png_bytes).hexdigest(),
+    )
+    spans = tuple(
+        CandidateSpan(
+            page=normalized_page,
+            box=span.box,
+            text=span.text,
+            engine_name=span.engine_name,
+            engine_version=span.engine_version,
+            confidence=span.confidence,
+        )
+        for span in result.spans
+    )
+    return PageOcrResult(
+        page=normalized_page,
+        fingerprint=result.fingerprint,
+        spans=spans,
+    )
 
 
 def _page_result(path: Path) -> PageOcrResult:
@@ -245,6 +275,7 @@ def main() -> None:
         result = _page_result(args.ocr / f"{Path(document.filename).stem}.json")
         image_path = args.images / document.filename
         image_bytes = _source_png_bytes(image_path)
+        result = _rebind_to_source_png(result, image_bytes)
 
         for row in laboratory_rows(document):
             analyte_gold = row.get(2)

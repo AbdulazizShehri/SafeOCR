@@ -38,6 +38,8 @@ def test_scorer_normalizes_jpeg_source_to_png_before_crop() -> None:
     source = _SCORER.read_text(encoding="utf-8")
     assert 'opened.convert("RGB").save(buffer, format="PNG")' in source
     assert "image_bytes = _source_png_bytes(image_path)" in source
+    assert "result = _rebind_to_source_png(result, image_bytes)" in source
+    assert "page_sha256=hashlib.sha256(png_bytes).hexdigest()" in source
 
 
 def test_protocol_preserves_component_only_claim_boundary() -> None:

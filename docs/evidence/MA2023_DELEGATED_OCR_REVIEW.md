@@ -78,3 +78,24 @@ Post-repair qualification:
 - Delegated Alibaba blocking findings after repair: 0
 
 This repair occurred before any Ma2023 verifier outcome was available and does not change the frozen scientific estimand.
+
+
+## Pre-outcome page-identity repair
+
+A second fail-closed runtime stop occurred before any result artifact was produced. The JPEG source had been decoded and re-encoded as PNG correctly, but the OCR spans still referenced the original JPEG `PageAsset.page_sha256`. The crop contract therefore rejected the normalized PNG bytes because their SHA-256 differed.
+
+Resolution:
+- preserve the original JPEG digest as `document_sha256`;
+- create a normalized evidence `PageAsset` with the identical page index and dimensions but a SHA-256 computed from the normalized PNG bytes;
+- rebind the already-produced OCR spans to that normalized page without changing box coordinates, OCR text, confidence, engine identity, or fingerprint;
+- use the normalized page only for evidence cropping and verifier checks;
+- keep gold annotations entirely outside this normalization path.
+
+Qualification after repair:
+- Pytest: 6/6 PASS
+- Ruff: PASS
+- Pyright: 0 errors, 0 warnings, 0 information
+- Jev score: 3.38 / 4
+- Delegated Alibaba blocking findings: 0
+
+No Ma2023 verifier metric or outcome had been produced or inspected before this repair.
