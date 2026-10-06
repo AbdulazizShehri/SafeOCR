@@ -63,11 +63,11 @@ F6.2b — QUALIFIED CALIBRATION RUNNER:
 - truth-geometry scoring limitation is machine-readable and documented;
 - final-evaluation execution remains locked until the runner commit is canonical.
 
-F6.2c — NEXT:
-- run the committed calibration runner from a clean tree;
-- capture canonical calibration evidence;
-- design an end-to-end association scorer before any headline table-association claim;
-- unlock final LabGold execution only after exact-head qualification.
+F6.2c — IN PROGRESS:
+- [x] run the committed calibration runner from a clean tree;
+- [x] capture canonical calibration evidence at `docs/evidence/F6_CALIBRATION_SMOKE.json`;
+- [ ] design and qualify an end-to-end association scorer before any headline table-association claim;
+- [ ] unlock final LabGold execution only after exact-head qualification.
 
 F6.3:
 - ClinOCR-Bench adapter + Safety Track manifest without test-set tuning.

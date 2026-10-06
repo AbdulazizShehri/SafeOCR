@@ -548,3 +548,238 @@ def match_span_to_truth_region(
         return None
     ranked.sort(reverse=True, key=lambda item: item[:-1])
     return ranked[0][-1]
+
+
+@dataclass(frozen=True, slots=True)
+class ParsedLabGoldRow:
+    """One OCR-only LabGold table row reconstructed without truth geometry."""
+
+    ordinal: int
+    analyte_text: str
+    value_text: str
+    unit_text: str
+    y_center: float
+
+    def __post_init__(self) -> None:
+        if self.ordinal <= 0:
+            raise ValueError("ordinal must be positive")
+        if not self.analyte_text.strip():
+            raise ValueError("analyte_text must be non-empty")
+        if not self.value_text.strip():
+            raise ValueError("value_text must be non-empty")
+        if not self.unit_text.strip():
+            raise ValueError("unit_text must be non-empty")
+        if not math.isfinite(self.y_center):
+            raise ValueError("y_center must be finite")
+
+
+def _span_center(span: CandidateSpan) -> tuple[float, float]:
+    return (
+        (span.box.x1 + span.box.x2) / 2.0,
+        (span.box.y1 + span.box.y2) / 2.0,
+    )
+
+
+def _labgold_column_role(span: CandidateSpan) -> str | None:
+    x_center, _ = _span_center(span)
+    x_ratio = x_center / span.page.width_px
+    if 0.03 <= x_ratio < 0.28:
+        return "analyte"
+    if 0.28 <= x_ratio < 0.42:
+        return "value"
+    if 0.42 <= x_ratio < 0.57:
+        return "unit"
+    return None
+
+
+def _best_cluster_span(spans: list[CandidateSpan]) -> CandidateSpan:
+    if not spans:
+        raise ValueError("spans must be non-empty")
+    return max(
+        spans,
+        key=lambda item: (
+            -1.0 if item.confidence is None else item.confidence,
+            -(item.box.x2 - item.box.x1),
+            -item.box.x1,
+            -item.box.y1,
+            item.text,
+        ),
+    )
+
+
+def parse_labgold_rows(
+    result: PageOcrResult,
+    *,
+    y_tolerance_px: float | None = None,
+) -> tuple[ParsedLabGoldRow, ...]:
+    """Reconstruct LabGold rows from OCR coordinates only."""
+
+    tolerance = (
+        max(12.0, result.page.height_px * 0.025)
+        if y_tolerance_px is None
+        else y_tolerance_px
+    )
+    if not math.isfinite(tolerance) or tolerance <= 0:
+        raise ValueError("y_tolerance_px must be finite and positive")
+
+    headers = {
+        "analyte": {"test"},
+        "value": {"result"},
+        "unit": {"units", "unit"},
+    }
+    classified: list[tuple[float, str, CandidateSpan]] = []
+    for span in result.spans:
+        role = _labgold_column_role(span)
+        if role is None:
+            continue
+        text = normalize_evidence_text(span.text)
+        if not text or text.casefold() in headers[role]:
+            continue
+        _, y_center = _span_center(span)
+        classified.append((y_center, role, span))
+
+    classified.sort(key=lambda item: (item[0], item[2].box.x1, item[2].text))
+    clusters: list[list[tuple[float, str, CandidateSpan]]] = []
+    for item in classified:
+        if not clusters:
+            clusters.append([item])
+            continue
+        current_center = sum(entry[0] for entry in clusters[-1]) / len(clusters[-1])
+        if abs(item[0] - current_center) <= tolerance:
+            clusters[-1].append(item)
+        else:
+            clusters.append([item])
+
+    parsed: list[ParsedLabGoldRow] = []
+    for cluster in clusters:
+        by_role: dict[str, list[CandidateSpan]] = {
+            "analyte": [],
+            "value": [],
+            "unit": [],
+        }
+        for _, role, span in cluster:
+            by_role[role].append(span)
+        if any(not by_role[role] for role in ("analyte", "value", "unit")):
+            continue
+
+        analyte = _best_cluster_span(by_role["analyte"])
+        value = _best_cluster_span(by_role["value"])
+        unit = _best_cluster_span(by_role["unit"])
+        y_center = sum(_span_center(item)[1] for item in (analyte, value, unit)) / 3.0
+        parsed.append(
+            ParsedLabGoldRow(
+                ordinal=len(parsed) + 1,
+                analyte_text=analyte.text,
+                value_text=value.text,
+                unit_text=unit.text,
+                y_center=y_center,
+            )
+        )
+    return tuple(parsed)
+
+
+def _truth_row_matches(
+    truths: tuple[FieldTruth, ...],
+    *,
+    attribute: str,
+    text: str,
+) -> set[str]:
+    matches: set[str] = set()
+    for truth in truths:
+        expected = getattr(truth, attribute)
+        if not isinstance(expected, str):
+            raise TypeError(f"{attribute} must resolve to str")
+        if _same_text(text, expected):
+            matches.add(truth.row_id)
+    return matches
+
+
+def score_labgold_associations(
+    truths: tuple[FieldTruth, ...],
+    rows: tuple[ParsedLabGoldRow, ...],
+    *,
+    method: EvaluationMethod = EvaluationMethod.PRIMARY_OCR,
+    role: EvaluationRole = EvaluationRole.CALIBRATION,
+) -> tuple[FieldEvaluation, ...]:
+    """Score parsed rows after parsing, without truth-guided row construction."""
+
+    if not truths:
+        return ()
+    if len({truth.case_id for truth in truths}) != len(truths):
+        raise ValueError("truth case_id values must be unique")
+    if len(rows) > len(truths):
+        raise ValueError("parsed row count exceeds truth row count")
+
+    scored: list[FieldEvaluation] = []
+    for index, truth in enumerate(truths):
+        if index >= len(rows):
+            scored.append(
+                FieldEvaluation(
+                    case_id=truth.case_id,
+                    method=method,
+                    role=role,
+                    decision=DecisionState.ABSTAINED,
+                    exact_correct=False,
+                    accepted=False,
+                    unsafe_accepted=False,
+                    patient_attribution_error=None,
+                    table_association_error=None,
+                    fhir_mapping_error=None,
+                )
+            )
+            continue
+
+        row = rows[index]
+        exact_correct = (
+            _same_text(row.analyte_text, truth.analyte_text)
+            and _same_text(row.value_text, truth.value_text)
+            and _same_text(row.unit_text, truth.unit_text)
+        )
+        analyte_rows = _truth_row_matches(
+            truths, attribute="analyte_text", text=row.analyte_text
+        )
+        value_rows = _truth_row_matches(
+            truths, attribute="value_text", text=row.value_text
+        )
+        unit_rows = _truth_row_matches(
+            truths, attribute="unit_text", text=row.unit_text
+        )
+        association_error: bool | None
+        if not analyte_rows or not value_rows or not unit_rows:
+            association_error = None
+        elif truth.row_id in (analyte_rows & value_rows & unit_rows):
+            association_error = False
+        elif len(analyte_rows) == 1 and len(value_rows) == 1:
+            analyte_row = next(iter(analyte_rows))
+            value_row = next(iter(value_rows))
+            reciprocal_swap = False
+            if analyte_row != value_row:
+                for peer in rows:
+                    peer_analyte = _truth_row_matches(
+                        truths, attribute="analyte_text", text=peer.analyte_text
+                    )
+                    peer_value = _truth_row_matches(
+                        truths, attribute="value_text", text=peer.value_text
+                    )
+                    if peer_analyte == {value_row} and peer_value == {analyte_row}:
+                        reciprocal_swap = True
+                        break
+            association_error = True if reciprocal_swap else None
+        else:
+            association_error = None
+
+        scored.append(
+            FieldEvaluation(
+                case_id=truth.case_id,
+                method=method,
+                role=role,
+                decision=DecisionState.VERIFIED_AUTO,
+                exact_correct=exact_correct,
+                accepted=True,
+                unsafe_accepted=not exact_correct,
+                patient_attribution_error=None,
+                table_association_error=association_error,
+                fhir_mapping_error=None,
+            )
+        )
+    return tuple(scored)

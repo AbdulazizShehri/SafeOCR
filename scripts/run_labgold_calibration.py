@@ -25,7 +25,9 @@ from safeocr.evaluation import (
     frozen_labgold_split,
     match_span_to_truth_region,
     naive_agreement_prediction,
+    parse_labgold_rows,
     primary_ocr_prediction,
+    score_labgold_associations,
     tesseract_crop_prediction,
 )
 from safeocr.labgold import (
@@ -281,7 +283,7 @@ def _evaluate_document(
     pipeline: _PaddlePipeline,
     tesseract: Path,
     tesseract_version: str,
-) -> dict[EvaluationMethod, list[FieldEvaluation]]:
+) -> tuple[dict[EvaluationMethod, list[FieldEvaluation]], tuple[FieldEvaluation, ...]]:
     result = _normalize_page(
         report.png_bytes,
         width_px=report.width_px,
@@ -294,6 +296,7 @@ def _evaluate_document(
     buckets: dict[EvaluationMethod, list[FieldEvaluation]] = {
         method: [] for method in EvaluationMethod
     }
+    truths: list[FieldTruth] = []
     for row in report.record.rows:
         field_case_id = f"{case_id}:{row.row_id}"
         truth = FieldTruth(
@@ -305,6 +308,7 @@ def _evaluate_document(
             value_text=row.value_text,
             unit_text=row.unit_text,
         )
+        truths.append(truth)
         analyte = match_span_to_truth_region(
             result,
             _region(report.regions, role="analyte", row_id=row.row_id),
@@ -368,7 +372,14 @@ def _evaluate_document(
         )
         buckets[EvaluationMethod.SAFEOCR].append(evaluate_field(truth, safeocr))
 
-    return buckets
+    parsed_rows = parse_labgold_rows(result)
+    association_results = score_labgold_associations(
+        tuple(truths),
+        parsed_rows,
+        method=EvaluationMethod.PRIMARY_OCR,
+        role=EvaluationRole.CALIBRATION,
+    )
+    return buckets, association_results
 
 
 def _git_state() -> dict[str, object]:
@@ -420,6 +431,7 @@ def main() -> None:
     buckets: dict[EvaluationMethod, list[FieldEvaluation]] = {
         method: [] for method in EvaluationMethod
     }
+    association_results: list[FieldEvaluation] = []
 
     for plan in plans:
         rendered = render_lab_report(
@@ -432,7 +444,7 @@ def main() -> None:
         else:
             report = apply_corruption(rendered, seed=plan.corruption_seed)
 
-        current = _evaluate_document(
+        current, association = _evaluate_document(
             case_id=plan.case_id,
             report=report,
             pipeline=pipeline,
@@ -441,6 +453,7 @@ def main() -> None:
         )
         for method, results in current.items():
             buckets[method].extend(results)
+        association_results.extend(association)
 
     payload = {
         "schema_version": 1,
@@ -454,6 +467,11 @@ def main() -> None:
             method.value: asdict(aggregate_metrics(tuple(results)))
             for method, results in buckets.items()
         },
+        "association_scoring": {
+            "mode": "ocr_geometry_only",
+            "truth_geometry_used_for_parsing": False,
+            "primary_ocr": asdict(aggregate_metrics(tuple(association_results))),
+        },
         "runtime": {
             "paddleocr": importlib.metadata.version("paddleocr"),
             "tesseract": tesseract_version,
@@ -461,12 +479,12 @@ def main() -> None:
         "alignment_mode": "truth_geometry_scoring",
         "limitations": [
             (
-                "Truth geometry is used only to align OCR spans to benchmark fields; "
-                "this calibration runner is not an end-to-end row parser."
+                "Legacy per-field method metrics still use truth geometry for score "
+                "alignment; association_scoring parses rows from OCR geometry only."
             ),
             (
-                "Patient-attribution and table-association rates are diagnostic in this "
-                "runner and are not valid headline claims until the end-to-end parser scorer."
+                "Patient attribution remains outside the OCR-only association scorer; "
+                "table association is reported separately under association_scoring."
             ),
             (
                 "The Tesseract crop baseline inherits benchmark field identity, so its "

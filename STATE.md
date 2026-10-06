@@ -2,7 +2,7 @@
 
 ## In flight
 
-F6 Evaluation is active. F6.2b calibration runner is qualified but final-evaluation execution remains locked.
+F6 Evaluation is active. F6.2b calibration runner is committed and clean-head calibration evidence is captured. F6.2c end-to-end association scoring is now the active grain; final-evaluation execution remains locked.
 
 ## Canonical local foundation
 
@@ -15,6 +15,7 @@ F6 Evaluation is active. F6.2b calibration runner is qualified but final-evaluat
 - F5 FHIR R4 gate commit: `448f024`
 - F6.1 evaluation contracts commit: `f3810a8`
 - F6.2a split freeze commit: `5b328de`
+- F6.2b calibration runtime commit: `abccceed200736a1e45e945b826991ecdd7673e9`
 - active branch: `feat/f6-evaluation`
 
 ## F6 split
@@ -24,17 +25,18 @@ F6 Evaluation is active. F6.2b calibration runner is qualified but final-evaluat
 - final evaluation: 48 document cases
 - final role remains inaccessible to the current calibration runner
 
-## F6.2b runner
+## F6.2b clean-head evidence
 
-- calibration-only runtime plumbing implemented
-- clean + corrupted smoke: 12 field cases
-- explicit runtime pytest: PASS
-- default pytest: 157 passed, 4 skipped
-- Ruff / Pyright / Graft / diff check: PASS
-- Graft: 402 nodes / 1285 edges
-- Jev bounded-runner score: 3.10 / 4
-- Alibaba delegate review: no blocking finding
-- truth-geometry alignment is explicitly non-headline and not an end-to-end association claim
+- canonical evidence: `docs/evidence/F6_CALIBRATION_SMOKE.json`
+- evidence head: `abccceed200736a1e45e945b826991ecdd7673e9`
+- evidence reports `working_tree_dirty=false`
+- clean + corrupted calibration smoke: 2 documents / 12 field cases
+- primary OCR: CFEA 1.0, UAR 0.0, coverage 1.0
+- Tesseract crop: CFEA 0.8333333333333334, UAR 0.16666666666666666, coverage 1.0
+- naive agreement: CFEA 1.0, UAR 0.0, coverage 0.8333333333333334
+- SafeOCR: CFEA 1.0, UAR 0.0, coverage 1.0
+- truth-geometry alignment remains explicitly non-headline
+- no final-evaluation data was executed
 
 ## Publication state
 
@@ -42,4 +44,4 @@ Local history is canonical. Remote publication is still blocked by local Git cre
 
 ## Current objective
 
-Commit F6.2b, rerun calibration from a clean exact head, capture canonical calibration evidence, then build an end-to-end association scorer before any final-evaluation headline claims.
+Qualify an OCR-only end-to-end row/association scorer on calibration data, remove truth-geometry dependence from any future table-association headline metric, then exact-head qualify before unlocking final LabGold execution.
