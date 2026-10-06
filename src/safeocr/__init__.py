@@ -1,5 +1,7 @@
 """SafeOCR healthcare verification core."""
 
+__version__ = "0.1.0"
+
 from safeocr.contracts import (
     BoundingBox,
     CandidateSpan,
@@ -24,6 +26,7 @@ __all__ = [
     "LabFieldCandidate",
     "PageAsset",
     "VerificationSignals",
+    "__version__",
     "decide",
     "export_allowed",
 ]
