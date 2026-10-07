@@ -39,3 +39,23 @@
 | Ma2023 proves SafeOCR full-field safety | NOT SUPPORTED | component endpoint checks incorrect numeric values; 38 passed tuples were not exact | Prohibited |
 | Ma2023 is end-to-end extraction validation | NOT SUPPORTED | gold geometry is used after OCR for oracle-localised scoring | Prohibited |
 | Ma2023 validates patient linkage or FHIR mapping | NOT SUPPORTED | excluded from claim boundary | Prohibited |
+
+
+## Post-Opus claim-control additions
+
+| Claim | Status | Evidence / citation | Allowed wording |
+|---|---|---|---|
+| LabGold provides evidence that SafeOCR reduced accepted error relative to primary OCR | NOT SUPPORTED | primary OCR 0/288 errors; SafeOCR 0/209 errors | Prohibited; report review cost and non-discrimination |
+| LabGold primary OCR 0/288 has a 95% Wilson upper bound of 1.316% | supported | F6_FINAL_EVALUATION.json | Report beside SafeOCR 1.805% bound |
+| All 79 SafeOCR LabGold reviews were correct under benchmark truth | supported | primary OCR exact 288/288; SafeOCR accepted 209/288 | Report as review burden / false-alarm cost on this endpoint |
+| Public 238-image laboratory-report collection originated with Xue et al. 2020 | supported | Xue 2020 DOI 10.1109/ACCESS.2019.2961964; Ma 2023 data description | Attribute dataset source to Xue |
+| Ma et al. kappa=0.89 describes the public 238-image labels | NOT SUPPORTED | Ma 2023 annotation section concerns PKU1 | Prohibited |
+| Public collection label-generation provenance is documented | NOT SUPPORTED | audited public source materials do not describe label-generation procedure | State as undocumented |
+| PaddleOCR ClinOCR run had 57/328 runtime failures | supported | PAPER_CLINOCR_PADDLEOCR_WER.json run_metadata.failures | Must be prominent; 33 rotated + 24 mixed |
+| ClinOCR-Bench is a real clinical corpus | NOT SUPPORTED | benchmark is synthetic/template-generated and PHI-free | Call synthetic/template-generated clinical-document benchmark |
+| Ma2023 numeric component gate reduced numeric error | NOT SUPPORTED | primary value exact 1,850/1,850; component pass 0/375 errors | Prohibited; endpoint had no errors to intercept |
+| Ma2023 ungated 0/1,850 numeric errors has 95% Wilson upper bound 0.207% | supported | frozen counts + Wilson calculation | Report beside gated 1.014% bound |
+| All 1,475 Ma2023 numeric-endpoint rejections were correct numeric values | supported | 1,850 eligible - 375 passes; primary_value_exact 1,850 | Report as rejection cost on numeric endpoint |
+| 38/375 component passes had analyte or unit mismatch | exploratory supported | PAPER_MA2023_PASS_DIAGNOSTIC.json | Lead with 10.13%; label post-outcome exploratory |
+| Numeric component endpoint was encoded before outcome generation | supported | commit 47433ae; result frozen later at 6f082d8 | Use to defend prespecification; do not reclassify endpoint |
+| SafeOCR evaluation was externally preregistered | NOT SUPPORTED | internal version-controlled protocol commits only | Use "prespecified, commit-timestamped" |
