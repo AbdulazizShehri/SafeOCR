@@ -59,3 +59,37 @@ jobs:
           path: arxiv/main.pdf
           if-no-files-found: error
           retention-days: 14
+
+      - name: Build clean submission source ZIP
+        working-directory: arxiv
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          from zipfile import ZIP_DEFLATED, ZipFile, ZipInfo
+
+          source_names = ("main.tex", "references.bib")
+          archive_path = Path("safeocr-arxiv-source.zip")
+          with ZipFile(archive_path, "w", compression=ZIP_DEFLATED, compresslevel=9) as archive:
+              for name in source_names:
+                  content = Path(name).read_bytes()
+                  assert content, f"Empty source file: {name}"
+                  info = ZipInfo(name, date_time=(2020, 1, 1, 0, 0, 0))
+                  info.compress_type = ZIP_DEFLATED
+                  info.external_attr = 0o644 << 16
+                  archive.writestr(info, content, compress_type=ZIP_DEFLATED, compresslevel=9)
+
+          with ZipFile(archive_path) as archive:
+              assert archive.namelist() == list(source_names)
+              assert archive.testzip() is None
+              assert all(archive.getinfo(name).file_size > 0 for name in source_names)
+          print(f"Verified {archive_path} with exactly: {', '.join(source_names)}")
+          PY
+          sha256sum safeocr-arxiv-source.zip
+
+      - name: Upload clean submission source ZIP
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: safeocr-arxiv-source
+          path: arxiv/safeocr-arxiv-source.zip
+          if-no-files-found: error
+          retention-days: 14
