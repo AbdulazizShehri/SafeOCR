@@ -138,7 +138,7 @@ The primary SafeOCR-LabGold final set contains 48 frozen documents / 288 critica
 
 SafeOCR accepted 209/288 fields and sent 79/288 to review. It observed zero unsafe accepts; the field-level 95% Wilson upper bound is approximately 1.805%.
 
-The raw primary OCR baseline also had 0/288 errors at full coverage, with a tighter field-level Wilson upper bound of approximately 1.316%. Therefore all 79 SafeOCR reviews were correct fields under benchmark truth and this endpoint does **not** demonstrate a safety gain. It measures automation coverage and review cost on this synthetic benchmark. Zero observed errors is not proof of zero risk.
+The raw primary OCR baseline also had 0/288 errors at full coverage, with a tighter field-level Wilson upper bound of approximately 1.316%. Therefore all 79 SafeOCR reviews were correct fields under benchmark truth and this endpoint does **not** demonstrate a safety gain. It measures automation coverage and review cost on this synthetic benchmark. This does not establish SafeOCR superiority over the primary OCR baseline. Zero observed errors is not proof of zero risk.
 
 Canonical evaluation artifacts are in docs/evidence/F6_FINAL_EVALUATION.json, docs/evidence/F6_RISK_COVERAGE.csv, and docs/evidence/F6_CLOSEOUT.json.
 
