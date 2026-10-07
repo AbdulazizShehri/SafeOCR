@@ -59,6 +59,8 @@ if re.search(r"^\s*\|", main, flags=re.MULTILINE):
     errors.append("raw Markdown table row leaked into LaTeX source")
 if "independent critical-crop" in main.lower() or "independent verification" in main.lower():
     errors.append("stale independence wording found; use second-engine/shared-crop wording")
+if r"\n\bibliography" in main:
+    errors.append("literal \\n command leaked before bibliography")
 
 if errors:
     print("ARXIV_PACKAGE_CHECK=FAIL")
