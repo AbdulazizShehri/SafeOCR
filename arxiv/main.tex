@@ -50,7 +50,7 @@ Selective prediction offers a complementary framing: systems may abstain when th
 
 Traceability is also required for trustworthy downstream reuse. FHIR provides a standardized interoperability layer, while prior work has connected clinical text mining and provenance with FHIR-based exchange \cite{daumke2019fhir,margheri2020provenance}. However, conformance and provenance do not themselves prove that an OCR-derived field was correctly read from source pixels.
 
-Recent systems narrow the novelty space further. Girda and Groza introduced deterministic source-grounded trust promotion for laboratory data with same-row evidence, provenance, and review retention \cite{girda2026review}. RAPTOR+ evaluates clinical field extraction together with source-image bounding-box grounding \cite{abioye2026raptorplus}, and verified-abstention OCR has also been reported \cite{benhmida2025ontology}. SafeOCR therefore does not claim novelty for OCR, grounding, abstention, provenance, or FHIR individually.
+Recent systems narrow the novelty space further. Girda and Groza introduced deterministic source-grounded trust promotion for laboratory data with same-row evidence, provenance, and review retention \cite{girda2026review}. Published RAPTOR applies generative document AI to clinical referral processing \cite{abioye2025raptor}, while RAPTOR+ evaluates clinical field extraction together with source-image bounding-box grounding \cite{abioye2026raptorplus}. Verified-abstention OCR has also been reported outside the clinical laboratory setting \cite{benhmida2025ontology}. SafeOCR therefore does not claim novelty for OCR, grounding, abstention, provenance, or FHIR individually.
 
 SafeOCR instead asks a narrower systems question: \textbf{can a fail-closed evidence contract be specified and evaluated transparently, and what automation coverage, review burden, and failure modes result under frozen operating points?} The current primary OCR baselines make no errors on the primary safety endpoints, so this study cannot estimate a reduction in accepted error attributable to the verification gate.
 
@@ -69,9 +69,9 @@ We frame SafeOCR as a systems-and-evaluation contribution. OCR, evidence gating,
 
 \subsubsection{Clinical OCR and structured extraction}
 
-Clinical OCR and information-extraction systems have demonstrated that scanned healthcare documents, including laboratory reports, can be converted into structured data while remaining sensitive to image quality, layout, and table structure \cite{ma2023labocr,li2024tabular,hsu2022scanned}. Recent resources broaden this setting: ClinOCR-Bench evaluates common scan artifacts \cite{hsu2026clinocr}, MedStruct-S and Wang et al. study semi-structured extraction under OCR noise and open key spaces \cite{li2026medstructs,wang2026keycoverage}, and MedRepBench evaluates report-grounded structured interpretation \cite{shang2026medrepbench}.
+Clinical OCR and information-extraction systems have demonstrated that scanned healthcare documents, including laboratory reports, can be converted into structured data while remaining sensitive to image quality, layout, and table structure \cite{ma2023labocr,li2024tabular,hsu2022scanned}. Ren et al. further demonstrate layout-aware digitization of image-based laboratory reports \cite{ren2025serialization}, while Schäfer et al. illustrate a contemporary multimodal/VLM pipeline for scanned clinical forms \cite{schafer2025transfusion}. Recent resources broaden this setting: ClinOCR-Bench evaluates synthetic scan-artifact conditions \cite{hsu2026clinocr}, MedStruct-S and Wang et al. study semi-structured extraction under OCR noise and open key spaces \cite{li2026medstructs,wang2026keycoverage}, and MedRepBench evaluates report-grounded structured interpretation \cite{shang2026medrepbench}.
 
-The closest safety-oriented precedents substantially narrow SafeOCR's novelty claim. Girda and Groza use deterministic source-grounded trust promotion with same-row evidence, provenance, and review retention for laboratory data \cite{girda2026review}. RAPTOR+ evaluates clinical field extraction jointly with source-image bounding-box grounding \cite{abioye2026raptorplus}, while ontology-constrained OCR with verified abstention provides an adjacent precedent \cite{benhmida2025ontology}. SafeOCR therefore does not claim novelty for OCR, visual grounding, evidence gating, or abstention individually; its contribution is the integrated verification and evaluation contract.
+The closest safety-oriented precedents substantially narrow SafeOCR's novelty claim. Girda and Groza use deterministic source-grounded trust promotion with same-row evidence, provenance, and review retention for laboratory data \cite{girda2026review}. Published RAPTOR provides a peer-reviewed clinical document-AI anchor \cite{abioye2025raptor}, and RAPTOR+ evaluates field extraction jointly with source-image bounding-box grounding \cite{abioye2026raptorplus}. Ontology-constrained OCR with verified abstention provides an adjacent non-clinical precedent \cite{benhmida2025ontology}. SafeOCR therefore does not claim novelty for OCR, visual grounding, evidence gating, or abstention individually; its contribution is the integrated verification and evaluation contract.
 
 \subsubsection{Selective prediction and abstention}
 
@@ -79,7 +79,7 @@ Selective prediction trades automation coverage for lower conditional error \cit
 
 \subsubsection{Provenance and FHIR interoperability}
 
-Clinical text mining, SMART Text2FHIR, printed-form transformation, and healthcare provenance systems establish prior art for mapping extracted clinical information into FHIR and retaining provenance \cite{daumke2019fhir,miller2023smarttext2fhir,werlitz2025printedfhir,margheri2020provenance}. SafeOCR uses these concepts as an operational verification boundary: accepted fields retain source-region and decision provenance, and non-verified fields are blocked from automated FHIR export.
+Clinical text mining, SMART Text2FHIR, and printed-form transformation establish prior art for mapping extracted clinical information into FHIR \cite{daumke2019fhir,miller2023smarttext2fhir,werlitz2025printedfhir}. Broader healthcare provenance work establishes the importance of auditable lineage without itself constituting evidence for the FHIR Provenance resource \cite{margheri2020provenance}. SafeOCR uses these concepts as an operational verification boundary: accepted fields retain source-region and decision provenance, and non-verified fields are blocked from automated FHIR export.
 
 \section{Materials and Methods}
 
@@ -178,7 +178,7 @@ No fallback converts REVIEW\_REQUIRED or ABSTAINED into VERIFIED\_AUTO.
 
 \subsection{FHIR R4 export gate}
 
-Only VERIFIED\_AUTO fields may enter the FHIR export path. The export artifact includes provenance linking the structured resource back to source-document evidence. v0.1 targets FHIR R4 (4.0.1).
+Only VERIFIED\_AUTO fields may enter the FHIR export path. The export artifact includes provenance linking the structured resource back to source-document evidence. v0.1 targets FHIR R4 (4.0.1) \cite{hl7fhirr4}.
 
 The FHIR runtime gate used HL7 validator CLI 6.10.4 against FHIR R4 (4.0.1) \cite{hl7fhirr4}. The single canonical valid bundle passed with zero validator errors; a deliberately invalid control was rejected with two errors. The validator produced seven warnings and one note on the valid bundle. Terminology validation was not evaluated as a clinical correctness endpoint. These results demonstrate structural/conformance validation only, not extraction correctness.
 
