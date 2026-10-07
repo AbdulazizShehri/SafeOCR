@@ -450,7 +450,13 @@ def make_approved_perturbations(crop: CriticalCrop) -> tuple[PerturbationImage, 
         _perturbation("brightness_095", ImageEnhance.Brightness(image).enhance(0.95)),
         _perturbation("brightness_105", ImageEnhance.Brightness(image).enhance(1.05)),
         _perturbation("contrast_105", ImageEnhance.Contrast(image).enhance(1.05)),
-        _perturbation("scale_110", image.resize(scaled_size, Image.Resampling.LANCZOS)),
+        _perturbation(
+            "scale_110",
+            image.resize(  # pyright: ignore[reportUnknownMemberType]
+                scaled_size,
+                Image.Resampling.LANCZOS,
+            ),
+        ),
     )
 
 
