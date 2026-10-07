@@ -10,7 +10,7 @@ readme = "README.md"
 license = { file = "LICENSE" }
 requires-python = ">=3.11,<3.13"
 authors = [
-  { name = "Abdulaziz Alshehri" },
+  { name = "Abdulaziz M. Alshehri" },
 ]
 keywords = ["clinical-ocr", "healthcare-ai", "fhir", "verification", "selective-prediction"]
 classifiers = [

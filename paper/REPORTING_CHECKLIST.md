@@ -92,10 +92,10 @@
 - [ ] Figure alt text prepared.
 - [x] Data availability statement finalized for arXiv; recheck journal-specific wording before JAMIA submission.
 - [x] Code availability statement finalized for arXiv; insert final release/tag before archival submission.
-- [ ] Funding statement finalized.
-- [ ] Competing interests finalized.
+- [x] Funding statement finalized.
+- [x] Competing interests finalized.
 - [ ] CRediT statement finalized.
-- [ ] AI-assisted writing disclosure aligned with target-journal policy.
+- [x] Research-tools statement finalized.
 - [ ] Cover letter finalized.
 
 ## Reporting-guideline boundary

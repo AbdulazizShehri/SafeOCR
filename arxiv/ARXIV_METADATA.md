@@ -1,6 +1,6 @@
 # SafeOCR arXiv Submission Metadata
 
-Checked: 2026-10-07
+Checked: 2026-10-08
 
 ## Title
 
@@ -8,9 +8,15 @@ SafeOCR: Evidence-Grounded Selective Verification for Clinical OCR with Provenan
 
 ## Author display
 
-Current source provisionally uses **Abdulaziz M. Shehri** with **Independent researcher** as the affiliation.
+**Abdulaziz M. Alshehri, MPH**
 
-**Hard pre-submission identity gate:** confirm the exact scholarly display name against the author's intended ORCID/journal identity. The repository metadata currently also contains "Abdulaziz Alshehri"; do not post arXiv v1 until one canonical scholarly name is chosen and synchronized.
+Independent Researcher
+
+ORCID: https://orcid.org/0009-0008-0536-5136
+
+Corresponding email: azialshehri@gmail.com
+
+The scholarly author identity is confirmed and synchronized for arXiv v1.
 
 ## Abstract
 
@@ -88,8 +94,6 @@ Current static preflight:
 - no stale "independent verification" wording.
 
 Remaining before posting:
-1. confirm one canonical scholarly author name and affiliation;
-2. complete a clean LaTeX compile and visual PDF inspection;
-3. deliberately choose the arXiv manuscript license.
+1. deliberately choose the arXiv manuscript license.
 
 Internal strategy/review files are not part of the arXiv upload package.
