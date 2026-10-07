@@ -114,6 +114,7 @@ Use all reporting frameworks as reporting aids rather than evidence of validity.
 - [x] Report ungated Wilson bounds beside gated zero-event bounds.
 - [x] State that LabGold and Ma2023 numeric endpoints contained no primary-OCR errors for the gate to intercept.
 - [x] Report LabGold review burden as 79 correct fields routed to review.
+- [x] Audit LabGold per-gate review reasons: the frozen aggregate F6 artifact does not preserve case-level failed gates, so no distribution is reported or fabricated; reproducing it would require re-executing the final runner and must be labelled as a new descriptive analysis.
 - [x] Report ClinOCR PaddleOCR runtime failures in the abstract and Results.
 - [x] Report the official-vs-local Tesseract median WER comparison required by the frozen external protocol.
 - [x] Correct the public laboratory-report dataset provenance to Xue et al. 2020.
