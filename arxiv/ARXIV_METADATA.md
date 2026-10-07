@@ -76,8 +76,20 @@ The 2026-10-07 pre-submission review identified factual/presentational blockers.
 - add the official-versus-local Tesseract reproducibility comparison;
 - add cohort-flow and gate-funnel tables.
 
+Current static preflight:
+- abstract: 220 words;
+- JAMIA main text (excluding table cells): approximately 3,440 words;
+- citations: 23/23 bibliography entries cited;
+- main tables: 4;
+- figures: 2;
+- no missing or uncited bibliography keys;
+- no raw Markdown table/heading leakage;
+- no stale "preregistered" wording;
+- no stale "independent verification" wording.
+
 Remaining before posting:
-1. canonical author-name confirmation;
-2. LaTeX compile and visual PDF inspection;
-3. final reference-status and metadata audit;
-4. removal/exclusion of internal strategy/review artifacts from the public release surface.
+1. confirm one canonical scholarly author name and affiliation;
+2. complete a clean LaTeX compile and visual PDF inspection;
+3. deliberately choose the arXiv manuscript license.
+
+Internal strategy/review files are not part of the arXiv upload package.
