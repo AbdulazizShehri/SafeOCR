@@ -39,18 +39,33 @@ Do not redistribute:
 - ClinOCR-Bench files outside their upstream terms;
 - any external benchmark content not explicitly permitted.
 
+## Canonical renderer and manifest gate
+
+The canonical SafeOCR-LabGold v0.1 Hugging Face publication package has:
+
+- `manifest_sha256 = 3a3fcdf1e3e045c0b6f8b334457d1e22dbd247a6a556e08235f808143abf5cec`;
+- Python 3.12.13;
+- Pillow 12.3.0;
+- FreeType 2.14.3;
+- JPEG feature version 8.0;
+- zlib 1.3.1.zlib-ng;
+- platform `win32:AMD64`.
+
+The corruption pipeline includes a JPEG round-trip. Regeneration under a different underlying JPEG implementation can produce different corrupted PNG bytes. A package with a different manifest hash is non-canonical for the v0.1 publication and must not be uploaded as the paper-linked benchmark.
+
 ## Release sequence
 
-1. Run `python scripts/prepare_hf_labgold.py --output dist/SafeOCR-LabGold`.
-2. Verify `manifest.jsonl`, `metadata.jsonl`, `dataset_info.json`, the copied dataset card, and generated image hashes.
-3. Create `MedScaleAI/SafeOCR-LabGold` and upload the generated `dist/SafeOCR-LabGold` directory as the dataset repository root.
-4. Create `MedScaleAI/SafeOCR` as a Static Space and upload `huggingface/space/*` as the Space repository root.
-5. Verify both public URLs anonymously.
-6. Insert the final arXiv identifier into the GitHub README, HF Space README, and HF dataset card.
-7. Create the frozen paper/software release and tag.
-8. Re-run GitHub CI, CodeQL, and arXiv Preflight on the exact release head.
-9. Submit arXiv.
-10. Immediately verify all cross-links.
+1. Generate or stage `dist/SafeOCR-LabGold` from the canonical renderer stack.
+2. Verify `manifest.jsonl`, `metadata.jsonl`, `dataset_info.json`, the copied dataset card, and every generated image hash.
+3. Require `dataset_info.json.manifest_sha256` to equal `3a3fcdf1e3e045c0b6f8b334457d1e22dbd247a6a556e08235f808143abf5cec`.
+4. Create `MedScaleAI/SafeOCR-LabGold` and upload the verified `dist/SafeOCR-LabGold` directory as the dataset repository root.
+5. Create `MedScaleAI/SafeOCR` as a Static Space and upload `huggingface/space/*` as the Space repository root.
+6. Verify both public URLs anonymously.
+7. Insert the final arXiv identifier into the GitHub README, HF Space README, and HF dataset card.
+8. Create the frozen paper/software release and tag.
+9. Re-run GitHub CI, CodeQL, and arXiv Preflight on the exact release head.
+10. Submit arXiv.
+11. Immediately verify all cross-links.
 
 ## Publication gate
 

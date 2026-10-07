@@ -107,4 +107,7 @@ def test_hf_dataset_card_preserves_frozen_result_boundary() -> None:
     assert "209/288 fields" in card
     assert "0/209 observed errors" in card
     assert "does **not** establish a safety benefit from gating" in card
+    assert "3a3fcdf1e3e045c0b6f8b334457d1e22dbd247a6a556e08235f808143abf5cec" in card
+    assert "JPEG round-trip" in card
+    assert "win32:AMD64" in card
     assert "External datasets used in the paper are not redistributed here." in card
