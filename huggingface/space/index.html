@@ -1,0 +1,131 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>SafeOCR Verification Playground</title>
+<style>
+:root{color-scheme:dark;--bg:#090c12;--panel:#111722;--panel2:#151d2a;--text:#edf3ff;--muted:#9ca9bc;--line:#263247;--blue:#7aa2ff;--green:#4bd69c;--amber:#ffcb6b;--red:#ff7a90}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(circle at 15% -10%,#17233e 0,transparent 35%),var(--bg);font:15px/1.55 Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;color:var(--text)}
+a{color:var(--blue)}.wrap{max-width:1180px;margin:auto;padding:32px 20px 64px}.top{display:flex;justify-content:space-between;gap:18px;align-items:flex-start;margin-bottom:28px}.brand{display:flex;gap:14px;align-items:center}.mark{width:48px;height:48px;border:1px solid #385287;border-radius:14px;display:grid;place-items:center;background:linear-gradient(145deg,#1b2a49,#101724);font-weight:800;font-size:22px}.eyebrow{color:var(--blue);font-size:12px;text-transform:uppercase;letter-spacing:.13em;font-weight:800}h1{margin:2px 0 4px;font-size:30px;line-height:1.15}p{margin:6px 0}.muted{color:var(--muted)}.badge{border:1px solid #5b4823;background:#2b2112;color:#ffd98c;border-radius:999px;padding:7px 11px;font-size:12px;white-space:nowrap}
+.grid{display:grid;grid-template-columns:1.08fr .92fr;gap:18px}.card{background:linear-gradient(180deg,var(--panel),#0e141e);border:1px solid var(--line);border-radius:18px;padding:20px;box-shadow:0 15px 45px #0005}.card h2{font-size:16px;margin:0 0 14px}.sample{background:var(--panel2);border:1px solid var(--line);border-radius:14px;overflow:hidden;margin-bottom:16px}.sample-head{padding:10px 12px;border-bottom:1px solid var(--line);font-size:12px;color:var(--muted);display:flex;justify-content:space-between}.lab{width:100%;border-collapse:collapse}.lab th,.lab td{padding:10px 12px;text-align:left;border-bottom:1px solid #223047}.lab th{font-size:11px;text-transform:uppercase;letter-spacing:.06em;color:var(--muted)}.lab tr:last-child td{border-bottom:0}.selected{background:#18233a}
+.controls{display:grid;grid-template-columns:1fr 1fr;gap:9px}.gate{display:flex;align-items:center;gap:9px;padding:10px 11px;border:1px solid var(--line);background:#101722;border-radius:11px}.gate input{accent-color:#7aa2ff;width:16px;height:16px}.gate span{font-size:13px}.actions{display:flex;gap:8px;flex-wrap:wrap;margin:15px 0 4px}button{border:1px solid #334563;background:#162238;color:var(--text);border-radius:10px;padding:8px 11px;cursor:pointer;font:inherit}button:hover{background:#1c2b47}.primary{background:#23478e;border-color:#365fae}.state{padding:16px;border-radius:14px;border:1px solid var(--line);margin-bottom:14px}.state strong{display:block;font-size:21px;margin:2px 0}.state small{color:var(--muted)}.verified{border-color:#275d49;background:#0e2a21}.verified strong{color:var(--green)}.review{border-color:#6a5224;background:#2a210e}.review strong{color:var(--amber)}.abstain{border-color:#70313d;background:#2d1218}.abstain strong{color:var(--red)}
+.kv{display:grid;grid-template-columns:150px 1fr;gap:7px 12px;font-size:13px;margin:14px 0}.kv div:nth-child(odd){color:var(--muted)}pre{white-space:pre-wrap;word-break:break-word;background:#090d14;border:1px solid var(--line);border-radius:12px;padding:13px;max-height:300px;overflow:auto;font:12px/1.45 ui-monospace,SFMono-Regular,Menlo,monospace;color:#cdd9ef}.results{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:18px}.metric{border:1px solid var(--line);border-radius:13px;padding:13px;background:#101620}.metric b{font-size:21px;display:block}.metric span{color:var(--muted);font-size:12px}.foot{margin-top:18px;border-top:1px solid var(--line);padding-top:16px;color:var(--muted);font-size:12px}
+@media(max-width:850px){.grid{grid-template-columns:1fr}.top{flex-direction:column}.controls{grid-template-columns:1fr}.results{grid-template-columns:1fr}.badge{white-space:normal}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="top">
+    <div class="brand">
+      <div class="mark">S</div>
+      <div>
+        <div class="eyebrow">SafeOCR v0.1</div>
+        <h1>Verification Playground</h1>
+        <p class="muted">Explore the frozen fail-closed decision contract using synthetic laboratory evidence.</p>
+      </div>
+    </div>
+    <div class="badge">Synthetic data only · no patient uploads</div>
+  </div>
+  <div class="grid">
+    <section class="card">
+      <h2>Synthetic laboratory field</h2>
+      <div class="sample">
+        <div class="sample-head"><span>SafeOCR-LabGold example</span><span>PHI-free synthetic record</span></div>
+        <table class="lab">
+          <thead><tr><th>Analyte</th><th>Result</th><th>Unit</th><th>Reference</th></tr></thead>
+          <tbody>
+            <tr><td>Sodium</td><td>139</td><td>mmol/L</td><td>135–145</td></tr>
+            <tr class="selected"><td>Potassium</td><td>3.4</td><td>mmol/L</td><td>3.5–5.1</td></tr>
+            <tr><td>Creatinine</td><td>1.1</td><td>mg/dL</td><td>0.6–1.3</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <h2>Verification gates</h2>
+      <div class="controls" id="controls"></div>
+      <div class="actions">
+        <button class="primary" onclick="scenario('verified')">All gates pass</button>
+        <button onclick="scenario('disagree')">Second engine disagrees</button>
+        <button onclick="scenario('unit')">Unit invalid</button>
+        <button onclick="scenario('runtime')">Runtime failure</button>
+        <button onclick="scenario('missing')">No grounded candidate</button>
+      </div>
+      <div class="results">
+        <div class="metric"><b>72.57%</b><span>Frozen SafeOCR verified coverage on LabGold</span></div>
+        <div class="metric"><b>0/209</b><span>Observed errors among SafeOCR accepts</span></div>
+        <div class="metric"><b>0/288</b><span>Primary OCR errors — no safety-gain claim</span></div>
+      </div>
+    </section>
+    <aside class="card">
+      <h2>Terminal decision</h2>
+      <div id="state" class="state"></div>
+      <div class="kv">
+        <div>Field</div><div>Potassium = 3.4 mmol/L</div>
+        <div>Criticality</div><div>CRITICAL</div>
+        <div>Policy</div><div>SafeOCR v0.1 deterministic gate policy</div>
+        <div>FHIR export</div><div id="export"></div>
+        <div>Failed gates</div><div id="failed"></div>
+      </div>
+      <h2>Evidence record preview</h2>
+      <pre id="json"></pre>
+      <div class="foot">
+        This static Space mirrors the terminal decision policy; it does not run PaddleOCR or Tesseract and does not accept clinical documents.
+        For the full implementation, OCR adapters, evidence reports, FHIR export gate, and evaluation artifacts, use
+        <a href="https://github.com/AbdulazizShehri/SafeOCR" target="_blank" rel="noopener">GitHub</a>.
+      </div>
+    </aside>
+  </div>
+</div>
+<script>
+const defs=[
+ ["candidate_present","Candidate present"],
+ ["visual_grounded","Pixel evidence grounded"],
+ ["independent_agreement","Second-engine agreement"],
+ ["perturbation_stable","Perturbation stable"],
+ ["structural_association","Structural association"],
+ ["numeric_parse_unambiguous","Numeric parse unambiguous"],
+ ["unit_valid","Unit syntax valid"],
+ ["patient_linkage_unambiguous","Patient/document linkage unambiguous"],
+ ["runtime_healthy","Runtime healthy"]
+];
+const reviewGates=["independent_agreement","perturbation_stable","structural_association","numeric_parse_unambiguous","unit_valid","patient_linkage_unambiguous"];
+const controls=document.getElementById("controls");
+for(const [key,label] of defs){
+ const el=document.createElement("label");
+ el.className="gate";
+ el.innerHTML='<input type="checkbox" id="'+key+'" checked><span>'+label+'</span>';
+ controls.appendChild(el);
+ document.getElementById(key).addEventListener("change",render);
+}
+function decide(){
+ const v=Object.fromEntries(defs.map(([k])=>[k,document.getElementById(k).checked]));
+ if(!v.candidate_present)return ["ABSTAINED",["candidate_present"],v];
+ if(!v.visual_grounded)return ["ABSTAINED",["visual_grounded"],v];
+ if(!v.runtime_healthy)return ["ABSTAINED",["runtime_healthy"],v];
+ const failed=reviewGates.filter(k=>!v[k]);
+ if(failed.length)return ["REVIEW_REQUIRED",failed,v];
+ return ["VERIFIED_AUTO",[],v];
+}
+function render(){
+ const [state,failed,v]=decide();
+ const box=document.getElementById("state");
+ box.className="state "+(state==="VERIFIED_AUTO"?"verified":state==="REVIEW_REQUIRED"?"review":"abstain");
+ const message=state==="VERIFIED_AUTO"?"All required verification gates passed.":state==="REVIEW_REQUIRED"?"Plausible field, but evidence is insufficient or inconsistent.":"Fail-closed: no reliable automated value may be released.";
+ box.innerHTML="<small>Decision</small><strong>"+state+"</strong><span>"+message+"</span>";
+ document.getElementById("export").textContent=state==="VERIFIED_AUTO"?"Permitted by policy (subject to FHIR validation)":"Blocked";
+ document.getElementById("failed").textContent=failed.length?failed.join(", "):"None";
+ const payload={field:{analyte_text:"Potassium",value_text:"3.4",unit_text:"mmol/L",criticality:"CRITICAL"},signals:v,decision:{state,failed_gates:failed},policy_version:"safeocr-v0.1-demo",synthetic:true};
+ document.getElementById("json").textContent=JSON.stringify(payload,null,2);
+}
+function scenario(name){
+ for(const [k] of defs)document.getElementById(k).checked=true;
+ if(name==="disagree")document.getElementById("independent_agreement").checked=false;
+ if(name==="unit")document.getElementById("unit_valid").checked=false;
+ if(name==="runtime")document.getElementById("runtime_healthy").checked=false;
+ if(name==="missing")document.getElementById("candidate_present").checked=false;
+ render();
+}
+render();
+</script>
+</body>
+</html>
