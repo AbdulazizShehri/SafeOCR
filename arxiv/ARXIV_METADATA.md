@@ -8,9 +8,9 @@ SafeOCR: Evidence-Grounded Selective Verification for Clinical OCR with Provenan
 
 ## Author display
 
-Current source uses **Abdulaziz M. Shehri**.
+Current source provisionally uses **Abdulaziz M. Shehri** with **Independent researcher** as the affiliation.
 
-Confirm the exact scholarly display name before submission. No institutional affiliation has been inferred or added.
+**Hard pre-submission identity gate:** confirm the exact scholarly display name against the author's intended ORCID/journal identity. The repository metadata currently also contains "Abdulaziz Alshehri"; do not post arXiv v1 until one canonical scholarly name is chosen and synchronized.
 
 ## Abstract
 
@@ -27,7 +27,7 @@ Rationale: the central technical object is OCR/document-image verification with 
 
 Suggested concise wording:
 
-`Preprint. SafeOCR v0.1 methods and evaluation study; includes frozen synthetic evaluation, ClinOCR-Bench external transcription evaluation, and oracle-localised verifier-component evaluation on public de-identified laboratory-report images. Code and frozen evidence artifacts are available in the public repository.`
+`Preprint. SafeOCR v0.1 methods and evaluation study. The frozen safety endpoints contained no primary-OCR errors for the verification gate to intercept; the paper therefore reports feasibility, review/rejection cost, failure handling, and exploratory full-field mismatch evidence rather than a demonstrated risk reduction. Code and frozen evidence artifacts are available in the public repository.`
 
 ## License
 
@@ -59,3 +59,25 @@ Do not upload:
 - review-agent scratch files;
 - private notes;
 - unrelated evidence artifacts not needed to compile the manuscript.
+
+
+## Adversarial-review gates before arXiv v1
+
+The 2026-10-07 pre-submission review identified factual/presentational blockers. The source package has been revised to:
+
+- correct the public laboratory-report dataset provenance to Xue et al. 2020;
+- remove the incorrect public-dataset kappa attribution;
+- report ungated baseline bounds beside gated zero-event bounds;
+- state explicitly that the frozen safety endpoints had no primary-OCR errors to intercept;
+- report 57/328 ClinOCR PaddleOCR runtime failures in the abstract;
+- give the post-outcome 38/375 analyte-or-unit mismatch result explicit prominence;
+- disclose LabGold truth-geometry score alignment;
+- replace internal "preregistered" wording with "prespecified, commit-timestamped";
+- add the official-versus-local Tesseract reproducibility comparison;
+- add cohort-flow and gate-funnel tables.
+
+Remaining before posting:
+1. canonical author-name confirmation;
+2. LaTeX compile and visual PDF inspection;
+3. final reference-status and metadata audit;
+4. removal/exclusion of internal strategy/review artifacts from the public release surface.
