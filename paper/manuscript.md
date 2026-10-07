@@ -82,7 +82,7 @@ The pipeline is:
 7. FHIR R4 export only for VERIFIED_AUTO fields;
 8. static evidence report with source crop, decision reason, and provenance.
 
-PaddleOCR 3.7.0 is the primary full-page OCR path. Tesseract 5.4.0.20240606 is used as an independent critical-crop re-reader and classical baseline.
+PaddleOCR 3.7.0 is the primary full-page OCR path. Tesseract 5.4.0.20240606 is used as a second-engine critical-crop rereader and classical baseline.
 
 ### 2.3 Evidence-bound field representation
 
@@ -132,7 +132,7 @@ No fallback converts REVIEW_REQUIRED or ABSTAINED into VERIFIED_AUTO.
 
 Only VERIFIED_AUTO fields may enter the FHIR export path. The export artifact includes provenance linking the structured resource back to source-document evidence. v0.1 targets FHIR R4 (4.0.1).
 
-The FHIR runtime gate used HL7 validator CLI 6.10.4. The canonical valid bundle passed with zero validator errors; a deliberately invalid control was rejected with two errors. The validator produced seven warnings and one note on the valid bundle. These results demonstrate structural/conformance validation, not extraction correctness.
+The FHIR runtime gate used HL7 validator CLI 6.10.4 against FHIR R4 (4.0.1) [@hl7fhirr4]. The single canonical valid bundle passed with zero validator errors; a deliberately invalid control was rejected with two errors. The validator produced seven warnings and one note on the valid bundle. Terminology validation was not evaluated as a clinical correctness endpoint. These results demonstrate structural/conformance validation only, not extraction correctness.
 
 ### 2.8 Evaluation contract
 
@@ -213,7 +213,7 @@ The static evidence artifact illustrates field-level traceability for one verifi
 
 Both frozen OCR engines were scored across all 328 ClinOCR-Bench evaluation documents under the frozen failure policy. Local Tesseract produced a mean WER of 0.5589 (95% CI 0.5209-0.5968) and median WER of 0.5647. Frozen PaddleOCR produced a mean WER of 0.4769 (95% CI 0.4372-0.5165) and median WER of 0.3659, but it incurred 57/328 runtime failures (17.4%): 33/56 rotated documents and 24/48 mixed-artifact documents. Under the frozen failure policy, these failures were retained in the denominator and scored as empty predictions.
 
-Performance varied substantially by artifact type. PaddleOCR mean WER was 0.1149 on normal documents, 0.2694 on poor-quality documents, 0.2847 on tables, 0.4256 on handwriting, 0.9035 on rotated documents, and 0.9276 on mixed-artifact documents. The PaddleOCR run recorded 57/328 runtime failures (17.4%); these were retained in the denominator and scored as empty predictions under the frozen failure policy. Failures were concentrated in rotated documents (33/56) and mixed-artifact documents (24/48), making runtime robustness a material part of the external transcription result. Tesseract similarly showed strong artifact sensitivity, with mean WER ranging from 0.1089 on normal documents to 0.9225 on mixed-artifact documents.
+Performance varied substantially by artifact type. PaddleOCR mean WER was 0.1149 on normal documents, 0.2694 on poor-quality documents, 0.2847 on tables, 0.4256 on handwriting, 0.9035 on rotated documents, and 0.9276 on mixed-artifact documents. Tesseract similarly showed strong artifact sensitivity, with mean WER ranging from 0.1089 on normal documents to 0.9225 on mixed-artifact documents. Across all 328 paired documents, the descriptive mean PaddleOCR-minus-Tesseract WER difference was -0.0820 (fixed-seed paired bootstrap 95% interval -0.1204 to -0.0442). In a labelled sensitivity restricted to the 271 documents without a PaddleOCR runtime failure, PaddleOCR mean WER was 0.3668 versus 0.5358 for Tesseract; on the 57 PaddleOCR-failure documents, Tesseract mean WER was 0.6686. These analyses are descriptive and do not alter the frozen failure policy or primary benchmark results.
 
 The prespecified reproducibility comparison also showed substantial differences between the official ClinOCR-Bench Tesseract medians and the local frozen Tesseract medians: normal 0.0866 vs 0.1099, handwriting 0.8228 vs 0.8135, poor-quality 0.8184 vs 0.8205, rotation 1.0000 vs 0.5802, tables 0.4578 vs 0.3244, and mixed 1.0000 vs 0.9846. The large rotation discrepancy likely reflects environment or orientation/page-segmentation differences and prevents treating the local run as an exact reproduction of the authors' Tesseract environment.
 
@@ -240,7 +240,9 @@ The public laboratory-report dataset yielded 1,850 eligible analyte-value-unit r
 | Excluded: ambiguous duplicate critical cell | 13 |
 | Excluded: missing value | 4 |
 | Excluded: missing analyte | 3 |
-| Eligible rows | 1,850 | The primary value span was localised in 1,850/1,850 cases and the complete analyte/value/unit context in 1,849/1,850. Primary OCR reproduced the annotated numeric value in all 1,850 eligible cases, while the complete analyte-value-unit tuple was exact in 1,461/1,850 (78.97%).
+| Eligible rows | 1,850 |
+
+The primary value span was localised in 1,850/1,850 cases and the complete analyte/value/unit context in 1,849/1,850. Primary OCR reproduced the annotated numeric value in all 1,850 eligible cases, while the complete analyte-value-unit tuple was exact in 1,461/1,850 (78.97%).
 
 The component gates passed 375/1,850 fields (20.27%). Second-engine numeric-value agreement passed in 654/1,850 (35.35%), perturbation stability in 449/1,850 (24.27%), structural association in 1,837/1,850 (99.30%), and unit validation in 1,347/1,850 (72.81%). The overlapping gate funnel was 654 with second-engine agreement, 442 with both agreement and perturbation stability, 377 after additionally requiring valid unit syntax, and 375 after additionally requiring structural association.
 
@@ -250,7 +252,9 @@ The component gates passed 375/1,850 fields (20.27%). Second-engine numeric-valu
 | Second-engine agreement | 654 | 35.35% |
 | Agreement + perturbation stability | 442 | 23.89% |
 | + valid unit syntax | 377 | 20.38% |
-| + structural association / component pass | 375 | 20.27% | No runtime failures occurred. No component-passed field contained an incorrect numeric value (0/375; observed rate 0%, 95% Wilson interval 0-1.014%), but the ungated primary numeric reading was also exact in 1,850/1,850 rows (95% Wilson upper bound 0.207%). Therefore the numeric endpoint contained no primary-OCR errors for the component gates to intercept; all 1,475 rejected numeric values were correct under the frozen reference labels.
+| + structural association / component pass | 375 | 20.27% |
+
+No runtime failures occurred. No component-passed field contained an incorrect numeric value (0/375; observed rate 0%, 95% Wilson interval 0-1.014%), but the ungated primary numeric reading was also exact in 1,850/1,850 rows (95% Wilson upper bound 0.207%). Therefore the numeric endpoint contained no primary-OCR errors for the component gates to intercept; all 1,475 rejected numeric values were correct under the frozen reference labels.
 
 Component-pass coverage was similar for scanner images (192/926; 20.73%) and illumination/smartphone variants (183/924; 19.81%). In contrast, complete primary field exactness fell from 814/926 (87.90%) on scans to 647/924 (70.02%) under illumination variants.
 
@@ -260,7 +264,7 @@ A prespecified primary claim is not made for full field-tuple correctness among 
 
 ### 4.1 Principal findings
 
-SafeOCR shows that a clinical OCR pipeline can make **acceptance** an explicit, auditable decision rather than treating every OCR output as equally eligible for structured export. The system binds fields to source pixels, applies independent and structural checks, exposes review/abstention as first-class outcomes, and gates FHIR export on verification.
+SafeOCR shows that a clinical OCR pipeline can make **acceptance** an explicit, auditable decision rather than treating every OCR output as equally eligible for structured export. The system binds fields to source pixels, applies second-engine and structural checks, exposes review/abstention as first-class outcomes, and gates FHIR export on verification.
 
 The primary SafeOCR operating point traded automation coverage for a conservative acceptance policy: 72.57% of critical fields were automatically verified, while 27.43% were routed to review. Because primary OCR was already correct on all 288 fields, the 79 reviews intercepted no endpoint errors and the gated confidence bound was wider than the ungated bound. This result therefore quantifies review cost and feasibility rather than demonstrating reduced accepted error.
 
@@ -276,7 +280,7 @@ Future evaluation should deliberately increase realism without tuning to the fin
 
 The SafeOCR policy is consistent with the clinical selective-prediction principle that abstention can be preferable to forced prediction [@swaminathan2024selective]. However, SafeOCR's mechanism differs from learned reject-option models such as SelectiveNet [@geifman2019selectivenet]. It uses deterministic evidence gates rather than a single learned confidence function.
 
-This design favors inspectability: a blocked field can state whether the cause was failed independent agreement, instability, unit invalidity, association ambiguity, identity ambiguity, or runtime failure. The trade-off is that the v0.1 policy is likely conservative and may sacrifice coverage.
+This design favors inspectability: a blocked field can state whether the cause was failed second-engine agreement, instability, unit invalidity, association ambiguity, identity ambiguity, or runtime failure. The trade-off is that the v0.1 policy is likely conservative and may sacrifice coverage.
 
 ### 4.4 Relation to conformal verification and risk control
 
@@ -292,7 +296,7 @@ This aligns with prior work emphasizing provenance and semantic interoperability
 
 ### 4.6 External validity
 
-ClinOCR-Bench improves the availability of public, PHI-free clinical OCR evaluation and includes realistic scan artifacts [@hsu2026clinocr]. SafeOCR's v0.1 integration uses the benchmark under a no-tuning contract, but we deliberately do not report critical-field safety metrics from transcript-only ground truth.
+ClinOCR-Bench improves the availability of public, PHI-free clinical OCR evaluation and programmatically simulates common scan artifacts [@hsu2026clinocr]. SafeOCR's v0.1 integration uses the benchmark under a no-tuning contract, but we deliberately do not report critical-field safety metrics from transcript-only ground truth.
 
 To evaluate SafeOCR properly on external documents, a future study should add a governed annotation layer containing field identity, exact value, unit, patient/document linkage, structural association, and source-region evidence. Those annotations must be created without using SafeOCR outputs to define the gold standard.
 
@@ -312,17 +316,17 @@ Second, the primary OCR baseline had zero observed errors on the frozen final se
 
 Third, only one frozen SafeOCR operating point is reported. A post-hoc final-set threshold sweep would violate the evaluation contract, so the current paper does not present a continuous SafeOCR risk-coverage curve.
 
-Fourth, the patient-attribution result is limited by benchmark construction and does not constitute real-world multi-patient identity evaluation.
+Fourth, patient linkage was not meaningfully evaluated in a real-world multi-patient setting; the current evidence does not support a patient-attribution performance claim.
 
-Fifth, FHIR validator conformance is not equivalent to clinical mapping correctness. The prespecified final benchmark did not estimate a FHIR mapping error rate.
+Fifth, FHIR evidence is limited to a single canonical-bundle smoke test plus an invalid control. Validator conformance is not equivalent to clinical mapping correctness; terminology validation was not evaluated, and the prespecified final benchmark did not estimate a FHIR mapping error rate.
 
 Sixth, the static evidence report demonstrates traceability mechanics but is not a validated clinical human-factors interface.
 
-Seventh, the external laboratory-report experiment is oracle-localised after OCR: gold geometry identifies which OCR spans are evaluated, so it is a verifier-component study rather than end-to-end extraction validation. The public collection's label-generation provenance is undocumented, and contamination of a long-public dataset in modern OCR training data cannot be excluded. The experiment does not evaluate patient linkage, full VERIFIED_AUTO behavior, or FHIR mapping; 13 estimand-relevant rows with duplicate annotations were excluded fail-closed; and the full-tuple mismatch analysis is explicitly post-outcome and exploratory.
+Seventh, the external laboratory-report experiment is oracle-localised after OCR: gold geometry identifies which OCR spans are evaluated, so it is a verifier-component study rather than end-to-end extraction validation. The public collection's label-generation provenance is undocumented, and contamination of a long-public dataset in modern OCR training data cannot be excluded. The frozen written protocol limited the non-empty-unit rule to unit-dependent analysis, whereas the implemented scorer required a non-empty unit for the entire component estimand and excluded 74 unitless rows; this protocol/code deviation is reported without post-hoc correction. Three pre-outcome runtime/integrity repairs—JPEG-to-PNG normalization, normalized-page identity rebinding, and fail-closed exclusion of 13 ambiguous duplicate critical rows—occurred before any verifier result artifact existed. The experiment does not evaluate patient linkage, full VERIFIED_AUTO behavior, or FHIR mapping, and the full-tuple mismatch analysis is explicitly post-outcome and exploratory.
 
 Eighth, field-level Wilson intervals do not model dependence within the 24 clean/corrupt LabGold record pairs or within the external laboratory-report images, nor do they model the asserted scan/illumination pairing; they are descriptive bounds rather than cluster-robust population inference.
 
-Ninth, the study does not evaluate diagnosis, treatment, or clinical decision-making and must not be interpreted as a medical-device validation.
+Ninth, the ABSTAINED path was not exercised in the frozen LabGold final run, so the evaluation does not empirically characterize abstention behavior. The study also does not evaluate diagnosis, treatment, or clinical decision-making and must not be interpreted as a medical-device validation.
 
 ### Future Work
 
@@ -330,13 +334,13 @@ Priority next steps are independently adjudicated multi-institution field-level 
 
 ## 5. Conclusion
 
-Clinical OCR should not be evaluated only as a transcription problem when its output is intended for structured healthcare data. SafeOCR introduces a field-level verification contract in which evidence binding, independent checks, explicit review/abstention, and provenance-preserving FHIR export are connected in one fail-closed pipeline.
+Clinical OCR should not be evaluated only as a transcription problem when its output is intended for structured healthcare data. SafeOCR specifies and evaluates a field-level verification contract in which evidence binding, second-engine checks, explicit review/abstention, and provenance-preserving FHIR export are connected in one fail-closed pipeline.
 
 On the frozen v0.1 synthetic evaluation, SafeOCR automatically verified 72.57% of critical fields, but the primary OCR baseline also produced zero observed errors and all 79 reviewed fields were correct under benchmark truth. In the oracle-localised public laboratory-report evaluation, the primary numeric reading was exact in all 1,850 eligible rows, so 0/375 numeric errors among component passes could not demonstrate a safety gain; exploratory analysis instead found analyte or unit mismatches in 38/375 passes. The appropriate conclusion is therefore not that SafeOCR is safer, superior, or clinically validated, but that an evidence-gated workflow can be implemented and audited, at substantial coverage cost, and that future prespecified evaluation must include genuine primary-OCR errors and verification beyond numeric values.
 
 ## Data and Code Availability
 
-SafeOCR is intended for public research release under Apache-2.0 with source code, frozen protocols, scoring code, and derived evidence artifacts. SafeOCR-LabGold is synthetic and ClinOCR-Bench is public and PHI-free. The public de-identified Ma et al. source images are not redistributed by SafeOCR; they should be obtained from the original source subject to upstream terms.
+SafeOCR source code, frozen protocols, scoring code, and derived evidence artifacts are released under the repository's Apache-2.0 software license where applicable. SafeOCR-LabGold is synthetic and ClinOCR-Bench is public and PHI-free. The public laboratory-report images originate from Xue et al.'s repository and are not redistributed by SafeOCR. No dataset-wide license file was identified in the audited upstream repository state; users should obtain the images from the original source and determine permitted reuse under the publication and repository terms applicable to them.
 
 ## Ethics and Safety Statement
 
@@ -344,7 +348,7 @@ SafeOCR-LabGold is synthetic and ClinOCR-Bench is PHI-free. The external laborat
 
 ## AI-use Disclosure
 
-Generative AI tools were used for drafting assistance, code generation and review, literature-discovery support, and language editing. All scientific claims, citations, code changes, analyses, and manuscript text were reviewed and verified by the human author(s). AI tools were not authors and did not determine authorship or final scientific conclusions.
+AI-assisted tools, including OpenAI ChatGPT and Anthropic Claude, were used for drafting assistance, code generation/review support, literature discovery, adversarial manuscript review, and language editing. Deterministic/static review tools were also used during software qualification. The author reviewed the scientific claims, citations, code changes, analyses, and manuscript text and retained responsibility for all study decisions and conclusions. AI systems were not authors and did not determine authorship or research accountability.
 
 ## References
 
