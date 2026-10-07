@@ -2,13 +2,13 @@
 
 | Claim | Status | Evidence / citation | Allowed wording |
 |---|---|---|---|
-| OCR can digitize paper/scanned clinical reports | supported | Ma 2023; Laique 2021 | Strong background claim |
+| OCR can digitize paper/scanned clinical reports | supported | Ma 2023; Hsu 2022; Li 2024 | Strong background claim |
 | Laboratory reports contain heterogeneous layouts and mixed text/numeric/unit structure | supported | Ma 2023 | Strong background claim |
 | Selective prediction can improve clinical data abstraction when abstention is allowed | supported | Swaminathan et al. | Strong related-work claim |
 | Risk/coverage is a standard selective-prediction framing | supported | Geifman & El-Yaniv | Strong methods framing |
 | Formal risk-control methods exist without model refitting | supported | Angelopoulos et al. | Strong related-work claim; do not attribute a formal guarantee to SafeOCR |
 | Conformal verification has been applied to clinical EHR extraction | supported | Kim et al. | Strong related-work claim |
-| FHIR can represent provenance/source relationships | supported | HL7 R4; Daumke 2019; Margheri 2020 | Strong interoperability claim |
+| FHIR provides standardized interoperability structures and explicit Provenance resources | supported | HL7 R4; Daumke 2019 | Strong interoperability claim; do not imply provenance establishes OCR correctness |
 | SafeOCR accepted 209/288 critical fields | supported | F6_FINAL_EVALUATION.json | Exact quantitative claim |
 | SafeOCR verified coverage was 72.57% | supported | F6_FINAL_EVALUATION.json | Exact quantitative claim |
 | SafeOCR observed zero unsafe accepts | supported | F6_FINAL_EVALUATION.json | Must say "observed" |
@@ -30,7 +30,7 @@
 | SafeOCR is the first system with this exact combination | INSUFFICIENT FOR ABSOLUTE FIRST CLAIM | broad multi-tool literature screen found no exact match but cannot prove universal absence | Describe a distinct integration/evaluation design; avoid "first" |
 
 
-| Ma2023 external component evaluated 1,850 eligible analyte-value-unit rows from 238 public de-identified report images | supported | PAPER_MA2023_EXTERNAL_VERIFIER.json; Ma et al. 2023 | Oracle-localised verifier-component claim only |
+| External component evaluated 1,850 eligible analyte-value-unit rows from 238 public laboratory-report images described as de-identified by Ma et al. | supported | PAPER_MA2023_EXTERNAL_VERIFIER.json; Xue 2020; Ma 2023 | Attribute image source to Xue and de-identification description to Ma; oracle-localised verifier-component claim only |
 | Ma2023 component passed 375/1,850 eligible rows (20.27%) | supported | PAPER_MA2023_EXTERNAL_VERIFIER.json | Exact quantitative component-coverage claim |
 | No Ma2023 component-passed row had an incorrect numeric value (0/375; 95% Wilson upper bound 1.014%) | supported | PAPER_MA2023_EXTERNAL_VERIFIER.json | Must say numeric value / component pass; not full-field safety |
 | Ma2023 primary OCR numeric value was exact in 1,850/1,850 oracle-localised eligible rows | supported | PAPER_MA2023_EXTERNAL_VERIFIER.json | Oracle-localised OCR-value claim only |
@@ -59,3 +59,18 @@
 | 38/375 component passes had analyte or unit mismatch | exploratory supported | PAPER_MA2023_PASS_DIAGNOSTIC.json | Lead with 10.13%; label post-outcome exploratory |
 | Numeric component endpoint was encoded before outcome generation | supported | commit 47433ae; result frozen later at 6f082d8 | Use to defend prespecification; do not reclassify endpoint |
 | SafeOCR evaluation was externally preregistered | NOT SUPPORTED | internal version-controlled protocol commits only | Use "prespecified, commit-timestamped" |
+
+
+## Dependence and follow-up claim controls
+
+| Claim | Status | Evidence / citation | Allowed wording |
+|---|---|---|---|
+| Field-level Wilson intervals are cluster-robust population guarantees | NOT SUPPORTED | repeated fields within LabGold documents/record pairs and external images | Prohibited |
+| LabGold post-outcome document-level sensitivity is 0/48 error-containing documents (Wilson upper 7.41%) | descriptive supported | frozen F6 result aggregated at document level | Must label post-outcome descriptive dependence sensitivity |
+| LabGold post-outcome record-pair sensitivity is 0/24 error-containing records (Wilson upper 13.80%) | descriptive supported | frozen split structure + F6 result | Must label post-outcome descriptive dependence sensitivity |
+| Ma2023 component passes arose from 86 images with 0/86 images containing an incorrect accepted numeric value (Wilson upper 4.28%) | descriptive supported | frozen row-level verifier artifact | Must label post-outcome descriptive cluster sensitivity; does not redefine field-level endpoint |
+| ClinOCR paired PaddleOCR-minus-Tesseract mean WER difference was -0.0820 with fixed-seed bootstrap interval -0.1204 to -0.0442 | descriptive supported | frozen paired per-document WER artifacts | Descriptive sensitivity only; failures remain scored empty under frozen policy |
+| On the 271 ClinOCR documents without a PaddleOCR runtime failure, mean WER was 0.3668 for PaddleOCR vs 0.5358 for Tesseract | descriptive supported | frozen paired per-document WER artifacts | Label non-failed sensitivity; never use to replace the all-document primary result |
+| Current v0.1 evidence demonstrates SafeOCR intercepts primary-OCR full-tuple errors | NOT SUPPORTED | frozen safety endpoints contain no baseline events | Prohibited |
+| RJUA-MedDQA is already qualified as the JAMIA final dataset | NOT SUPPORTED | metadata qualification only; annotation sufficiency unresolved; no SafeOCR outputs inspected | Prohibited |
+| A new JAMIA follow-up study may be run under the current draft protocol without first freezing it | NOT SUPPORTED | protocol status is DRAFT | Prohibited; freeze protocol, qualification, manifest, gold schema and scorer before final-set execution |
