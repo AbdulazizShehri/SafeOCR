@@ -31,6 +31,8 @@ jobs:
         run: ruff check .
       - name: Pyright
         run: pyright
+      - name: arXiv package invariants
+        run: python arxiv/build_check.py
       - name: Test
         run: python -m pytest -q
       - name: Dependency check
