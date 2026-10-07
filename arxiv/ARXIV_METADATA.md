@@ -37,7 +37,9 @@ Suggested concise wording:
 
 ## License
 
-Choose an arXiv license deliberately at submission. The repository code is Apache-2.0, but the manuscript/preprint license is a separate publication choice and must not be inferred automatically.
+Author-selected for arXiv v1: **arXiv.org perpetual, non-exclusive license 1.0**.
+
+This license grants arXiv limited, irrevocable distribution rights while the author retains copyright. It is a manuscript choice, separate from the repository's Apache-2.0 software license. Select this exact option in the arXiv submission interface; the license cannot be changed after posting.
 
 ## Public repository
 
@@ -94,6 +96,9 @@ Current static preflight:
 - no stale "independent verification" wording.
 
 Remaining before posting:
-1. deliberately choose the arXiv manuscript license.
+1. Submit from the author's own arXiv account and complete any required endorsement.
+2. Upload only the checked LaTeX source and bibliography.
+3. Verify the arXiv-generated PDF and metadata, then perform the final author submission.
+4. Record the assigned arXiv identifier only after arXiv confirms it.
 
 Internal strategy/review files are not part of the arXiv upload package.
