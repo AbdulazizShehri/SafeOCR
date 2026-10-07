@@ -85,13 +85,13 @@
 - [x] Novelty map exists.
 - [x] Negative result is explicit.
 - [x] Limitations distinguish evidence gaps from engineering gaps.
-- [ ] Main text <=4,000 words for JAMIA.
+- [x] Main text <=4,000 words for JAMIA (current prose count approximately 3,440, excluding table cells).
 - [x] Structured abstract <=250 words.
-- [ ] <=4 main tables.
-- [ ] <=6 main figures.
+- [x] <=4 main tables (current: 4).
+- [x] <=6 main figures (current: 2).
 - [ ] Figure alt text prepared.
-- [ ] Data availability statement finalized.
-- [ ] Code availability statement finalized.
+- [x] Data availability statement finalized for arXiv; recheck journal-specific wording before JAMIA submission.
+- [x] Code availability statement finalized for arXiv; insert final release/tag before archival submission.
 - [ ] Funding statement finalized.
 - [ ] Competing interests finalized.
 - [ ] CRediT statement finalized.
