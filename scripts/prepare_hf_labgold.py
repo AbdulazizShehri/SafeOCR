@@ -143,6 +143,22 @@ def prepare(
         newline="\n",
     )
 
+    viewer_rows: list[dict[str, object]] = []
+    for row in rows:
+        viewer_row = dict(row)
+        file_name = _string(viewer_row.get("file_name"), name="file_name")
+        viewer_row["file_name"] = Path(file_name).name
+        viewer_rows.append(viewer_row)
+    viewer_metadata_path = images / "metadata.jsonl"
+    viewer_metadata_path.write_text(
+        "".join(
+            json.dumps(row, sort_keys=True, separators=(",", ":")) + "\n"
+            for row in viewer_rows
+        ),
+        encoding="utf-8",
+        newline="\n",
+    )
+
     if card_path is not None:
         card_text = card_path.read_text(encoding="utf-8")
         (output / "README.md").write_text(
@@ -166,6 +182,9 @@ def prepare(
         ).hexdigest(),
         "metadata_sha256": hashlib.sha256(
             metadata_path.read_bytes()
+        ).hexdigest(),
+        "viewer_metadata_sha256": hashlib.sha256(
+            viewer_metadata_path.read_bytes()
         ).hexdigest(),
         "readme_sha256": (
             None
@@ -199,6 +218,7 @@ def main() -> None:
     prepare(split_path=args.split, output=args.output, card_path=args.card)
     print((args.output / "manifest.jsonl").as_posix())
     print((args.output / "metadata.jsonl").as_posix())
+    print((args.output / "images" / "metadata.jsonl").as_posix())
     print((args.output / "dataset_info.json").as_posix())
 
 
