@@ -195,6 +195,8 @@ SafeOCR accepted 209 fields and sent 79 to review. Among accepted SafeOCR fields
 
 The Tesseract crop baseline produced 45 unsafe accepts among 287 accepted fields, corresponding to an unsafe accept rate of 0.1568 (95% Wilson interval approximately 0.1193-0.2034).
 
+As a post-outcome descriptive dependence sensitivity, 0/48 LabGold documents and 0/24 underlying clean/corrupt record pairs contained any primary-OCR field error; corresponding Wilson upper bounds are 7.41% and 13.80%, respectively. These coarser bounds are not substitutes for a prespecified cluster-aware analysis but illustrate how field-level uncertainty understates dependence.
+
 ### 3.2 Table association
 
 A separate OCR-geometry-only association scorer evaluated 288/288 cases and observed zero table-association errors. The scorer did not use truth geometry to parse rows. This result is limited to the synthetic LabGold structure and should not be generalized to arbitrary real-world report layouts.
@@ -257,6 +259,8 @@ The component gates passed 375/1,850 fields (20.27%). Second-engine numeric-valu
 No runtime failures occurred. No component-passed field contained an incorrect numeric value (0/375; observed rate 0%, 95% Wilson interval 0-1.014%), but the ungated primary numeric reading was also exact in 1,850/1,850 rows (95% Wilson upper bound 0.207%). Therefore the numeric endpoint contained no primary-OCR errors for the component gates to intercept; all 1,475 rejected numeric values were correct under the frozen reference labels.
 
 Component-pass coverage was similar for scanner images (192/926; 20.73%) and illumination/smartphone variants (183/924; 19.81%). In contrast, complete primary field exactness fell from 814/926 (87.90%) on scans to 647/924 (70.02%) under illumination variants.
+
+As a post-outcome descriptive cluster sensitivity, the 375 component passes arose from 86 images, and 0/86 of those images contained an incorrect accepted numeric value; the Wilson upper bound at the image-event level is 4.28%. This does not redefine the field-level endpoint or provide a population-level guarantee.
 
 A prespecified primary claim is not made for full field-tuple correctness among component passes because the frozen component endpoint concerns the numeric value. A separately labelled post-outcome diagnostic found that 38/375 passed fields (10.13%; 95% Wilson interval 7.47%-13.60%) had an analyte or unit mismatch: 36 analyte mismatches and 2 unit mismatches, with no numeric-value mismatches. Equivalently, 337/375 tuples were exact. This exploratory diagnostic is given equal prominence because it exposes the narrower scope of numeric verification; it does not alter the frozen primary component endpoint.
 
