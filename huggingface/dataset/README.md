@@ -12,6 +12,14 @@ tags:
 - verification
 - fhir
 - benchmark
+configs:
+- config_name: default
+  default: true
+  data_files:
+  - split: calibration
+    path: "viewer/calibration.parquet"
+  - split: evaluation
+    path: "viewer/evaluation.parquet"
 ---
 
 # SafeOCR-LabGold
@@ -69,7 +77,9 @@ SafeOCR's corruption pipeline includes a JPEG round-trip. Pillow can therefore p
 
 This renderer dependency does not change the frozen evaluation results or claim boundaries; it is a byte-level reproducibility constraint on regenerated corrupted images.
 
-The generator records exact case identity, template, source seed, corruption seed, document hash, page hash, image filename, and truth-region metadata. The canonical root `metadata.jsonl` remains byte-identical to `manifest.jsonl`. A derived `images/metadata.jsonl` adapter rewrites only `file_name` to be relative to the image directory so the Hugging Face `ImageFolder` viewer can load images together with the same metadata. The adapter does not alter the canonical manifest, image bytes, frozen split, or scientific results.
+The generator records exact case identity, template, source seed, corruption seed, document hash, page hash, image filename, and truth-region metadata. The canonical root `metadata.jsonl` remains byte-identical to `manifest.jsonl`.
+
+The Hugging Face Dataset Viewer uses a separate derived Parquet layer under `viewer/`. It is generated only after verifying the canonical manifest and every source-image SHA-256. The viewer layer embeds the same image bytes and exposes the frozen metadata as tabular columns, with explicit `calibration` (24 rows) and `evaluation` (48 rows) splits. It is a convenience representation only; `manifest.jsonl` and `images/` remain the audit source of truth.
 
 ## Privacy
 
@@ -85,11 +95,14 @@ All records are synthetic. Synthetic patient names and identifiers are generated
 
 The published repository contains:
 
-- `images/*.png`: deterministic synthetic laboratory report pages;
-- `images/metadata.jsonl`: derived Hugging Face `ImageFolder` viewer adapter with image-directory-relative `file_name`;
-- `metadata.jsonl`: root metadata byte-identical to the canonical manifest;
+- `images/*.png`: canonical synthetic laboratory report pages;
 - `manifest.jsonl`: canonical audit manifest for the frozen release;
-- `dataset_info.json`: release counts and SHA-256 identities, including the viewer adapter hash;
+- `metadata.jsonl`: root metadata byte-identical to the canonical manifest;
+- `images/metadata.jsonl`: compatibility ImageFolder metadata adapter;
+- `viewer/calibration.parquet`: derived 24-row viewer split with embedded canonical images and metadata;
+- `viewer/evaluation.parquet`: derived 48-row viewer split with embedded canonical images and metadata;
+- `viewer/viewer_info.json`: viewer-layer counts and SHA-256 identities;
+- `dataset_info.json`: canonical release counts and SHA-256 identities;
 - `README.md`: this dataset card.
 
 External datasets used in the paper are not redistributed here.
