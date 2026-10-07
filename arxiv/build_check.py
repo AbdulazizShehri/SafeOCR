@@ -61,6 +61,8 @@ if "independent critical-crop" in main.lower() or "independent verification" in 
     errors.append("stale independence wording found; use second-engine/shared-crop wording")
 if r"\n\bibliography" in main:
     errors.append("literal \\n command leaked before bibliography")
+if r"See \texttt{references.bib}." in main:
+    errors.append("internal bibliography pointer leaked into arXiv output")
 
 if errors:
     print("ARXIV_PACKAGE_CHECK=FAIL")
