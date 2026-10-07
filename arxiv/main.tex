@@ -275,7 +275,7 @@ A separate OCR-geometry-only association scorer evaluated 288/288 cases and obse
 
 The canonical FHIR R4 bundle passed HL7 validator CLI 6.10.4 with zero errors. Seven warnings and one note were recorded. A deliberately invalid control was rejected with two errors.
 
-This establishes that the tested export artifact conformed sufficiently to the validator gate. It does not provide a benchmark estimate of clinical FHIR mapping correctness because per-field FHIR mapping error was not included in the preregistered F6 final run.
+This establishes that the tested export artifact conformed sufficiently to the validator gate. It does not provide a benchmark estimate of clinical FHIR mapping correctness because per-field FHIR mapping error was not included in the prespecified, commit-timestamped F6 final run.
 
 \subsection{Evidence traceability}
 
@@ -399,7 +399,7 @@ A direct design implication is that future SafeOCR versions should extend indepe
 
 \subsection{Limitations}
 
-First, SafeOCR-LabGold is synthetic. It is useful for deterministic corruption and preregistered evaluation, but it does not represent the full distribution of real clinical scanning failures.
+First, SafeOCR-LabGold is synthetic. It is useful for deterministic corruption and prespecified, commit-timestamped evaluation, but it does not represent the full distribution of real clinical scanning failures.
 
 Second, the primary OCR baseline had zero observed errors on the frozen final set. The study therefore cannot establish SafeOCR superiority over that baseline.
 
@@ -407,7 +407,7 @@ Third, only one frozen SafeOCR operating point is reported. A post-hoc final-set
 
 Fourth, the patient-attribution result is limited by benchmark construction and does not constitute real-world multi-patient identity evaluation.
 
-Fifth, FHIR validator conformance is not equivalent to clinical mapping correctness. The preregistered final benchmark did not estimate a FHIR mapping error rate.
+Fifth, FHIR validator conformance is not equivalent to clinical mapping correctness. The prespecified final benchmark did not estimate a FHIR mapping error rate.
 
 Sixth, the static evidence report demonstrates traceability mechanics but is not a validated clinical human-factors interface.
 
