@@ -89,7 +89,7 @@ Headline metrics:
 - Table Association Error Rate
 - FHIR Mapping Error Rate
 
-v0.1 reports preregistered risk/coverage operating points and confidence intervals. It does not perform a post-hoc threshold sweep after final-set inspection.
+v0.1 reports prespecified, commit-timestamped risk/coverage operating points and confidence intervals. It does not perform a post-hoc threshold sweep after final-set inspection.
 
 See [docs/MASTER_PLAN.md](docs/MASTER_PLAN.md), [docs/SAFETY_CONTRACT.md](docs/SAFETY_CONTRACT.md), and [docs/SOURCE_REGISTRY.md](docs/SOURCE_REGISTRY.md).
 
@@ -112,7 +112,7 @@ Reference OCR runtime:
 
     python -m pip install -e ".[ocr,dev]"
 
-Tesseract and Java are external binaries for the independent reread and official FHIR validator paths. The default unit-test suite does not require runtime downloads, real PHI, or paid APIs.
+Tesseract and Java are external binaries for the second-engine reread and official FHIR validator paths. The default unit-test suite does not require runtime downloads, real PHI, or paid APIs.
 
 ## Verify the release
 
@@ -144,7 +144,7 @@ Canonical evaluation artifacts are in docs/evidence/F6_FINAL_EVALUATION.json, do
 
 ## External benchmark integration
 
-ClinOCR-Bench v1.0 is pinned as an external realism benchmark. SafeOCR validates its published train/test metadata and locks external evaluation records out of tuning paths.
+ClinOCR-Bench v1.0 is pinned as a synthetic, template-generated, PHI-free external OCR benchmark. SafeOCR validates its published train/test metadata and locks external evaluation records out of tuning paths.
 
 ClinOCR-Bench v1.0 provides full-document transcript ground truth rather than SafeOCR field/patient/FHIR annotations. SafeOCR therefore withholds unsupported structured critical-field safety claims instead of fabricating them.
 
