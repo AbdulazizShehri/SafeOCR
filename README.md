@@ -6,6 +6,15 @@ SafeOCR is healthcare-only verification infrastructure for clinical document ext
 
 > If SafeOCR cannot bind a clinical datum to source evidence and pass a risk-appropriate verification gate, it does not export that datum to FHIR.
 
+## Public resources
+
+- **Live PHI-free verification playground:** https://huggingface.co/spaces/MedScaleAI/SafeOCR
+- **Frozen synthetic benchmark:** https://huggingface.co/datasets/MedScaleAI/SafeOCR-LabGold
+- **How to use SafeOCR:** [docs/USING_SAFEOCR.md](docs/USING_SAFEOCR.md)
+- **Paper:** arXiv identifier will be added at publication
+
+The public Hugging Face Space is a synthetic policy explorer. It does not accept patient documents and does not run a production clinical OCR service. The full reproducible implementation, frozen evidence, and FHIR export gate remain in this repository.
+
 ## Why
 
 A low character-error rate is not a clinical safety guarantee. A one-character error can turn `0.5` into `5`, lose a minus sign, change a laboratory unit, or attach a correct number to the wrong analyte row.
