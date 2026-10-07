@@ -56,7 +56,7 @@ The corruption pipeline includes a JPEG round-trip. Regeneration under a differe
 ## Release sequence
 
 1. Generate or stage `dist/SafeOCR-LabGold` from the canonical renderer stack.
-2. Verify `manifest.jsonl`, `metadata.jsonl`, `dataset_info.json`, the copied dataset card, and every generated image hash.
+2. Verify `manifest.jsonl`, root `metadata.jsonl`, derived `images/metadata.jsonl`, `dataset_info.json`, the copied dataset card, and every generated image hash.
 3. Require `dataset_info.json.manifest_sha256` to equal `3a3fcdf1e3e045c0b6f8b334457d1e22dbd247a6a556e08235f808143abf5cec`.
 4. Create `MedScaleAI/SafeOCR-LabGold` and upload the verified `dist/SafeOCR-LabGold` directory as the dataset repository root.
 5. Create `MedScaleAI/SafeOCR` as a Static Space and upload `huggingface/space/*` as the Space repository root.

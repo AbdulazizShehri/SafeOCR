@@ -61,15 +61,21 @@ def test_hf_labgold_export_is_deterministic_and_complete(tmp_path: Path) -> None
         "evaluation_documents": 48,
         "manifest_sha256": info["manifest_sha256"],
         "metadata_sha256": info["metadata_sha256"],
+        "viewer_metadata_sha256": info["viewer_metadata_sha256"],
         "readme_sha256": info["readme_sha256"],
         "schema_version": 1,
     }
 
     manifest_bytes = (output / "manifest.jsonl").read_bytes()
     metadata_bytes = (output / "metadata.jsonl").read_bytes()
+    viewer_metadata_bytes = (output / "images" / "metadata.jsonl").read_bytes()
     assert metadata_bytes == manifest_bytes
     assert hashlib.sha256(manifest_bytes).hexdigest() == info["manifest_sha256"]
     assert hashlib.sha256(metadata_bytes).hexdigest() == info["metadata_sha256"]
+    assert (
+        hashlib.sha256(viewer_metadata_bytes).hexdigest()
+        == info["viewer_metadata_sha256"]
+    )
 
     readme_bytes = (output / "README.md").read_bytes()
     assert readme_bytes == card.read_bytes()
@@ -80,10 +86,22 @@ def test_hf_labgold_export_is_deterministic_and_complete(tmp_path: Path) -> None
         for line in manifest_bytes.decode("utf-8").splitlines()
         if line
     ]
+    viewer_rows = [
+        json.loads(line)
+        for line in viewer_metadata_bytes.decode("utf-8").splitlines()
+        if line
+    ]
     assert len(rows) == 72
+    assert len(viewer_rows) == len(rows)
     assert sum(row["role"] == "calibration" for row in rows) == 24
     assert sum(row["role"] == "evaluation" for row in rows) == 48
     assert all(row["critical_field_count"] == 6 for row in rows)
+
+    for canonical, viewer in zip(rows, viewer_rows, strict=True):
+        assert viewer["file_name"] == Path(canonical["file_name"]).name
+        restored = dict(viewer)
+        restored["file_name"] = canonical["file_name"]
+        assert restored == canonical
 
     images = sorted((output / "images").glob("*.png"))
     assert len(images) == 72

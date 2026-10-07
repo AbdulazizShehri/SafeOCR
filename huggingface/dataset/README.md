@@ -69,7 +69,7 @@ SafeOCR's corruption pipeline includes a JPEG round-trip. Pillow can therefore p
 
 This renderer dependency does not change the frozen evaluation results or claim boundaries; it is a byte-level reproducibility constraint on regenerated corrupted images.
 
-The generator records exact case identity, template, source seed, corruption seed, document hash, page hash, image filename, and truth-region metadata. It also writes Hugging Face `ImageFolder` metadata through `metadata.jsonl` with a `file_name` field so images and metadata can be loaded together.
+The generator records exact case identity, template, source seed, corruption seed, document hash, page hash, image filename, and truth-region metadata. The canonical root `metadata.jsonl` remains byte-identical to `manifest.jsonl`. A derived `images/metadata.jsonl` adapter rewrites only `file_name` to be relative to the image directory so the Hugging Face `ImageFolder` viewer can load images together with the same metadata. The adapter does not alter the canonical manifest, image bytes, frozen split, or scientific results.
 
 ## Privacy
 
@@ -86,9 +86,10 @@ All records are synthetic. Synthetic patient names and identifiers are generated
 The published repository contains:
 
 - `images/*.png`: deterministic synthetic laboratory report pages;
-- `metadata.jsonl`: Hugging Face `ImageFolder` metadata keyed by `file_name`;
-- `manifest.jsonl`: byte-identical audit manifest for the frozen release;
-- `dataset_info.json`: release counts and SHA-256 identities;
+- `images/metadata.jsonl`: derived Hugging Face `ImageFolder` viewer adapter with image-directory-relative `file_name`;
+- `metadata.jsonl`: root metadata byte-identical to the canonical manifest;
+- `manifest.jsonl`: canonical audit manifest for the frozen release;
+- `dataset_info.json`: release counts and SHA-256 identities, including the viewer adapter hash;
 - `README.md`: this dataset card.
 
 External datasets used in the paper are not redistributed here.
