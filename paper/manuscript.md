@@ -47,17 +47,17 @@ We frame SafeOCR as a systems-and-evaluation contribution. OCR, evidence gating,
 
 ### Related Work
 
-### 2.1 Clinical OCR and structured extraction
+#### Clinical OCR and structured extraction
 
 Clinical OCR and information-extraction systems have demonstrated that scanned healthcare documents, including laboratory reports, can be converted into structured data while remaining sensitive to image quality, layout, and table structure [@ma2023labocr; @li2024tabular; @hsu2022scanned]. Recent resources broaden this setting: ClinOCR-Bench evaluates common scan artifacts [@hsu2026clinocr], MedStruct-S and Wang et al. study semi-structured extraction under OCR noise and open key spaces [@li2026medstructs; @wang2026keycoverage], and MedRepBench evaluates report-grounded structured interpretation [@shang2026medrepbench].
 
 The closest safety-oriented precedents substantially narrow SafeOCR's novelty claim. Girda and Groza use deterministic source-grounded trust promotion with same-row evidence, provenance, and review retention for laboratory data [@girda2026review]. RAPTOR+ evaluates clinical field extraction jointly with source-image bounding-box grounding [@abioye2026raptorplus], while ontology-constrained OCR with verified abstention provides an adjacent precedent [@benhmida2025ontology]. SafeOCR therefore does not claim novelty for OCR, visual grounding, evidence gating, or abstention individually; its contribution is the integrated verification and evaluation contract.
 
-### 2.2 Selective prediction and abstention
+#### Selective prediction and abstention
 
 Selective prediction trades automation coverage for lower conditional error [@geifman2019selectivenet] and has shown value in clinical data abstraction when abstention is preferable to a wrong prediction [@swaminathan2024selective]. Learn-then-Test and conformal verification provide stronger accepted-risk control frameworks [@angelopoulos2025learntest; @kim2025conformalEHR]. SafeOCR uses this framing but does not claim a conformal guarantee; v0.1 relies on deterministic gates and descriptive Wilson intervals.
 
-### 2.3 Provenance and FHIR interoperability
+#### Provenance and FHIR interoperability
 
 Clinical text mining, SMART Text2FHIR, printed-form transformation, and healthcare provenance systems establish prior art for mapping extracted clinical information into FHIR and retaining provenance [@daumke2019fhir; @miller2023smarttext2fhir; @werlitz2025printedfhir; @margheri2020provenance]. SafeOCR uses these concepts as an operational verification boundary: accepted fields retain source-region and decision provenance, and non-verified fields are blocked from automated FHIR export.
 
@@ -217,13 +217,40 @@ Performance varied substantially by artifact type. PaddleOCR mean WER was 0.1149
 
 The prespecified reproducibility comparison also showed substantial differences between the official ClinOCR-Bench Tesseract medians and the local frozen Tesseract medians: normal 0.0866 vs 0.1099, handwriting 0.8228 vs 0.8135, poor-quality 0.8184 vs 0.8205, rotation 1.0000 vs 0.5802, tables 0.4578 vs 0.3244, and mixed 1.0000 vs 0.9846. The large rotation discrepancy likely reflects environment or orientation/page-segmentation differences and prevents treating the local run as an exact reproduction of the authors' Tesseract environment.
 
+| ClinOCR subset | Official Tesseract median WER | Local frozen Tesseract median WER |
+|---|---:|---:|
+| Normal | 0.0866 | 0.1099 |
+| Handwriting | 0.8228 | 0.8135 |
+| Poor quality | 0.8184 | 0.8205 |
+| Rotation | 1.0000 | 0.5802 |
+| Tables | 0.4578 | 0.3244 |
+| Mixed | 1.0000 | 0.9846 |
+
 These results are transcription-generalization evidence only. ClinOCR-Bench is synthetic and not laboratory-report-specific, and the SafeOCR verification contract is not exercised on it. The failure concentration in rotated and mixed documents is therefore interpreted as a fail-closed engineering finding rather than field-level clinical safety evidence.
 
 ### 3.6 External verifier-component evaluation on public laboratory reports
 
-The public laboratory-report dataset yielded 1,850 eligible analyte-value-unit rows from 2,219 candidate laboratory rows after frozen eligibility and annotation-integrity rules. Exclusions were 275 unsupported gold values, 74 missing units, 13 ambiguous duplicate rows, 4 missing values, and 3 missing analytes. Eligible rows came from 180/238 images; 58 images contributed no eligible row under the frozen table/eligibility rules. The primary value span was localised in 1,850/1,850 cases and the complete analyte/value/unit context in 1,849/1,850. Primary OCR reproduced the annotated numeric value in all 1,850 eligible cases, while the complete analyte-value-unit tuple was exact in 1,461/1,850 (78.97%).
+The public laboratory-report dataset yielded 1,850 eligible analyte-value-unit rows from 2,219 candidate laboratory rows after frozen eligibility and annotation-integrity rules. Exclusions were 275 unsupported gold values, 74 missing units, 13 ambiguous duplicate rows, 4 missing values, and 3 missing analytes. Eligible rows came from 180/238 images; 58 images contributed no eligible row under the frozen table/eligibility rules.
 
-The component gates passed 375/1,850 fields (20.27%). Independent numeric-value agreement passed in 654/1,850 (35.35%), perturbation stability in 449/1,850 (24.27%), structural association in 1,837/1,850 (99.30%), and unit validation in 1,347/1,850 (72.81%). No runtime failures occurred. No component-passed field contained an incorrect numeric value (0/375; observed rate 0%, 95% Wilson interval 0-1.014%), but the ungated primary numeric reading was also exact in 1,850/1,850 rows (95% Wilson upper bound 0.207%). Therefore the numeric endpoint contained no primary-OCR errors for the component gates to intercept; all 1,475 rejected numeric values were correct under the frozen reference labels.
+| Ma2023 cohort step | Rows |
+|---|---:|
+| Candidate laboratory rows | 2,219 |
+| Excluded: unsupported gold value | 275 |
+| Excluded: missing unit | 74 |
+| Excluded: ambiguous duplicate critical cell | 13 |
+| Excluded: missing value | 4 |
+| Excluded: missing analyte | 3 |
+| Eligible rows | 1,850 | The primary value span was localised in 1,850/1,850 cases and the complete analyte/value/unit context in 1,849/1,850. Primary OCR reproduced the annotated numeric value in all 1,850 eligible cases, while the complete analyte-value-unit tuple was exact in 1,461/1,850 (78.97%).
+
+The component gates passed 375/1,850 fields (20.27%). Second-engine numeric-value agreement passed in 654/1,850 (35.35%), perturbation stability in 449/1,850 (24.27%), structural association in 1,837/1,850 (99.30%), and unit validation in 1,347/1,850 (72.81%). The overlapping gate funnel was 654 with second-engine agreement, 442 with both agreement and perturbation stability, 377 after additionally requiring valid unit syntax, and 375 after additionally requiring structural association.
+
+| Frozen component funnel | Rows | Coverage |
+|---|---:|---:|
+| Eligible | 1,850 | 100.00% |
+| Second-engine agreement | 654 | 35.35% |
+| Agreement + perturbation stability | 442 | 23.89% |
+| + valid unit syntax | 377 | 20.38% |
+| + structural association / component pass | 375 | 20.27% | No runtime failures occurred. No component-passed field contained an incorrect numeric value (0/375; observed rate 0%, 95% Wilson interval 0-1.014%), but the ungated primary numeric reading was also exact in 1,850/1,850 rows (95% Wilson upper bound 0.207%). Therefore the numeric endpoint contained no primary-OCR errors for the component gates to intercept; all 1,475 rejected numeric values were correct under the frozen reference labels.
 
 Component-pass coverage was similar for scanner images (192/926; 20.73%) and illumination/smartphone variants (183/924; 19.81%). In contrast, complete primary field exactness fell from 814/926 (87.90%) on scans to 647/924 (70.02%) under illumination variants.
 
