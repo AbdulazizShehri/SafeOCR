@@ -24,9 +24,7 @@ The study establishes feasibility, auditability, and failure costs, not a demons
 
 ## 1. Background and Significance
 
-Scanned and paper-origin clinical documents remain common in healthcare workflows, including external laboratory reports and legacy records. OCR combined with information extraction can convert such documents into structured data, but published clinical pipelines primarily evaluate transcription or extraction performance. Laboratory-report systems have demonstrated useful OCR and entity-extraction accuracy [@ma2023labocr; @li2024tabular], while scanned-EHR studies show that preprocessing, layout, recognition, and downstream NLP interact materially in end-to-end performance [@hsu2022scanned].
-
-For downstream clinical use, transcription accuracy is necessary but not sufficient. A character-level error can change a decimal point, sign, comparator, or unit; a correctly read value can still be unsafe if linked to the wrong analyte, row, or patient. Conventional OCR confidence does not directly establish whether a field is sufficiently supported for automated structured export.
+Scanned clinical documents remain common, and OCR pipelines can recover structured data from laboratory reports and legacy records [@ma2023labocr; @li2024tabular; @hsu2022scanned]. For downstream use, transcription accuracy is insufficient: a decimal, sign, comparator, or unit error can change meaning, and a correct value linked to the wrong analyte, row, or patient is still incorrect. OCR confidence alone does not establish whether a field is sufficiently supported for automated structured export.
 
 Selective prediction offers a complementary framing: systems may abstain when the expected cost of error is high rather than force a prediction on every case [@geifman2019selectivenet]. In clinical data abstraction, selective prediction can improve utility when abstention is preferable to an incorrect prediction [@swaminathan2024selective], and recent work has explored statistical risk control and conformal verification for accepted extractions [@angelopoulos2025learntest; @kim2025conformalEHR].
 
@@ -82,35 +80,11 @@ The policy treats laboratory values, units, sign/decimal/comparator semantics, p
 
 ### 2.5 Verification signals
 
-A critical field may be automatically verified only when all mandatory gates pass.
-
-**Visual grounding.** The field must be tied to a unique source page and recoverable pixel region.
-
-**Structural association.** The analyte-value-unit relationship and row/column identity must be unambiguous.
-
-**Second-engine reread.** The primary OCR reading is compared with a Tesseract reading of the bounded critical crop. This provides engine diversity but is not statistically independent because both engines operate on the same primary-defined crop.
-
-**Perturbation stability.** The same Tesseract crop reread is repeated under four frozen, mild non-destructive image perturbations. Instability blocks automatic acceptance; this signal is therefore related to, rather than independent of, the second-engine agreement signal.
-
-**Numeric parsing.** Decimal point, sign, exponent, comparator, and categorical interpretation must be unambiguous.
-
-**Unit validation.** Unit parsing is checked and may veto export. Unit knowledge is not allowed to silently replace source text.
-
-**Patient/document linkage.** Ambiguous patient identity blocks patient-level structured export.
-
-**Runtime health.** OCR, verification, and export exceptions fail closed.
-
-Engine-native confidence is not interpreted as a calibrated probability.
+Automatic verification requires all mandatory gates: recoverable page/region grounding; unambiguous analyte-value-unit structure; Tesseract second-engine agreement on the primary-defined critical crop; stability of that reread under four frozen mild perturbations; unambiguous numeric parsing; valid unit syntax; unambiguous patient/document linkage; and healthy runtime execution. The second-engine and perturbation signals share the same primary-defined crop and are not statistically independent. Unit knowledge may veto export but never rewrite source text, and engine-native confidence is not treated as a calibrated probability.
 
 ### 2.6 Decision states
 
-Every candidate field reaches exactly one terminal state:
-
-- **VERIFIED_AUTO:** all required evidence gates pass; automated structured export is permitted.
-- **REVIEW_REQUIRED:** a plausible candidate exists, but evidence is insufficient or conflicting; automatic export is blocked.
-- **ABSTAINED:** the system cannot establish a reliable field value; automatic export is blocked.
-
-No fallback converts REVIEW_REQUIRED or ABSTAINED into VERIFIED_AUTO.
+Each candidate reaches exactly one terminal state: **VERIFIED_AUTO** when every required gate passes and automated export is permitted; **REVIEW_REQUIRED** when a plausible candidate lacks sufficient or consistent evidence; or **ABSTAINED** when no reliable value can be established. REVIEW_REQUIRED and ABSTAINED never fall back to automatic verification.
 
 ### 2.7 FHIR R4 export gate
 
@@ -120,20 +94,7 @@ The FHIR runtime gate used HL7 validator CLI 6.10.4 against FHIR R4 (4.0.1) [@hl
 
 ### 2.8 Evaluation contract
 
-The evaluation contract was prespecified in version-controlled, commit-timestamped protocols and separates calibration and final-evaluation roles. It was not registered in an external preregistration service. Final-evaluation outcomes cannot be routed into a tuning API, and threshold or policy changes after final-set inspection are prohibited.
-
-Primary metrics are:
-
-- Critical Field Exact Accuracy (CFEA);
-- Unsafe Accept Rate (UAR): incorrect accepted fields / accepted fields;
-- Verified Coverage (VC): accepted fields / evaluable fields;
-- Review Rate;
-- Abstention Rate;
-- Patient Attribution Error Rate, where estimable;
-- Table Association Error Rate, where estimable;
-- FHIR Mapping Error Rate, where estimable.
-
-Binomial 95% Wilson intervals are reported descriptively for field-level unsafe accepted error proportions. They do not account for within-report clustering or paired acquisition variants and are not presented as population-level or distribution-free guarantees. Zero observed errors is never interpreted as zero underlying risk.
+The evaluation contract was prespecified in version-controlled, commit-timestamped protocols, not an external registry, and mechanically separates calibration from final evaluation; final outcomes cannot enter a tuning path. Primary reporting includes Critical Field Exact Accuracy, unsafe accepted error, verified coverage, review/abstention rates, and patient-attribution, table-association, or FHIR-mapping error only where estimable. Field-level 95% Wilson intervals are descriptive: they do not model clustering or paired acquisitions, are not distribution-free guarantees, and zero observed errors never means zero underlying risk.
 
 ### 2.9 SafeOCR-LabGold
 
