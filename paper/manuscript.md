@@ -32,7 +32,7 @@ Traceability is also required for trustworthy downstream reuse. FHIR provides a 
 
 Recent systems narrow the novelty space further. Girda and Groza introduced deterministic source-grounded trust promotion for laboratory data with same-row evidence, provenance, and review retention [@girda2026review]. Published RAPTOR applies generative document AI to clinical referral processing [@abioye2025raptor], while RAPTOR+ evaluates clinical field extraction together with source-image bounding-box grounding [@abioye2026raptorplus]. Verified-abstention OCR has also been reported outside the clinical laboratory setting [@benhmida2025ontology]. SafeOCR therefore does not claim novelty for OCR, grounding, abstention, provenance, or FHIR individually.
 
-SafeOCR instead asks a narrower systems question: **can a fail-closed evidence contract be specified and evaluated transparently, and what automation coverage, review burden, and failure modes result under frozen operating points?** The current primary OCR baselines make no errors on the primary safety endpoints, so this study cannot estimate a reduction in accepted error attributable to the verification gate.
+SafeOCR asks whether a fail-closed evidence contract can be evaluated transparently through coverage, review burden, and failure modes. Because current primary OCR baselines make no errors on the primary safety endpoints, this study cannot estimate gate-attributable error reduction.
 
 This paper makes four contributions:
 
@@ -41,7 +41,7 @@ This paper makes four contributions:
 3. a provenance-preserving FHIR R4 export gate that permits automated export only after verification;
 4. a prespecified, commit-timestamped evaluation framework that reports accepted error jointly with verified coverage and preserves calibration/final-evaluation separation.
 
-We frame SafeOCR as a systems-and-evaluation contribution. OCR, evidence gating, abstention, provenance, and FHIR are not individually novel. Closely related 2026 work already demonstrates source-grounded trust promotion for laboratory data [@girda2026review]. The contribution claimed here is therefore narrower: the specification and artifact-bound evaluation of a field-level healthcare OCR verification contract that couples pixel evidence, second-engine rereading, perturbation stability, patient linkage, explicit criticality, selective decisions, and gated FHIR export.
+SafeOCR is a systems-and-evaluation contribution, not a claim of novelty for OCR, gating, abstention, provenance, or FHIR. Its narrower contribution is the artifact-bound specification and evaluation of a healthcare OCR verification contract combining source evidence, second-engine rereading, perturbation stability, linkage/structure gates, criticality, selective decisions, and gated FHIR export [@girda2026review].
 
 ### Related Work
 
@@ -162,7 +162,7 @@ Both frozen OCR engines were scored across all 328 ClinOCR-Bench evaluation docu
 
 Performance varied substantially by artifact type. PaddleOCR mean WER was 0.1149 on normal documents, 0.2694 on poor-quality documents, 0.2847 on tables, 0.4256 on handwriting, 0.9035 on rotated documents, and 0.9276 on mixed-artifact documents. Tesseract similarly showed strong artifact sensitivity, with mean WER ranging from 0.1089 on normal documents to 0.9225 on mixed-artifact documents. Across all 328 paired documents, the descriptive mean PaddleOCR-minus-Tesseract WER difference was -0.0820 (fixed-seed paired bootstrap 95% interval -0.1204 to -0.0442). In a labelled sensitivity restricted to the 271 documents without a PaddleOCR runtime failure, PaddleOCR mean WER was 0.3668 versus 0.5358 for Tesseract; on the 57 PaddleOCR-failure documents, Tesseract mean WER was 0.6686. These analyses are descriptive and do not alter the frozen failure policy or primary benchmark results.
 
-The prespecified reproducibility comparison also showed substantial differences between the official ClinOCR-Bench Tesseract medians and the local frozen Tesseract medians: normal 0.0866 vs 0.1099, handwriting 0.8228 vs 0.8135, poor-quality 0.8184 vs 0.8205, rotation 1.0000 vs 0.5802, tables 0.4578 vs 0.3244, and mixed 1.0000 vs 0.9846. The large rotation discrepancy likely reflects environment or orientation/page-segmentation differences and prevents treating the local run as an exact reproduction of the authors' Tesseract environment.
+The prespecified official-versus-local Tesseract comparison (Table 2) showed the largest discrepancy on rotation (median WER 1.0000 vs 0.5802), preventing treatment of the local run as an exact reproduction of the authors' environment.
 
 | ClinOCR subset | Official Tesseract median WER | Local frozen Tesseract median WER |
 |---|---:|---:|
