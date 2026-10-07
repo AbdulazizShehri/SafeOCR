@@ -207,13 +207,13 @@ This establishes that the tested export artifact conformed sufficiently to the v
 
 ### 3.4 Evidence traceability
 
-The static evidence artifact demonstrates field-level traceability for a verified laboratory value. The example includes source-page SHA-256, bounding boxes for analyte/value/unit spans, OCR engine/version, policy version, verification signals, decision state, failed gates, and a deterministic explanation. The corresponding source crop is hash-bound.
+The static evidence artifact illustrates field-level traceability for one verified laboratory value. The example includes source-page SHA-256, bounding boxes for analyte/value/unit spans, OCR engine/version, policy version, verification signals, decision state, failed gates, and a deterministic explanation. The corresponding source crop is hash-bound.
 
 ### 3.5 External OCR generalization on ClinOCR-Bench
 
-Both frozen OCR engines were evaluated on all 328 ClinOCR-Bench evaluation documents. Local Tesseract produced a mean WER of 0.5589 (95% CI 0.5209-0.5968) and median WER of 0.5647. Frozen PaddleOCR produced a mean WER of 0.4769 (95% CI 0.4372-0.5165) and median WER of 0.3659, but it incurred 57/328 runtime failures (17.4%): 33/56 rotated documents and 24/48 mixed-artifact documents. Under the frozen failure policy, these failures were retained in the denominator and scored as empty predictions.
+Both frozen OCR engines were scored across all 328 ClinOCR-Bench evaluation documents under the frozen failure policy. Local Tesseract produced a mean WER of 0.5589 (95% CI 0.5209-0.5968) and median WER of 0.5647. Frozen PaddleOCR produced a mean WER of 0.4769 (95% CI 0.4372-0.5165) and median WER of 0.3659, but it incurred 57/328 runtime failures (17.4%): 33/56 rotated documents and 24/48 mixed-artifact documents. Under the frozen failure policy, these failures were retained in the denominator and scored as empty predictions.
 
-Performance varied substantially by artifact type. PaddleOCR mean WER was 0.1149 on normal documents, 0.2694 on poor-quality documents, 0.2847 on tables, 0.4256 on handwriting, 0.9035 on rotated documents, and 0.9276 on mixed-artifact documents. The PaddleOCR run recorded 57 runtime failures; these cases were retained in the denominator and scored as empty predictions under the frozen failure policy. Tesseract similarly showed strong artifact sensitivity, with mean WER ranging from 0.1089 on normal documents to 0.9225 on mixed-artifact documents.
+Performance varied substantially by artifact type. PaddleOCR mean WER was 0.1149 on normal documents, 0.2694 on poor-quality documents, 0.2847 on tables, 0.4256 on handwriting, 0.9035 on rotated documents, and 0.9276 on mixed-artifact documents. The PaddleOCR run recorded 57/328 runtime failures (17.4%); these were retained in the denominator and scored as empty predictions under the frozen failure policy. Failures were concentrated in rotated documents (33/56) and mixed-artifact documents (24/48), making runtime robustness a material part of the external transcription result. Tesseract similarly showed strong artifact sensitivity, with mean WER ranging from 0.1089 on normal documents to 0.9225 on mixed-artifact documents.
 
 The prespecified reproducibility comparison also showed substantial differences between the official ClinOCR-Bench Tesseract medians and the local frozen Tesseract medians: normal 0.0866 vs 0.1099, handwriting 0.8228 vs 0.8135, poor-quality 0.8184 vs 0.8205, rotation 1.0000 vs 0.5802, tables 0.4578 vs 0.3244, and mixed 1.0000 vs 0.9846. The large rotation discrepancy likely reflects environment or orientation/page-segmentation differences and prevents treating the local run as an exact reproduction of the authors' Tesseract environment.
 
@@ -300,9 +300,9 @@ To evaluate SafeOCR properly on external documents, a future study should add a 
 
 The public laboratory-report evaluation moves the verifier component from synthetic documents to a de-identified image collection with scanner and smartphone/illumination variants. Under the frozen numeric endpoint, no accepted numeric value was incorrect among 375 passes; however, the primary OCR value was also correct in all 1,850 eligible rows, so the 20.27% component coverage bought no measured numeric-error reduction and instead quantifies a substantial rejection cost.
 
-The same experiment also exposes an important boundary. Thirty-eight component-passed rows were not exact across the entire analyte-value-unit tuple even though every accepted numeric value was correct. Most diagnostic mismatches involved the analyte text and two involved the unit. Some observed differences appear to be OCR/format variants, whereas others can change field identity; without independent clinical adjudication they should not be collapsed into a single semantic-error category. The result therefore supports independent verification of the numeric value, not complete semantic correctness of the field tuple.
+The same experiment exposes the paper's most important external failure mode. Thirty-eight of 375 component-passed rows (10.1%) were not exact across the entire analyte-value-unit tuple even though every accepted numeric value was correct. Most diagnostic mismatches involved the analyte text and two involved the unit. Some observed differences appear to be OCR/format variants, whereas others can change field identity; without independent clinical adjudication they should not be collapsed into a single semantic-error category. The result therefore supports second-engine verification of the numeric value, not complete semantic correctness of the field tuple.
 
-A direct design implication is that future SafeOCR versions should extend independent verification beyond the numeric crop to analyte identity and unit semantics, with explicit adjudication of clinically equivalent formatting variants. This finding also reinforces the decision to keep patient linkage and FHIR correctness as separate, unclaimed endpoints in the present external component study.
+A direct design implication is that future SafeOCR versions should extend second-engine verification beyond the numeric crop to analyte identity and unit semantics, with explicit adjudication of clinically equivalent formatting variants. This finding also reinforces the decision to keep patient linkage and FHIR correctness as separate, unclaimed endpoints in the present external component study.
 
 ### Limitations
 
@@ -326,7 +326,7 @@ Ninth, the study does not evaluate diagnosis, treatment, or clinical decision-ma
 
 ### Future Work
 
-Priority next steps are independently adjudicated multi-institution field-level validation; independent verification of analyte identity, unit semantics, and patient linkage in addition to numeric values; formal risk-control calibration on a held-out set; and prospective human-review studies measuring correction burden, agreement, and FHIR mapping correctness separately from structural conformance.
+Priority next steps are independently adjudicated multi-institution field-level validation; second-engine verification of analyte identity, unit semantics, and patient linkage in addition to numeric values; formal risk-control calibration on a held-out set; and prospective human-review studies measuring correction burden, agreement, and FHIR mapping correctness separately from structural conformance.
 
 ## 5. Conclusion
 
