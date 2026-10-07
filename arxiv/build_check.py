@@ -44,7 +44,7 @@ if "# SafeOCR" in main:
     errors.append("literal Markdown title leaked into LaTeX source")
 if "Draft status" in main:
     errors.append("draft-status artifact leaked into LaTeX source")
-if main.count(r"\\begin{table") < 4:
+if main.count(r"\begin{table") < 4:
     errors.append("expected four main tables after Opus revision")
 
 if errors:
