@@ -47,13 +47,27 @@ Do **not** use this dataset as evidence of real-world clinical deployment perfor
 
 In the final evaluation split, the primary OCR baseline produced 0/288 observed errors. SafeOCR accepted 209/288 fields with 0/209 observed errors and routed 79 correct fields to review. Because the ungated baseline also had zero observed errors, this benchmark does **not** establish a safety benefit from gating.
 
-## Data generation
+## Data generation and byte-level reproducibility
 
-The benchmark is generated deterministically from the SafeOCR repository:
+The benchmark generator is deterministic for a fixed renderer stack:
 
 ```bash
 python scripts/prepare_hf_labgold.py --output dist/SafeOCR-LabGold
 ```
+
+The canonical Hugging Face v0.1 publication package is bound by:
+
+- `manifest_sha256 = 3a3fcdf1e3e045c0b6f8b334457d1e22dbd247a6a556e08235f808143abf5cec`;
+- Python 3.12.13;
+- Pillow 12.3.0;
+- FreeType 2.14.3;
+- JPEG feature version 8.0;
+- zlib 1.3.1.zlib-ng;
+- platform `win32:AMD64`.
+
+SafeOCR's corruption pipeline includes a JPEG round-trip. Pillow can therefore produce different corrupted PNG bytes when its underlying JPEG implementation differs across platforms even when the frozen seeds, case identities, layouts, and policy are unchanged. A package whose manifest hash differs from the canonical value above must not be presented as the byte-identical v0.1 publication artifact. For exact reproduction of the released benchmark, use the published Hugging Face artifacts or a matching renderer stack.
+
+This renderer dependency does not change the frozen evaluation results or claim boundaries; it is a byte-level reproducibility constraint on regenerated corrupted images.
 
 The generator records exact case identity, template, source seed, corruption seed, document hash, page hash, image filename, and truth-region metadata. It also writes Hugging Face `ImageFolder` metadata through `metadata.jsonl` with a `file_name` field so images and metadata can be loaded together.
 
