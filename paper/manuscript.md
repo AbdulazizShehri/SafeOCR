@@ -231,28 +231,6 @@ ClinOCR-Bench is synthetic and transcript-level; proper external SafeOCR validat
 
 ### Limitations
 
-First, SafeOCR-LabGold is synthetic. It is useful for deterministic corruption and prespecified, commit-timestamped evaluation, but it does not represent the full distribution of real clinical scanning failures.
-
-Second, the primary OCR baseline had zero observed errors on the frozen final set. The study therefore cannot establish SafeOCR superiority over that baseline.
-
-Third, only one frozen SafeOCR operating point is reported. A post-hoc final-set threshold sweep would violate the evaluation contract, so the current paper does not present a continuous SafeOCR risk-coverage curve.
-
-Fourth, patient linkage was not meaningfully evaluated in a real-world multi-patient setting; the current evidence does not support a patient-attribution performance claim.
-
-Fifth, FHIR evidence is limited to a single canonical-bundle smoke test plus an invalid control. Validator conformance is not equivalent to clinical mapping correctness; terminology validation was not evaluated, and the prespecified final benchmark did not estimate a FHIR mapping error rate.
-
-Sixth, the static evidence report demonstrates traceability mechanics but is not a validated clinical human-factors interface.
-
-Seventh, the external laboratory-report experiment is oracle-localised after OCR: gold geometry identifies which OCR spans are evaluated, so it is a verifier-component study rather than end-to-end extraction validation. The public collection's label-generation provenance is undocumented, and contamination of a long-public dataset in modern OCR training data cannot be excluded. The frozen written protocol limited the non-empty-unit rule to unit-dependent analysis, whereas the implemented scorer required a non-empty unit for the entire component estimand and excluded 74 unitless rows; this protocol/code deviation is reported without post-hoc correction. Three pre-outcome runtime/integrity repairs—JPEG-to-PNG normalization, normalized-page identity rebinding, and fail-closed exclusion of 13 ambiguous duplicate critical rows—occurred before any verifier result artifact existed. The experiment does not evaluate patient linkage, full VERIFIED_AUTO behavior, or FHIR mapping, and the full-tuple mismatch analysis is explicitly post-outcome and exploratory.
-
-Eighth, field-level Wilson intervals do not model dependence within the 24 clean/corrupt LabGold record pairs or within the external laboratory-report images, nor do they model the asserted scan/illumination pairing; they are descriptive bounds rather than cluster-robust population inference.
-
-Ninth, the ABSTAINED path was not exercised in the frozen LabGold final run, so the evaluation does not empirically characterize abstention behavior. The study also does not evaluate diagnosis, treatment, or clinical decision-making and must not be interpreted as a medical-device validation.
-
-### Future Work
-
-Priority next steps are independently adjudicated multi-institution field-level validation; second-engine verification of analyte identity, unit semantics, and patient linkage in addition to numeric values; formal risk-control calibration on a held-out set; and prospective human-review studies measuring correction burden, agreement, and FHIR mapping correctness### Limitations
-
 First, LabGold is synthetic (24 records, paired clean/corrupt renderings, three templates), uses truth geometry for legacy per-field score alignment, and had zero primary-OCR errors; it therefore cannot establish a gating benefit or end-to-end field discovery performance. ABSTAINED was not exercised.
 
 Second, ClinOCR-Bench is synthetic, not laboratory-specific, and evaluates transcription rather than the verification contract. Its field-level confidence intervals ignore template clustering, and the local Tesseract environment differs materially from the official baseline on rotation.
