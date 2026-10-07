@@ -7,6 +7,7 @@
 \usepackage{booktabs}
 \usepackage{tabularx}
 \usepackage{array}
+\usepackage{float}
 \usepackage{tikz}
 \usetikzlibrary{positioning,arrows.meta}
 \usepackage[hidelinks]{hyperref}
@@ -173,15 +174,37 @@ A component pass required visual grounding, second-engine Tesseract agreement on
 \section{Results}
 
 \subsection{Primary final evaluation}
-\begin{figure}[t]
+\begin{figure}[H]
 \centering
-\begin{tikzpicture}[x=5.8cm,y=17cm]
-\draw[->] (0,0)--(1.05,0) node[right]{\small Verified coverage};
+\begin{tikzpicture}[x=5.8cm,y=17cm,>=latex]
+\draw[->] (0,0)--(1.06,0) node[right]{\small Verified coverage};
 \draw[->] (0,0)--(0,0.22) node[above]{\small Unsafe accept rate};
-\draw (1,0)--(1,0.01316); \fill (1,0) circle (0.7pt); \node[anchor=south east] at (1,0.004){\scriptsize Primary OCR};
-\draw (0.9965,0.1193)--(0.9965,0.2034); \fill (0.9965,0.1568) circle (0.7pt); \node[anchor=east] at (0.9965,0.1568){\scriptsize Tesseract crop};
-\fill (0.8403,0) circle (0.7pt); \node[anchor=north east] at (0.8403,0){\scriptsize Naive agreement};
-\draw (0.7257,0)--(0.7257,0.01805); \fill (0.7257,0) circle (0.7pt); \node[anchor=north west] at (0.7257,0){\scriptsize SafeOCR};
+\foreach \x/\lab in {0.70/0.70,0.80/0.80,0.90/0.90,1.00/1.00}{
+  \draw (\x,0.002)--(\x,-0.002) node[below,yshift=-2pt]{\scriptsize \lab};
+}
+\foreach \y/\lab in {0.05/0.05,0.10/0.10,0.15/0.15,0.20/0.20}{
+  \draw (0.003,\y)--(-0.003,\y) node[left]{\scriptsize \lab};
+}
+% zero-event operating points
+\draw (1,0)--(1,0.01316);
+\fill (1,0) circle (0.8pt);
+\draw[thin,->] (0.945,0.035)--(0.997,0.003);
+\node[anchor=east] at (0.945,0.035){\scriptsize Primary OCR};
+
+\fill (0.8403,0) circle (0.8pt);
+\draw[thin,->] (0.835,0.052)--(0.8403,0.003);
+\node[anchor=south] at (0.835,0.052){\scriptsize Naive agreement};
+
+\draw (0.7257,0)--(0.7257,0.01805);
+\fill (0.7257,0) circle (0.8pt);
+\draw[thin,->] (0.71,0.035)--(0.7257,0.003);
+\node[anchor=east] at (0.71,0.035){\scriptsize SafeOCR};
+
+% Tesseract error-bearing operating point
+\draw (0.9965,0.1193)--(0.9965,0.2034);
+\fill (0.9965,0.1568) circle (0.8pt);
+\draw[thin,->] (0.91,0.175)--(0.992,0.158);
+\node[anchor=east] at (0.91,0.175){\scriptsize Tesseract crop};
 \end{tikzpicture}
 \caption{Frozen LabGold operating points. The primary OCR baseline had no errors, so the zero-event gated result does not demonstrate a safety gain. Vertical bars are descriptive 95\% Wilson intervals.}
 \label{fig:riskcoverage}
