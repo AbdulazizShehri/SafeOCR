@@ -20,6 +20,9 @@ bib_keys = set(re.findall(r"@[A-Za-z]+\{([^,]+),", bib))
 missing = sorted(cite_keys - bib_keys)
 if missing:
     errors.append("missing bibliography keys: " + ", ".join(missing))
+uncited = sorted(bib_keys - cite_keys)
+if uncited:
+    errors.append("uncited bibliography entries: " + ", ".join(uncited))
 
 for forbidden in ("api_key", "token:", "password", ".env", "BEGIN PRIVATE KEY"):
     if forbidden.lower() in main.lower() or forbidden.lower() in bib.lower():
@@ -46,8 +49,16 @@ if "# SafeOCR" in main:
     errors.append("literal Markdown title leaked into LaTeX source")
 if "Draft status" in main:
     errors.append("draft-status artifact leaked into LaTeX source")
-if main.count(r"\begin{table") < 4:
-    errors.append("expected four main tables after Opus revision")
+table_count = len(re.findall(r"\\begin\{table\*?\}", main))
+figure_count = len(re.findall(r"\\begin\{figure\*?\}", main))
+if table_count != 4:
+    errors.append(f"expected exactly four main tables, found {table_count}")
+if figure_count > 6:
+    errors.append(f"arXiv/JAMIA package exceeds six figures: {figure_count}")
+if re.search(r"^\s*\|", main, flags=re.MULTILINE):
+    errors.append("raw Markdown table row leaked into LaTeX source")
+if "independent critical-crop" in main.lower() or "independent verification" in main.lower():
+    errors.append("stale independence wording found; use second-engine/shared-crop wording")
 
 if errors:
     print("ARXIV_PACKAGE_CHECK=FAIL")
@@ -58,3 +69,5 @@ if errors:
 print("ARXIV_PACKAGE_CHECK=PASS")
 print(f"CITATIONS={len(cite_keys)}")
 print(f"BIB_ENTRIES={len(bib_keys)}")
+print(f"TABLES={table_count}")
+print(f"FIGURES={figure_count}")
