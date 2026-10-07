@@ -176,38 +176,41 @@ A component pass required visual grounding, second-engine Tesseract agreement on
 \subsection{Primary final evaluation}
 \begin{figure}[H]
 \centering
-\begin{tikzpicture}[x=14cm,y=17cm,>=latex]
-\draw[->] (0.65,0)--(1.035,0) node[right]{\small Verified coverage};
-\draw[->] (0.65,0)--(0.65,0.22) node[above]{\small Unsafe accept rate};
-\foreach \x/\lab in {0.70/0.70,0.80/0.80,0.90/0.90,1.00/1.00}{
+\begin{tikzpicture}[x=6.4cm,y=16cm,>=latex]
+% Coverage axis is rescaled from 0.65--1.00 to plot coordinates 0--1.
+\draw[->] (0,0)--(1.08,0) node[right]{\small Verified coverage};
+\draw[->] (0,0)--(0,0.22) node[above]{\small Unsafe accept rate};
+
+% x_plot = (coverage - 0.65) / 0.35.
+\foreach \x/\lab in {0.1429/0.70,0.4286/0.80,0.7143/0.90,1.0000/1.00}{
   \draw (\x,0.002)--(\x,-0.002) node[below,yshift=-2pt]{\scriptsize \lab};
 }
 \foreach \y/\lab in {0.05/0.05,0.10/0.10,0.15/0.15,0.20/0.20}{
-  \draw (0.653,\y)--(0.647,\y) node[left]{\scriptsize \lab};
+  \draw (0.003,\y)--(-0.003,\y) node[left]{\scriptsize \lab};
 }
 
-% SafeOCR: zero observed unsafe accepts at 72.57% coverage.
-\draw (0.7257,0)--(0.7257,0.01805);
-\fill (0.7257,0) circle (0.8pt);
-\node[anchor=east] (safeLabel) at (0.705,0.035){\scriptsize SafeOCR};
-\draw[thin,->] (safeLabel.east)--(0.7257,0.004);
+% SafeOCR: coverage 0.7257 -> x=0.2163.
+\draw (0.2163,0)--(0.2163,0.01805);
+\fill (0.2163,0) circle (0.8pt);
+\node[anchor=east] (safeLabel) at (0.15,0.045){\scriptsize SafeOCR};
+\draw[thin,->] (safeLabel.east)--(0.213,0.004);
 
-% Naive agreement: zero observed unsafe accepts at 84.03% coverage.
-\fill (0.8403,0) circle (0.8pt);
-\node[anchor=south] (naiveLabel) at (0.815,0.066){\scriptsize Naive agreement};
-\draw[thin,->] (naiveLabel.south)--(0.8403,0.004);
+% Naive agreement: coverage 0.8403 -> x=0.5437.
+\fill (0.5437,0) circle (0.8pt);
+\node[anchor=east] (naiveLabel) at (0.49,0.078){\scriptsize Naive agreement};
+\draw[thin,->] (naiveLabel.east)--(0.541,0.004);
 
-% Primary OCR: zero observed unsafe accepts at full coverage.
+% Primary OCR: coverage 1.0 -> x=1.0.
 \draw (1,0)--(1,0.01316);
 \fill (1,0) circle (0.8pt);
-\node[anchor=west] (primaryLabel) at (0.91,0.032){\scriptsize Primary OCR};
+\node[anchor=east] (primaryLabel) at (0.91,0.045){\scriptsize Primary OCR};
 \draw[thin,->] (primaryLabel.east)--(0.997,0.004);
 
-% Tesseract crop: non-zero unsafe accept rate.
-\draw (0.9965,0.1193)--(0.9965,0.2034);
-\fill (0.9965,0.1568) circle (0.8pt);
-\node[anchor=east] (tessLabel) at (0.91,0.175){\scriptsize Tesseract crop};
-\draw[thin,->] (tessLabel.east)--(0.992,0.158);
+% Tesseract crop: coverage 0.9965 -> x=0.9900.
+\draw (0.9900,0.1193)--(0.9900,0.2034);
+\fill (0.9900,0.1568) circle (0.8pt);
+\node[anchor=east] (tessLabel) at (0.84,0.178){\scriptsize Tesseract crop};
+\draw[thin,->] (tessLabel.east)--(0.986,0.158);
 \end{tikzpicture}
 \caption{Frozen LabGold operating points. The primary OCR baseline had no errors, so the zero-event gated result does not demonstrate a safety gain. Vertical bars are descriptive 95\% Wilson intervals.}
 \label{fig:riskcoverage}
