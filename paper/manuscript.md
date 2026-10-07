@@ -1,5 +1,13 @@
 # SafeOCR: Evidence-Grounded Selective Verification for Clinical OCR with Provenance-Preserving FHIR Export
 
+**Abdulaziz M. Alshehri, MPH**
+
+Independent Researcher
+
+ORCID: https://orcid.org/0009-0008-0536-5136
+
+Correspondence: azialshehri@gmail.com
+
 ## Abstract
 
 ### Objective
@@ -257,9 +265,17 @@ SafeOCR source code, frozen protocols, scoring code, and derived evidence artifa
 
 SafeOCR-LabGold is synthetic and ClinOCR-Bench is PHI-free. The external laboratory-report analysis uses a public image collection described by Ma et al. as de-identified and originally released with Xue et al.'s work; SafeOCR does not redistribute those source images. This study involved no new participant recruitment, intervention, or access to identifiable patient data. SafeOCR is research software and is not intended for diagnosis, treatment decisions, or unsupervised clinical use. Any journal-specific institutional-review statement will be limited to a determination actually obtained or required for the author's jurisdiction and affiliation.
 
-## AI-use Disclosure
+## Funding
 
-AI-assisted tools, including OpenAI ChatGPT and Anthropic Claude, were used for drafting assistance, code generation/review support, literature discovery, adversarial manuscript review, and language editing. Deterministic/static review tools were also used during software qualification. The author reviewed the scientific claims, citations, code changes, analyses, and manuscript text and retained responsibility for all study decisions and conclusions. AI systems were not authors and did not determine authorship or research accountability.
+This research received no external funding.
+
+## Competing Interests
+
+The author declares no competing interests.
+
+## Research tools
+
+**Research tools:** Google NotebookLM was used for literature-search support, Zotero for reference management, and Perplexity for deep-search support.
 
 ## References
 
