@@ -1,6 +1,6 @@
-from pathlib import Path
 import re
 import sys
+from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent
 main = (ROOT / "main.tex").read_text(encoding="utf-8")
@@ -8,7 +8,10 @@ bib = (ROOT / "references.bib").read_text(encoding="utf-8")
 
 errors = []
 
-if "\\documentclass" not in main or "\\begin{document}" not in main or "\\end{document}" not in main:
+if any(
+    marker not in main
+    for marker in ("\\\\documentclass", "\\\\begin{document}", "\\\\end{document}")
+):
     errors.append("main.tex is missing a required document boundary")
 
 cite_keys = set()
