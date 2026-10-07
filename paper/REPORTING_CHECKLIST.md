@@ -123,6 +123,12 @@ Use all reporting frameworks as reporting aids rather than evidence of validity.
 - [x] Disclose LabGold truth-geometry score alignment.
 - [x] Replace "preregistered" with "prespecified, commit-timestamped" where describing internal protocols.
 - [x] Add a post-outcome protocol addendum rather than rewriting the frozen Ma2023 protocol.
+- [x] Add post-outcome descriptive dependence sensitivities for LabGold documents/record pairs and Ma2023 pass-containing images without redefining frozen endpoints.
+- [x] Add a point-by-point adversarial-review disposition log.
+- [x] Draft a separate JAMIA follow-up error-interception protocol without running new final-set OCR.
+- [x] Qualify RJUA-MedDQA metadata only and record that annotation sufficiency remains unresolved.
+- [x] Harden arXiv static preflight: exact 4 tables, <=6 figures, no missing/uncited bibliography entries, no raw Markdown tables, no stale draft/preregistration wording.
 - [ ] Resolve the author's canonical scholarly display name and affiliation before arXiv v1.
 - [ ] Complete a clean LaTeX compile and visual PDF inspection after the arXiv source is regenerated.
-- [ ] For JAMIA, complete a new separately prespecified study on previously uninspected data with non-zero primary endpoint errors, or explicitly redirect the paper to a venue appropriate for a negative/feasibility systems result.
+- [ ] Deliberately choose the arXiv manuscript license.
+- [ ] For JAMIA, freeze and complete a new separately prespecified study on previously uninspected data with non-zero primary endpoint errors, or explicitly redirect the paper to a venue appropriate for a negative/feasibility systems result.
