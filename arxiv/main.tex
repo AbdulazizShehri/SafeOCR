@@ -128,7 +128,7 @@ The pipeline is:
 \item static evidence report with source crop, decision reason, and provenance.
 \end{enumerate}
 
-PaddleOCR 3.7.0 is the primary full-page OCR path. Tesseract 5.4.0.20240606 is used as an independent critical-crop re-reader and classical baseline.
+PaddleOCR 3.7.0 is the primary full-page OCR path. Tesseract 5.4.0.20240606 is used as a second-engine critical-crop rereader and classical baseline.
 
 \subsection{Evidence-bound field representation}
 
@@ -180,7 +180,7 @@ No fallback converts REVIEW\_REQUIRED or ABSTAINED into VERIFIED\_AUTO.
 
 Only VERIFIED\_AUTO fields may enter the FHIR export path. The export artifact includes provenance linking the structured resource back to source-document evidence. v0.1 targets FHIR R4 (4.0.1).
 
-The FHIR runtime gate used HL7 validator CLI 6.10.4. The canonical valid bundle passed with zero validator errors; a deliberately invalid control was rejected with two errors. The validator produced seven warnings and one note on the valid bundle. These results demonstrate structural/conformance validation, not extraction correctness.
+The FHIR runtime gate used HL7 validator CLI 6.10.4 against FHIR R4 (4.0.1) \cite{hl7fhirr4}. The single canonical valid bundle passed with zero validator errors; a deliberately invalid control was rejected with two errors. The validator produced seven warnings and one note on the valid bundle. Terminology validation was not evaluated as a clinical correctness endpoint. These results demonstrate structural/conformance validation only, not extraction correctness.
 
 \subsection{Evaluation contract}
 
@@ -353,7 +353,7 @@ A prespecified primary claim is not made for full field-tuple correctness among 
 
 \subsection{Principal findings}
 
-SafeOCR shows that a clinical OCR pipeline can make \textbf{acceptance} an explicit, auditable decision rather than treating every OCR output as equally eligible for structured export. The system binds fields to source pixels, applies independent and structural checks, exposes review/abstention as first-class outcomes, and gates FHIR export on verification.
+SafeOCR shows that a clinical OCR pipeline can make \textbf{acceptance} an explicit, auditable decision rather than treating every OCR output as equally eligible for structured export. The system binds fields to source pixels, applies second-engine and structural checks, exposes review/abstention as first-class outcomes, and gates FHIR export on verification.
 
 The primary SafeOCR operating point traded automation coverage for a conservative acceptance policy: 72.57\% of critical fields were automatically verified, while 27.43\% were routed to review. Because primary OCR was already correct on all 288 fields, the 79 reviews intercepted no endpoint errors and the gated confidence bound was wider than the ungated bound. This result therefore quantifies review cost and feasibility rather than demonstrating reduced accepted error.
 
@@ -369,7 +369,7 @@ Future evaluation should deliberately increase realism without tuning to the fin
 
 The SafeOCR policy is consistent with the clinical selective-prediction principle that abstention can be preferable to forced prediction \cite{swaminathan2024selective}. However, SafeOCR's mechanism differs from learned reject-option models such as SelectiveNet \cite{geifman2019selectivenet}. It uses deterministic evidence gates rather than a single learned confidence function.
 
-This design favors inspectability: a blocked field can state whether the cause was failed independent agreement, instability, unit invalidity, association ambiguity, identity ambiguity, or runtime failure. The trade-off is that the v0.1 policy is likely conservative and may sacrifice coverage.
+This design favors inspectability: a blocked field can state whether the cause was failed second-engine agreement, instability, unit invalidity, association ambiguity, identity ambiguity, or runtime failure. The trade-off is that the v0.1 policy is likely conservative and may sacrifice coverage.
 
 \subsection{Relation to conformal verification and risk control}
 
@@ -385,7 +385,7 @@ This aligns with prior work emphasizing provenance and semantic interoperability
 
 \subsection{External validity}
 
-ClinOCR-Bench improves the availability of public, PHI-free clinical OCR evaluation and includes realistic scan artifacts \cite{hsu2026clinocr}. SafeOCR's v0.1 integration uses the benchmark under a no-tuning contract, but we deliberately do not report critical-field safety metrics from transcript-only ground truth.
+ClinOCR-Bench improves the availability of public, PHI-free clinical OCR evaluation and programmatically simulates common scan artifacts \cite{hsu2026clinocr}. SafeOCR's v0.1 integration uses the benchmark under a no-tuning contract, but we deliberately do not report critical-field safety metrics from transcript-only ground truth.
 
 To evaluate SafeOCR properly on external documents, a future study should add a governed annotation layer containing field identity, exact value, unit, patient/document linkage, structural association, and source-region evidence. Those annotations must be created without using SafeOCR outputs to define the gold standard.
 
@@ -405,9 +405,9 @@ Second, the primary OCR baseline had zero observed errors on the frozen final se
 
 Third, only one frozen SafeOCR operating point is reported. A post-hoc final-set threshold sweep would violate the evaluation contract, so the current paper does not present a continuous SafeOCR risk-coverage curve.
 
-Fourth, the patient-attribution result is limited by benchmark construction and does not constitute real-world multi-patient identity evaluation.
+Fourth, patient linkage was not meaningfully evaluated in a real-world multi-patient setting; the current evidence does not support a patient-attribution performance claim.
 
-Fifth, FHIR validator conformance is not equivalent to clinical mapping correctness. The prespecified final benchmark did not estimate a FHIR mapping error rate.
+Fifth, FHIR evidence is limited to a single canonical-bundle smoke test plus an invalid control. Validator conformance is not equivalent to clinical mapping correctness; terminology validation was not evaluated, and the prespecified final benchmark did not estimate a FHIR mapping error rate.
 
 Sixth, the static evidence report demonstrates traceability mechanics but is not a validated clinical human-factors interface.
 
@@ -415,7 +415,7 @@ Seventh, the external laboratory-report experiment is oracle-localised after OCR
 
 Eighth, field-level Wilson intervals do not model dependence within the 24 clean/corrupt LabGold record pairs or within the external laboratory-report images, nor do they model the asserted scan/illumination pairing; they are descriptive bounds rather than cluster-robust population inference.
 
-Ninth, the study does not evaluate diagnosis, treatment, or clinical decision-making and must not be interpreted as a medical-device validation.
+Ninth, the ABSTAINED path was not exercised in the frozen LabGold final run, so the evaluation does not empirically characterize abstention behavior. The study also does not evaluate diagnosis, treatment, or clinical decision-making and must not be interpreted as a medical-device validation.
 
 \subsection{Future Work}
 
@@ -423,13 +423,13 @@ Priority next steps are independently adjudicated multi-institution field-level 
 
 \section{Conclusion}
 
-Clinical OCR should not be evaluated only as a transcription problem when its output is intended for structured healthcare data. SafeOCR introduces a field-level verification contract in which evidence binding, independent checks, explicit review/abstention, and provenance-preserving FHIR export are connected in one fail-closed pipeline.
+Clinical OCR should not be evaluated only as a transcription problem when its output is intended for structured healthcare data. SafeOCR specifies and evaluates a field-level verification contract in which evidence binding, second-engine checks, explicit review/abstention, and provenance-preserving FHIR export are connected in one fail-closed pipeline.
 
 On the frozen v0.1 synthetic evaluation, SafeOCR automatically verified 72.57\% of critical fields, but the primary OCR baseline also produced zero observed errors and all 79 reviewed fields were correct under benchmark truth. In the oracle-localised public laboratory-report evaluation, the primary numeric reading was exact in all 1,850 eligible rows, so 0/375 numeric errors among component passes could not demonstrate a safety gain; exploratory analysis instead found analyte or unit mismatches in 38/375 passes. The appropriate conclusion is therefore not that SafeOCR is safer, superior, or clinically validated, but that an evidence-gated workflow can be implemented and audited, at substantial coverage cost, and that future prespecified evaluation must include genuine primary-OCR errors and verification beyond numeric values.
 
 \section*{Data and Code Availability}
 
-SafeOCR is intended for public research release under Apache-2.0 with source code, frozen protocols, scoring code, and derived evidence artifacts. SafeOCR-LabGold is synthetic and ClinOCR-Bench is public and PHI-free. The public de-identified Ma et al. source images are not redistributed by SafeOCR; they should be obtained from the original source subject to upstream terms.
+SafeOCR source code, frozen protocols, scoring code, and derived evidence artifacts are released under the repository's Apache-2.0 software license where applicable. SafeOCR-LabGold is synthetic and ClinOCR-Bench is public and PHI-free. The public laboratory-report images originate from Xue et al.'s repository and are not redistributed by SafeOCR. No dataset-wide license file was identified in the audited upstream repository state; users should obtain the images from the original source and determine permitted reuse under the publication and repository terms applicable to them.
 
 \section*{Ethics and Safety Statement}
 
@@ -437,7 +437,7 @@ SafeOCR-LabGold is synthetic and ClinOCR-Bench is PHI-free. The external laborat
 
 \section*{AI-use Disclosure}
 
-Generative AI tools were used for drafting assistance, code generation and review, literature-discovery support, and language editing. All scientific claims, citations, code changes, analyses, and manuscript text were reviewed and verified by the human author(s). AI tools were not authors and did not determine authorship or final scientific conclusions.
+AI-assisted tools, including OpenAI ChatGPT and Anthropic Claude, were used for drafting assistance, code generation/review support, literature discovery, adversarial manuscript review, and language editing. Deterministic/static review tools were also used during software qualification. The author reviewed the scientific claims, citations, code changes, analyses, and manuscript text and retained responsibility for all study decisions and conclusions. AI systems were not authors and did not determine authorship or research accountability.
 
 \bibliographystyle{unsrt}\bibliography{references}
 
