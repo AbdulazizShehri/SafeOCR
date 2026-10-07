@@ -72,7 +72,7 @@ SafeOCR is model-agnostic. OCR engines are replaceable readers; SafeOCR owns the
 ## v0.1 engine paths
 
 - PaddleOCR: primary OCR/layout path.
-- Tesseract: independent critical-crop re-reader and classical baseline.
+- Tesseract: second-engine critical-crop re-reader and classical baseline.
 
 docTR and TeleOCR remain planned adapters, but they do not block v0.1.
 
@@ -89,7 +89,7 @@ Headline metrics:
 - Table Association Error Rate
 - FHIR Mapping Error Rate
 
-v0.1 reports preregistered risk/coverage operating points and confidence intervals. It does not perform a post-hoc threshold sweep after final-set inspection.
+v0.1 reports prespecified, commit-timestamped risk/coverage operating points and confidence intervals. It does not perform a post-hoc threshold sweep after final-set inspection.
 
 See [docs/MASTER_PLAN.md](docs/MASTER_PLAN.md), [docs/SAFETY_CONTRACT.md](docs/SAFETY_CONTRACT.md), and [docs/SOURCE_REGISTRY.md](docs/SOURCE_REGISTRY.md).
 
@@ -112,7 +112,7 @@ Reference OCR runtime:
 
     python -m pip install -e ".[ocr,dev]"
 
-Tesseract and Java are external binaries for the independent reread and official FHIR validator paths. The default unit-test suite does not require runtime downloads, real PHI, or paid APIs.
+Tesseract and Java are external binaries for the second-engine reread and official FHIR validator paths. The default unit-test suite does not require runtime downloads, real PHI, or paid APIs.
 
 ## Verify the release
 
@@ -136,17 +136,25 @@ The primary SafeOCR-LabGold final set contains 48 frozen documents / 288 critica
 | Naive exact agreement | 84.03% | 0.00% observed |
 | SafeOCR | 72.57% | 0.00% observed |
 
-SafeOCR accepted 209/288 fields and sent 79/288 to review. It observed zero unsafe accepts; the 95% Wilson upper bound for unsafe accept rate is approximately 1.805%.
+SafeOCR accepted 209/288 fields and sent 79/288 to review. It observed zero unsafe accepts; the field-level 95% Wilson upper bound is approximately 1.805%.
 
-This must be read conservatively. The raw primary OCR baseline also observed zero accepted errors at full coverage on this synthetic final set, so LabGold alone does not establish SafeOCR superiority over the primary OCR baseline. Zero observed errors is not proof of zero risk.
+The raw primary OCR baseline also had 0/288 errors at full coverage, with a tighter field-level Wilson upper bound of approximately 1.316%. Therefore all 79 SafeOCR reviews were correct fields under benchmark truth and this endpoint does **not** demonstrate a safety gain. It measures automation coverage and review cost on this synthetic benchmark. This does not establish SafeOCR superiority over the primary OCR baseline. Zero observed errors is not proof of zero risk.
 
 Canonical evaluation artifacts are in docs/evidence/F6_FINAL_EVALUATION.json, docs/evidence/F6_RISK_COVERAGE.csv, and docs/evidence/F6_CLOSEOUT.json.
 
 ## External benchmark integration
 
-ClinOCR-Bench v1.0 is pinned as an external realism benchmark. SafeOCR validates its published train/test metadata and locks external evaluation records out of tuning paths.
+ClinOCR-Bench v1.0 is pinned as a synthetic, template-generated, PHI-free external OCR benchmark. SafeOCR validates its published train/test metadata and locks external evaluation records out of tuning paths.
 
-ClinOCR-Bench v1.0 provides full-document transcript ground truth rather than SafeOCR field/patient/FHIR annotations. SafeOCR therefore withholds unsupported structured critical-field safety claims instead of fabricating them.
+ClinOCR-Bench v1.0 provides full-document transcript ground truth rather than SafeOCR field/patient/FHIR annotations. Frozen PaddleOCR mean WER was 0.4769 versus 0.5589 for local Tesseract, but PaddleOCR also had 57/328 runtime failures retained as empty predictions, including 33/56 rotated and 24/48 mixed-artifact documents. SafeOCR therefore treats this as transcription/fail-closed engineering evidence, not field-level safety validation.
+
+## Public laboratory-report verifier component
+
+The external component study uses the public laboratory-report image collection originally associated with Xue et al. (IEEE Access 2020) and later used/described by Ma et al. (2023). It is an oracle-localised verifier-component study, not end-to-end extraction validation.
+
+Of 2,219 candidate laboratory rows, 1,850 met the frozen eligibility rules. The primary numeric OCR reading was exact in all 1,850 eligible rows. The component gates passed 375/1,850 rows, also with 0/375 numeric errors; because the ungated endpoint already had zero errors, this cannot demonstrate numeric-error reduction. A separately labelled post-outcome diagnostic found analyte or unit mismatches in 38/375 component passes, motivating verification beyond numeric values.
+
+See paper/MA2023_EXTERNAL_COMPONENT_PROTOCOL.md and paper/MA2023_EXTERNAL_COMPONENT_PROTOCOL_ADDENDUM.md for the frozen protocol and the post-outcome provenance/method audit.
 
 ## Static evidence report
 

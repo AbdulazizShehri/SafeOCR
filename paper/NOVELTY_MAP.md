@@ -10,13 +10,13 @@ The goal of this document is to prevent an overbroad novelty claim.
 | Explicit reject/review state | no central gate | no | no central gate | yes | yes | yes | yes |
 | Source-grounded admission gate | no | no | no | no | verification of narrative extraction | yes | yes |
 | Pixel-region binding per accepted field | partial OCR boxes | layout-aware | layout boxes | no | no | quotation/source support | yes |
-| Independent OCR-family reread | no | no | no | no | no | no | yes |
+| Second-engine OCR-family reread | no | no | no | no | no | no | yes |
 | Perturbation-stability gate | preprocessing experiments | preprocessing experiments | no | no | no | no | yes |
 | Structural row association as mandatory gate | IE pipeline | layout features | layout analysis | no | no | yes | yes |
 | Patient/document linkage gate | not central | not central | privacy filtering | no | no | provenance context | yes |
 | Explicit clinical criticality policy | no | no | no | cost-sensitive labels | no | no | yes |
 | Risk/coverage reporting | no | no | no | yes | accepted-risk control | admission coverage | yes |
-| Held-out no-tuning final contract | standard evaluation | standard evaluation | standard evaluation | train/test | conformal calibration | replay/conformance | yes |
+| Prespecified no-tuning final contract | standard evaluation | standard evaluation | standard evaluation | train/test | conformal calibration | replay/conformance | yes |
 | Provenance attached to downstream record | no | no | no | no | no | yes | yes |
 | FHIR export blocked unless field verified | no | no | no | no | no | downstream PHR trust promotion | yes |
 | Official FHIR validator evidence | no | no | no | no | no | not central | yes |
@@ -29,7 +29,7 @@ The literature contains close prior/parallel work. Girda and Groza (2026) treat 
 
 A defensible contribution statement is:
 
-> SafeOCR contributes a reproducible healthcare OCR safety contract that combines source-region binding with independent OCR-family rereading, perturbation stability, structural and patient-linkage gates, explicit clinical criticality, selective automation states, governed accepted-error/coverage evaluation, and FHIR R4 export mechanically blocked for non-verified fields.
+> SafeOCR contributes a reproducible healthcare OCR safety contract that combines source-region binding with second-engine OCR-family rereading, perturbation stability, structural and patient-linkage gates, explicit clinical criticality, selective automation states, governed accepted-error/coverage evaluation, and FHIR R4 export mechanically blocked for non-verified fields.
 
 This is an **integration + evaluation + safety-contract contribution**.
 
@@ -55,3 +55,10 @@ This is an **integration + evaluation + safety-contract contribution**.
 - Do not claim FHIR conversion is new.
 - Do not claim that lower WER is equivalent to lower clinical risk.
 - Avoid absolute "first" claims; the paper does not need one.
+
+
+## Published prior-art anchor added after adversarial review
+
+RAPTOR (Abioye et al., MICCAI 2025, DOI 10.1007/978-3-032-04981-0_47) is a peer-reviewed published predecessor in clinically oriented document extraction with uncertainty/review mechanisms. RAPTOR+ remains relevant to internal novelty surveillance for explicit value-plus-bounding-box safety, but JAMIA's published-or-in-press reference rule means the published RAPTOR paper is the safer formal reference unless RAPTOR+ obtains an eligible publication status before submission.
+
+The marginal contribution of SafeOCR's second-engine and perturbation checks is **not empirically demonstrated as a reduction in accepted error in v0.1**, because the primary OCR baseline has zero events on the frozen safety endpoints. The novelty claim must therefore remain a specification/integration/evaluation-methodology claim rather than a demonstrated risk-reduction claim.

@@ -252,6 +252,12 @@ def main() -> None:
     parser.add_argument("--labels", type=Path, required=True)
     parser.add_argument("--ocr", type=Path, required=True)
     parser.add_argument("--output", type=Path, required=True)
+    parser.add_argument(
+        "--tesseract",
+        type=Path,
+        default=None,
+        help="Optional Tesseract executable path; defaults to the frozen Windows lookup.",
+    )
     args = parser.parse_args()
 
     scorer_git_head, scorer_dirty = _git_state()
@@ -267,7 +273,9 @@ def main() -> None:
         raise RuntimeError("OCR run must originate from a clean exact head")
 
     documents = load_ma2023_annotations(args.labels)
-    tesseract = _resolve_tesseract()
+    tesseract = args.tesseract if args.tesseract is not None else _resolve_tesseract()
+    if not tesseract.is_file():
+        raise RuntimeError(f"Tesseract executable not found: {tesseract}")
     tesseract_version = _tesseract_version(tesseract)
 
     totals = Counts()
