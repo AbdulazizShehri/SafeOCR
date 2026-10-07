@@ -16,7 +16,7 @@
 - [x] Report all final cases in denominators.
 - [x] Pin ClinOCR-Bench version/commit and release-asset hash.
 - [x] Prevent external evaluation data from entering tuning paths.
-- [ ] Document final external OCR run hashes/results after completion.
+- [x] Document final external OCR run hashes/results after completion.
 - [ ] Add a future real clinical field-level annotation protocol; do not imply that ClinOCR transcript truth supplies it.
 
 ## Model / engine identity
@@ -33,7 +33,7 @@
 - [x] Define criticality.
 - [x] Define visual grounding.
 - [x] Define structural association.
-- [x] Define independent reread.
+- [x] Define second-engine reread and disclose shared-crop dependence.
 - [x] Define perturbation stability.
 - [x] Define numeric parsing and unit validation.
 - [x] Define patient/document linkage.
@@ -51,8 +51,8 @@
 - [x] Report the perfect raw-primary-OCR LabGold result rather than hiding it.
 - [x] Withhold unsupported FHIR mapping-error claims.
 - [x] Withhold unsupported ClinOCR field-level safety claims.
-- [ ] Report external document-level WER only after frozen OCR outputs are complete.
-- [ ] Compare Tesseract reproduction with official ClinOCR baseline reporting.
+- [x] Report external document-level WER only after frozen OCR outputs are complete.
+- [x] Compare Tesseract reproduction with official ClinOCR baseline reporting.
 
 ## Reproducibility
 
@@ -65,7 +65,7 @@
 - [x] External validation protocol committed before outcomes.
 - [x] External runner cannot access ground truth.
 - [x] External scorer checks no-tuning/no-ground-truth OCR-run attestations.
-- [ ] Freeze external result JSON and per-subset table.
+- [x] Freeze external result JSON and per-subset table.
 - [ ] Freeze manuscript figure-generation scripts.
 
 ## Literature / novelty
@@ -86,7 +86,7 @@
 - [x] Negative result is explicit.
 - [x] Limitations distinguish evidence gaps from engineering gaps.
 - [ ] Main text <=4,000 words for JAMIA.
-- [ ] Structured abstract <=250 words.
+- [x] Structured abstract <=250 words.
 - [ ] <=4 main tables.
 - [ ] <=6 main figures.
 - [ ] Figure alt text prepared.
@@ -107,3 +107,21 @@ DECIDE-AI is explicitly aimed at early-stage live clinical evaluations in which 
 MI-CLAIM is a more appropriate transparency aid for the present preclinical technical evaluation. Use it as a minimum-information cross-check for data provenance, cohort definition, model/engine identity, training/tuning separation, evaluation design, reproducibility, and code availability without implying that the checklist itself establishes methodological quality.
 
 Use all reporting frameworks as reporting aids rather than evidence of validity. Label the present work accurately as a preclinical informatics methods/evaluation study with independent benchmark validation.
+
+
+## Opus pre-submission audit closeout
+
+- [x] Report ungated Wilson bounds beside gated zero-event bounds.
+- [x] State that LabGold and Ma2023 numeric endpoints contained no primary-OCR errors for the gate to intercept.
+- [x] Report LabGold review burden as 79 correct fields routed to review.
+- [x] Report ClinOCR PaddleOCR runtime failures in the abstract and Results.
+- [x] Report the official-vs-local Tesseract median WER comparison required by the frozen external protocol.
+- [x] Correct the public laboratory-report dataset provenance to Xue et al. 2020.
+- [x] Remove the incorrect implication that Ma et al.'s kappa=0.89 applies to the public 238-image collection.
+- [x] Give the exploratory 38/375 analyte-or-unit mismatch result explicit prominence.
+- [x] Disclose LabGold truth-geometry score alignment.
+- [x] Replace "preregistered" with "prespecified, commit-timestamped" where describing internal protocols.
+- [x] Add a post-outcome protocol addendum rather than rewriting the frozen Ma2023 protocol.
+- [ ] Resolve the author's canonical scholarly display name and affiliation before arXiv v1.
+- [ ] Complete a clean LaTeX compile and visual PDF inspection after the arXiv source is regenerated.
+- [ ] For JAMIA, complete a new separately prespecified study on previously uninspected data with non-zero primary endpoint errors, or explicitly redirect the paper to a venue appropriate for a negative/feasibility systems result.
