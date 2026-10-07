@@ -30,6 +30,22 @@ if "0/375" not in main:
     errors.append("Ma2023 0/375 unsafe numeric component-pass result not found")
 if "72.57" not in main:
     errors.append("LabGold 72.57% verified coverage not found")
+if "57/328" not in main:
+    errors.append("ClinOCR PaddleOCR 57/328 runtime-failure disclosure not found")
+if "38/375" not in main:
+    errors.append("exploratory 38/375 analyte-or-unit mismatch disclosure not found")
+if "1.316" not in main or "0.207" not in main:
+    errors.append("ungated zero-event baseline bounds not found")
+if "Cohen" in main and "0.89" in main:
+    errors.append("stale kappa=0.89 public-dataset attribution may remain")
+if "preregistered" in main.lower():
+    errors.append("stale preregistered wording found; use prespecified/commit-timestamped")
+if "# SafeOCR" in main:
+    errors.append("literal Markdown title leaked into LaTeX source")
+if "Draft status" in main:
+    errors.append("draft-status artifact leaked into LaTeX source")
+if main.count(r"\\begin{table") < 4:
+    errors.append("expected four main tables after Opus revision")
 
 if errors:
     print("ARXIV_PACKAGE_CHECK=FAIL")
